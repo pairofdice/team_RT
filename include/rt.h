@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/10 16:34:52 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:45:06 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ typedef struct s_sdl
 	SDL_Texture		*texture;
 	t_frame_buffer	frame_buffer;
 }				t_sdl;
+
+int	initialize_window(t_sdl	*sdl);
 
 #endif
