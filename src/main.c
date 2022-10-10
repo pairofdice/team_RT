@@ -6,9 +6,11 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/10 16:12:47 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:40:08 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../include/rt.h"
 
 //Copys 1d arrey to texture and draws it.
 
@@ -34,7 +36,7 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	quit = 0;
 	while (quit == 0)
 	{
-		while (SDL_WaitEvent(&sdl->event))
+		if (SDL_WaitEvent(&sdl->event) != 0)
 		{
 			if (sdl->event.type == SDL_QUIT)
 				quit = 1;
@@ -42,7 +44,7 @@ void	rt_loop_and_exit(t_sdl *sdl)
 				if (sdl->event.key.keysym.sym == SDLK_ESCAPE)
 					quit = 1;
 		}
-		draw_to_window(rt);
+		//draw_to_window(sdl);
 	}
 	SDL_DestroyTexture(sdl->texture);
 	SDL_DestroyWindow(sdl->win);
@@ -65,10 +67,12 @@ int	initialize_window(t_sdl	*sdl)
 	sdl->frame_buffer.data_len = (WIN_H * WIN_W);
 	sdl->frame_buffer.data = (int *)malloc(sizeof(int)
 			* sdl->frame_buffer.data_len);
+	if (sdl->frame_buffer.data == NULL)
+		return (0);
 	return (1);
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	t_sdl	sdl;
 
@@ -76,7 +80,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (initialize_window(&sdl) == 0)
 		return (1);
-	draw_to_window(&sdl);
+	//draw_to_window(&sdl);
 	rt_loop_and_exit(&sdl);
 	SDL_Quit();
 	return (0);

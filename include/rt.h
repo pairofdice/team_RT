@@ -6,18 +6,21 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/10 16:06:38 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/10 16:34:52 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <fcntl.h>
 # include <math.h>
 # include "../build/libsdl2/include/SDL2/SDL.h"
 # include <stdio.h>
+
+# define WIN_W 1920
+# define WIN_H 1080
 
 
 typedef struct s_frame_buffer

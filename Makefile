@@ -6,12 +6,12 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/10 16:25:15 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/10/10 16:32:00 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_DIR = src/
-INCLUDE_DIR = include/ build/libsdl2/include/
+INCLUDE_DIR = src/ include/ build/libsdl2/include/
 BUILD_DIR = build/
 
 libsdl2_makefile = libsdl2/Makefile
