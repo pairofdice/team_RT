@@ -6,12 +6,12 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/10 15:54:33 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/10/10 16:25:15 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_DIR = src/
-INCLUDE_DIR = src/ build/libsdl2/include/
+INCLUDE_DIR = include/ build/libsdl2/include/
 BUILD_DIR = build/
 
 libsdl2_makefile = libsdl2/Makefile
@@ -19,7 +19,7 @@ libsdl2_lib = $(BUILD_DIR)libsdl2/lib/libSDL2.a
 libsdl2_cflags = `$(BUILD_DIR)libsdl2/bin/sdl2-config --cflags`
 libsdl2_ldflags = `$(BUILD_DIR)libsdl2/bin/sdl2-config --libs`
 
-FT_LIBRERY = src/libft/libft.a
+FT_LIBRERY = libft/libft.a
 
 SRC_FILES = $(addprefix $(SRC_DIR), main.c)
 
@@ -63,18 +63,18 @@ $(libsdl2_lib): $(libsdl2_makefile) | $(BUILD_DIR)
 	$(MAKE) --directory=libsdl2 install
 
 $(FT_LIBRERY):
-	make -C src/libft/
+	make -C libft/
 	
 clean:
 	@ rm -f $(OBJCT_FILES)
-	make -C src/libft/ clean
+	make -C libft/ clean
 
 fclean:
-	rm -f RTv1
+	rm -f RT
 	if test -f $(libsdl2_makefile); then $(MAKE) AUTOMAKE=: --directory=libsdl2\
 		distclean; fi
 	rm -rf $(BUILD_DIR)
-	make -C src/libft/ fclean
+	make -C libft/ fclean
 	
 re: fclean all
 
