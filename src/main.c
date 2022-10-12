@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/10 16:43:17 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/12 14:15:04 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,15 @@ void	rt_loop_and_exit(t_sdl *sdl)
 
 int	main(void)
 {
-	t_sdl	sdl;
+	t_main	main;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (1);
-	if (initialize_window(&sdl) == 0)
+	if (initialize_window(&main.sdl) == 0)
 		return (1);
-	//draw_to_window(&sdl);
-	rt_loop_and_exit(&sdl);
+	//initialize_camera(&main.cam);
+	//draw_to_window(&main.sdl);
+	rt_loop_and_exit(&main.sdl);
 	SDL_Quit();
 	return (0);
 }
