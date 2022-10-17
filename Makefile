@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/12 14:08:18 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/10/17 18:14:10 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,14 @@ FT_LIBRERY = libft/libft.a
 SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								initialize.c\
 								vector_functions.c\
-								vector_functions2.c)
+								vector_functions2.c\
+								vector_functions3.c\
+								quadratic.c\
+								obj_cone.c\
+								obj_cylinder.c\
+								obj_plane.c\
+								obj_sphere.c\
+								image_render.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

@@ -51,7 +51,7 @@ t_vec3	add_vect_float(t_vec3 a, double b)
 	return (new);
 }
 
-t_vec3	cross_product(t_vec3 a, t_vec3 b)
+t_vec3	vec3_cross(t_vec3 a, t_vec3 b)
 {
 	t_vec3	new;
 
@@ -59,4 +59,14 @@ t_vec3	cross_product(t_vec3 a, t_vec3 b)
 	new.y = ((a.z * b.x) - (a.x * b.z));
 	new.z = ((a.x * b.y) - (a.y * b.x));
 	return (new);
+}
+
+double	vec3_sqr(t_vec3 a)
+{
+	t_vec3	new;
+
+	new.x = (a.x * a.x);
+	new.y = (a.y * a.y);
+	new.z = (a.z * a.z);
+	return (new.x + new.y + new.z);
 }

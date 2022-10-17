@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/12 14:15:04 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/17 20:33:19 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,34 @@ int	main(void)
 		return (1);
 	if (initialize_window(&main.sdl) == 0)
 		return (1);
-	//initialize_camera(&main.cam);
-	//draw_to_window(&main.sdl);
+	main.cam.pos.x = 0.0;
+	main.cam.pos.y = 0.0;
+	main.cam.pos.z = 0.0;
+	
+	main.cam.v_up.x = 0.0;
+	main.cam.v_up.y = 1.0;
+	main.cam.v_up.z = 0.0;
+	
+	main.cam.coi.x = 0.0;
+	main.cam.coi.y = 0.0;
+	main.cam.coi.z = 10.0;
+
+
+	main.obj[0].loc.x = 0.0;
+	main.obj[0].loc.y = 0.0;
+	main.obj[0].loc.z = 30.0;
+	
+	main.obj[0].rot.x = 1.0;
+	main.obj[0].rot.y = 10.0;
+	main.obj[0].rot.z = 0.0;
+	main.obj[0].size = 1.0;
+	
+	main.obj[0].type = 3;
+	main.obj[0].color.value = 0xff00ff00;
+	initialize_camera(&main.cam);
+	render_image(&main);
+
+	draw_to_window(&main.sdl);
 	rt_loop_and_exit(&main.sdl);
 	SDL_Quit();
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/12 14:16:48 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/17 20:40:26 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 # include "object.h"
 # include <stdio.h>
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 500
+# define WIN_H 400
+# define SHAPECOUNT 1
 
 typedef struct s_frame_buffer
 {
@@ -53,24 +54,49 @@ typedef struct s_cam
 	double	plane_w;
 }			t_cam;
 
+typedef struct s_hit_record
+{
+	t_vec3	hit_loc;
+	t_vec3	normal;
+	double	hit_dist;
+	int		clo_obj_id;
+	union u_color	color;
+}				t_hit_record;
+
 typedef struct s_ray
 {
 	t_vec3		orig;
 	t_vec3		dir;
+	t_hit_record	hit;
 }				t_ray;
 
 typedef struct s_main
 {
-	t_cam	cam;
-	t_sdl	sdl;
-	t_ray	ray;
+	t_sdl		sdl;
+	t_cam		cam;
+	t_ray		ray;
+	t_object	obj[SHAPECOUNT];
+	int			shape_count;
 }				t_main;
 
-int	initialize_window(t_sdl	*sdl);
+int		initialize_window(t_sdl	*sdl);
+void	initialize_camera(t_cam *cam);
+void	initialize_ray(t_ray *ray, int x, int y, t_cam *cam);
+void	render_image(t_main	*main);
 
-
+double	intersects_cone(t_ray *ray, t_object *cone);
+double	intersects_cylinder(t_ray *ray, t_object *cylinder);
+double	intersects_plane(t_ray *ray, t_object *plane);
+double	intersects_sphere(t_ray *ray, t_object *sphere);
 
 double	calc_b2_4ac(t_abc abc);
 double	quadratic(t_abc abc, double b2_4ac);
 
+t_vec3	vec3_ray_at(t_ray u, double x);
+
+t_vec3	get_cylinder_normal(t_main *main, t_hit_record *hit);
+t_vec3	get_sphere_normal(t_main *main, t_hit_record *hit);
+t_vec3	get_cone_normal(t_main *main, t_hit_record *hit);
+
+int	get_color(t_ray *ray);
 #endif
