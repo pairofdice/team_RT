@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 20:41:00 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 19:39:21 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void fill_hit_record(t_main *main, double clo_ret, int clo_shape)
 		main->ray.hit.normal = vec3_unit(main->obj[clo_shape].rot);
 	else if (main->obj[clo_shape].type == 3)
 		main->ray.hit.normal = get_cone_normal(main, &main->ray.hit);
-	main->ray.hit.color = main->obj[clo_shape].color;
+	
 }
 
 int	ray_shooter(t_ray *ray, t_main *main)
@@ -67,10 +67,40 @@ int	ray_shooter(t_ray *ray, t_main *main)
 		}
 		count++;
 	}
+	if (clo_ret < 0.0)
+		return (0);
+	//printf("%f\n", ret);
 	fill_hit_record(main, clo_ret, clo_shape);
-	if (clo_ret > 0.0)
-		return (main->obj[0].color.value);
-	return (0x00000000);
+	add_hit_color(main, &main->obj[clo_shape]);
+	return (1);
+}
+
+int	anti_aliasing(t_main *main, int pixel_x, int pixel_y)
+{
+	double x;
+	double y;
+	int		i;
+	int		j;
+	int color;
+
+	j = 0;
+	while (j < A_A_DIV)
+	{
+		i = 0;
+		while (i < A_A_DIV)
+		{
+			y = ((float)pixel_y + ((1.0 / A_A_DIV) * j));
+			x = ((float)pixel_x + ((1.0 / A_A_DIV) * i));
+			initialize_ray(&main->ray, x, y, &main->cam);
+			ray_shooter(&main->ray, main);
+			i++;
+		}
+		j++;
+	}
+	fix_aliasing_color(main, (A_A_DIV * A_A_DIV));
+	color = color_to_int(main->ray.hit.color);
+	//printf("%d\n", color);
+	return (color);
 }
 
 void	render_image(t_main	*main)
@@ -86,8 +116,10 @@ void	render_image(t_main	*main)
 		while (x < WIN_W)
 		{
 			main->ray.orig = main->cam.pos;
-			initialize_ray(&main->ray, x, y, &main->cam);
-			color = ray_shooter(&main->ray, main);
+			main->ray.hit.color.rgb.r = 0.0;
+			main->ray.hit.color.rgb.g = 0.0;
+			main->ray.hit.color.rgb.b = 0.0;
+			color = anti_aliasing(main, x, y);
 			main->sdl.frame_buffer.data[((y * WIN_W) + x)] = color;
 			x++;
 		}

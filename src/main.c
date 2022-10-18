@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 20:33:19 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 19:48:31 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,26 @@ int	main(void)
 	main.obj[0].loc.x = 0.0;
 	main.obj[0].loc.y = 0.0;
 	main.obj[0].loc.z = 30.0;
-	
 	main.obj[0].rot.x = 1.0;
 	main.obj[0].rot.y = 10.0;
 	main.obj[0].rot.z = 0.0;
-	main.obj[0].size = 1.0;
+	main.obj[0].size = 3.0;
+	main.obj[0].type = 0;
+	main.obj[0].color.rgb.r = 0.0;
+	main.obj[0].color.rgb.g = 1.0;
+	main.obj[0].color.rgb.b = 1.0;
 	
-	main.obj[0].type = 3;
-	main.obj[0].color.value = 0xff00ff00;
+	main.obj[1].loc.x = 5.0;
+	main.obj[1].loc.y = 0.0;
+	main.obj[1].loc.z = 30.0;
+	main.obj[1].rot.x = 1.0;
+	main.obj[1].rot.y = 10.0;
+	main.obj[1].rot.z = 0.0;
+	main.obj[1].size = 0.1;
+	main.obj[1].type = 0;
+	main.obj[1].color.rgb.r = 0.9;
+	main.obj[1].color.rgb.g = 0.5;
+	main.obj[1].color.rgb.b = 0.2;
 	initialize_camera(&main.cam);
 	render_image(&main);
 

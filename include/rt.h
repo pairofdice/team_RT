@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 20:40:26 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 19:52:44 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # include "object.h"
 # include <stdio.h>
 
-# define WIN_W 500
-# define WIN_H 400
-# define SHAPECOUNT 1
+# define WIN_W 1920
+# define WIN_H 1080
+# define SHAPECOUNT 2
+# define A_A_DIV 5
 
 typedef struct s_frame_buffer
 {
@@ -60,7 +61,7 @@ typedef struct s_hit_record
 	t_vec3	normal;
 	double	hit_dist;
 	int		clo_obj_id;
-	union u_color	color;
+	union u_tuple	color;
 }				t_hit_record;
 
 typedef struct s_ray
@@ -81,7 +82,7 @@ typedef struct s_main
 
 int		initialize_window(t_sdl	*sdl);
 void	initialize_camera(t_cam *cam);
-void	initialize_ray(t_ray *ray, int x, int y, t_cam *cam);
+void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam);
 void	render_image(t_main	*main);
 
 double	intersects_cone(t_ray *ray, t_object *cone);
@@ -98,5 +99,7 @@ t_vec3	get_cylinder_normal(t_main *main, t_hit_record *hit);
 t_vec3	get_sphere_normal(t_main *main, t_hit_record *hit);
 t_vec3	get_cone_normal(t_main *main, t_hit_record *hit);
 
-int	get_color(t_ray *ray);
+void	add_hit_color(t_main *main, t_object *obj);
+unsigned int	color_to_int(t_color color);
+void	fix_aliasing_color(t_main *main, int sub_pixel_count);
 #endif

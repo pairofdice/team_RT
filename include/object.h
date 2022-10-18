@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 20:33:22 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:58:21 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,25 @@
 # include "rt.h"
 # include "vector.h"
 
-union	u_color
+
+typedef union u_tuple
 {
-	unsigned int	value;
-	unsigned char	rgba[4];
-};
+    struct 
+    {
+        double x;
+        double y;
+        double z;
+        double w;
+    }xyzw;
+    struct
+    {
+        double r;
+        double g;
+        double b;
+    }rgb;
+    double a[4];
+} t_tuple;
+typedef t_tuple t_color;
 
 typedef struct s_object
 {
@@ -32,7 +46,7 @@ typedef struct s_object
 	double	size;
 	double	brightness;
 	int		type;
-	union u_color	color;
+	union u_tuple	color;
 }	t_object;
 
 typedef struct s_abc

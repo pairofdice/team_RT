@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 18:27:25 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:21:06 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ void	initialize_camera(t_cam *cam)
 			multiply_vect_float(cam->v, cam->plane_h / 2.0));
 }
 
-void	initialize_ray(t_ray *ray, int x, int y, t_cam *cam)
+void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam)
 {
 	ray->dir = vec3_add(cam->l, multiply_vect_float(cam->u,
-				(float)x * (cam->plane_w / WIN_W)));
+				x * (cam->plane_w / WIN_W)));
 	ray->dir = vec3_add(ray->dir, multiply_vect_float(cam->v,
-				(float)y * (cam->plane_h / WIN_H)));
+				y * (cam->plane_h / WIN_H)));
 	ray->dir = vec3_sub(cam->pos, ray->dir);
 	ray->dir = div_vect_float(ray->dir, sqrt(vec3_dot(ray->dir, ray->dir)));
 }
