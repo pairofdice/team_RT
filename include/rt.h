@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 21:47:33 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 22:15:32 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef struct s_main
 	t_sdl		sdl;
 	t_cam		cam;
 	t_ray		ray;
+	t_ray		shadow;
+	
 	t_light		light;
 	t_object	obj[10];
 	int			obj_count;
@@ -107,7 +109,7 @@ t_vec3	get_cylinder_normal(t_main *main, t_hit_record *hit);
 t_vec3	get_sphere_normal(t_main *main, t_hit_record *hit);
 t_vec3	get_cone_normal(t_main *main, t_hit_record *hit);
 
-void	add_hit_color(t_main *main, t_object *obj);
+void	add_hit_color(t_main *main, t_ray *shadow);
 unsigned int	color_to_int(t_color color);
 void	fix_aliasing_color(t_main *main, int sub_pixel_count);
 int	check_shadow(t_main *main, t_ray *ray);

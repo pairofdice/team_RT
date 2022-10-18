@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 21:54:33 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 22:15:20 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ray_shooter(t_ray *ray, t_main *main)
 	fill_hit_record(main, clo_ret, clo_shape);
 	if (check_shadow(main, ray) == 1)
 		return (0);
-	add_hit_color(main, &main->obj[clo_shape]);
+	add_hit_color(main, &main->shadow);
 	return (1);
 }
 

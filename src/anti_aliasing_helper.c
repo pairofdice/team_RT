@@ -6,18 +6,24 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:49:21 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 18:20:15 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 22:19:52 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-void	add_hit_color(t_main *main, t_object *obj)
+void	add_hit_color(t_main *main, t_ray *shadow)
 {
-	main->ray.hit.color.rgb.r += obj->color.rgb.r;
-	main->ray.hit.color.rgb.g += obj->color.rgb.g;
-	main->ray.hit.color.rgb.b += obj->color.rgb.b;
+	double	angle;
+
+	angle = vec3_dot(shadow->dir, shadow->hit.normal);
+	if (angle < 0)
+		angle *= -1.0;
+	main->ray.hit.color.rgb.r += (main->obj[shadow->hit.clo_obj_id].color.rgb.r * angle);
+	main->ray.hit.color.rgb.g += (main->obj[shadow->hit.clo_obj_id].color.rgb.g * angle);
+	main->ray.hit.color.rgb.b += (main->obj[shadow->hit.clo_obj_id].color.rgb.b * angle);
 }
+
 
 unsigned int	color_to_int(t_color color)
 {
