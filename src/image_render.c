@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 19:39:21 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 21:54:33 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ double	get_shape_intersections(t_ray *ray, t_object *shape)
 		ret = intersects_cone(ray, shape);
 	else
 		return (-1);
-	//printf("%f\n", ret);
 	return (ret);
 }
 void fill_hit_record(t_main *main, double clo_ret, int clo_shape)
@@ -54,7 +53,7 @@ int	ray_shooter(t_ray *ray, t_main *main)
 
 	count = 0;
 	clo_ret = -1;
-	while (count < SHAPECOUNT)
+	while (count < main->obj_count)
 	{
 		ret = get_shape_intersections(ray, &main->obj[count]);
 		if (ret > 0.0)
@@ -69,8 +68,9 @@ int	ray_shooter(t_ray *ray, t_main *main)
 	}
 	if (clo_ret < 0.0)
 		return (0);
-	//printf("%f\n", ret);
 	fill_hit_record(main, clo_ret, clo_shape);
+	if (check_shadow(main, ray) == 1)
+		return (0);
 	add_hit_color(main, &main->obj[clo_shape]);
 	return (1);
 }
@@ -87,9 +87,9 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y)
 	while (j < A_A_DIV)
 	{
 		i = 0;
+		y = ((float)pixel_y + ((1.0 / A_A_DIV) * j));
 		while (i < A_A_DIV)
 		{
-			y = ((float)pixel_y + ((1.0 / A_A_DIV) * j));
 			x = ((float)pixel_x + ((1.0 / A_A_DIV) * i));
 			initialize_ray(&main->ray, x, y, &main->cam);
 			ray_shooter(&main->ray, main);
@@ -99,7 +99,6 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y)
 	}
 	fix_aliasing_color(main, (A_A_DIV * A_A_DIV));
 	color = color_to_int(main->ray.hit.color);
-	//printf("%d\n", color);
 	return (color);
 }
 

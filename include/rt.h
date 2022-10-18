@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 19:52:44 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 21:47:33 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 
 # define WIN_W 1920
 # define WIN_H 1080
-# define SHAPECOUNT 2
 # define A_A_DIV 5
 
 typedef struct s_frame_buffer
@@ -71,12 +70,19 @@ typedef struct s_ray
 	t_hit_record	hit;
 }				t_ray;
 
+typedef struct s_light
+{
+	t_vec3		pos;
+}				t_light;
+
 typedef struct s_main
 {
 	t_sdl		sdl;
 	t_cam		cam;
 	t_ray		ray;
-	t_object	obj[SHAPECOUNT];
+	t_light		light;
+	t_object	obj[10];
+	int			obj_count;
 	int			shape_count;
 }				t_main;
 
@@ -95,6 +101,8 @@ double	quadratic(t_abc abc, double b2_4ac);
 
 t_vec3	vec3_ray_at(t_ray u, double x);
 
+double	get_shape_intersections(t_ray *ray, t_object *shape);
+
 t_vec3	get_cylinder_normal(t_main *main, t_hit_record *hit);
 t_vec3	get_sphere_normal(t_main *main, t_hit_record *hit);
 t_vec3	get_cone_normal(t_main *main, t_hit_record *hit);
@@ -102,4 +110,5 @@ t_vec3	get_cone_normal(t_main *main, t_hit_record *hit);
 void	add_hit_color(t_main *main, t_object *obj);
 unsigned int	color_to_int(t_color color);
 void	fix_aliasing_color(t_main *main, int sub_pixel_count);
+int	check_shadow(t_main *main, t_ray *ray);
 #endif

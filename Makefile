@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/18 18:11:44 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/10/18 21:14:37 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								obj_plane.c\
 								obj_sphere.c\
 								image_render.c\
-								anti_aliasing_helper.c)
+								anti_aliasing_helper.c\
+								shadow.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

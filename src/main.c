@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 19:48:31 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/18 21:41:48 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,30 +71,40 @@ int	main(void)
 	main.cam.coi.y = 0.0;
 	main.cam.coi.z = 10.0;
 
+	main.light.pos.x = 10.0;
+	main.light.pos.y = 0.0;
+	main.light.pos.z = 25.0;
+
 
 	main.obj[0].loc.x = 0.0;
 	main.obj[0].loc.y = 0.0;
 	main.obj[0].loc.z = 30.0;
-	main.obj[0].rot.x = 1.0;
-	main.obj[0].rot.y = 10.0;
-	main.obj[0].rot.z = 0.0;
 	main.obj[0].size = 3.0;
 	main.obj[0].type = 0;
 	main.obj[0].color.rgb.r = 0.0;
 	main.obj[0].color.rgb.g = 1.0;
-	main.obj[0].color.rgb.b = 1.0;
+	main.obj[0].color.rgb.b = 0.0;
 	
 	main.obj[1].loc.x = 5.0;
 	main.obj[1].loc.y = 0.0;
 	main.obj[1].loc.z = 30.0;
-	main.obj[1].rot.x = 1.0;
-	main.obj[1].rot.y = 10.0;
-	main.obj[1].rot.z = 0.0;
 	main.obj[1].size = 0.1;
 	main.obj[1].type = 0;
-	main.obj[1].color.rgb.r = 0.9;
-	main.obj[1].color.rgb.g = 0.5;
-	main.obj[1].color.rgb.b = 0.2;
+	main.obj[1].color.rgb.r = 1.0;
+	main.obj[1].color.rgb.g = 0.0;
+	main.obj[1].color.rgb.b = 0.0;
+
+	main.obj[2].loc.x = 0.0;
+	main.obj[2].loc.y = 0.0;
+	main.obj[2].loc.z = 40.0;
+	main.obj[2].rot.x = 0.0;
+	main.obj[2].rot.y = 0.0;
+	main.obj[2].rot.z = 1.0;
+	main.obj[2].type = 2;
+	main.obj[2].color.rgb.r = 1.0;
+	main.obj[2].color.rgb.g = 1.0;
+	main.obj[2].color.rgb.b = 1.0;
+	main.obj_count = 3;
 	initialize_camera(&main.cam);
 	render_image(&main);
 
