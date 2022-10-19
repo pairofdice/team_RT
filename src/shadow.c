@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 20:44:38 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 22:04:03 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/19 21:19:11 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	offset_and_declare_shadow_ray(t_main *main, t_ray *ray, t_ray *shadow)
 {
 	shadow->orig = ray->hit.hit_loc;
 	shadow->dir = vec3_sub(main->light.pos, shadow->orig);
+	shadow->hit = ray->hit;
 	shadow->hit.hit_dist = vec3_mag(shadow->dir);
 	shadow->dir = vec3_unit(shadow->dir);
-	shadow->hit = ray->hit;
 	if (main->obj[ray->hit.clo_obj_id].type == 2)
 		ofset_plane_dir(shadow);
 	else
@@ -61,7 +61,7 @@ int	check_shadow(t_main *main, t_ray *ray)
 	{
 		ret = get_shape_intersections(&main->shadow, &main->obj[count]);
 		count++;
-		if (ret > main->shadow.hit.hit_dist || ret < 0)
+		if (ret >= main->shadow.hit.hit_dist || ret < 0)
 			ret = -1.0;
 	}
 	if (ret < 0.0)

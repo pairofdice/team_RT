@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 22:15:32 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/19 22:31:45 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,16 @@
 
 # define WIN_W 1920
 # define WIN_H 1080
-# define A_A_DIV 5
+# define A_A_DIV 6
 
 typedef struct s_frame_buffer
 {
 	int			*data;
+	int			*cartoon;
+	int			*b_w;
+	int			*b_w_cartoon;
+	int			*edge_map;
+	char		*mask;
 	int			data_len;
 }				t_frame_buffer;
 
@@ -91,7 +96,7 @@ typedef struct s_main
 int		initialize_window(t_sdl	*sdl);
 void	initialize_camera(t_cam *cam);
 void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam);
-void	render_image(t_main	*main);
+void	render_image(t_main	*main, int ant_al);
 
 double	intersects_cone(t_ray *ray, t_object *cone);
 double	intersects_cylinder(t_ray *ray, t_object *cylinder);
@@ -109,8 +114,13 @@ t_vec3	get_cylinder_normal(t_main *main, t_hit_record *hit);
 t_vec3	get_sphere_normal(t_main *main, t_hit_record *hit);
 t_vec3	get_cone_normal(t_main *main, t_hit_record *hit);
 
-void	add_hit_color(t_main *main, t_ray *shadow);
+void			add_hit_color(t_main *main, t_ray *shadow);
 unsigned int	color_to_int(t_color color);
-void	fix_aliasing_color(t_main *main, int sub_pixel_count);
-int	check_shadow(t_main *main, t_ray *ray);
+void			fix_aliasing_color(t_main *main, int sub_pixel_count);
+int				check_shadow(t_main *main, t_ray *ray);
+void	creat_filters(t_frame_buffer * fb);
+
+int		rgb_to_white(t_color *rgb);
+void	int_to_rgb(int color, t_color *rgb);
+void	edge_detection(t_frame_buffer *fb);
 #endif

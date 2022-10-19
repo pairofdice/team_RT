@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 21:41:48 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/19 22:42:48 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(void)
 
 	main.light.pos.x = 10.0;
 	main.light.pos.y = 0.0;
-	main.light.pos.z = 25.0;
+	main.light.pos.z = 0.0;
 
 
 	main.obj[0].loc.x = 0.0;
@@ -104,10 +104,51 @@ int	main(void)
 	main.obj[2].color.rgb.r = 1.0;
 	main.obj[2].color.rgb.g = 1.0;
 	main.obj[2].color.rgb.b = 1.0;
-	main.obj_count = 3;
-	initialize_camera(&main.cam);
-	render_image(&main);
 
+	main.obj[3].loc.x = 0.0;
+	main.obj[3].loc.y = -10.0;
+	main.obj[3].loc.z = 40.0;
+	main.obj[3].rot.x = 0.0;
+	main.obj[3].rot.y = 1.0;
+	main.obj[3].rot.z = 0.0;
+	main.obj[3].type = 2;
+	main.obj[3].color.rgb.r = 1.0;
+	main.obj[3].color.rgb.g = 1.0;
+	main.obj[3].color.rgb.b = 1.0;
+		
+	main.obj[4].loc.x = 0.0;
+	main.obj[4].loc.y = 0.0;
+	main.obj[4].loc.z = 30.0;
+	main.obj[4].rot.x = 1.0;
+	main.obj[4].rot.y = 1.0;
+	main.obj[4].rot.z = 1.0;
+	main.obj[4].type = 1;
+	main.obj[4].size = 1;
+	main.obj[4].color.rgb.r = 1.0;
+	main.obj[4].color.rgb.g = 1.0;
+	main.obj[4].color.rgb.b = 1.0;
+
+	main.obj[5].loc.x = -10.0;
+	main.obj[5].loc.y = 0.0;
+	main.obj[5].loc.z = 30.0;
+	main.obj[5].rot.x = 0.0;
+	main.obj[5].rot.y = 1.0;
+	main.obj[5].rot.z = 0.0;
+	main.obj[5].type = 3;
+	main.obj[5].size = 1;
+	main.obj[5].color.rgb.r = 1.0;
+	main.obj[5].color.rgb.g = 0.1;
+	main.obj[5].color.rgb.b = 0.8;
+	main.obj_count = 6;
+	
+	initialize_camera(&main.cam);
+	render_image(&main, 1);
+	edge_detection(&main.sdl.frame_buffer);
+	
+	
+	render_image(&main, A_A_DIV);
+	
+	creat_filters(&main.sdl.frame_buffer);
 	draw_to_window(&main.sdl);
 	rt_loop_and_exit(&main.sdl);
 	SDL_Quit();

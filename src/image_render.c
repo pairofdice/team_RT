@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 22:15:20 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/19 18:15:36 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ double	get_shape_intersections(t_ray *ray, t_object *shape)
 		return (-1);
 	return (ret);
 }
+
 void fill_hit_record(t_main *main, double clo_ret, int clo_shape)
 {
 	main->ray.hit.hit_dist = clo_ret;
@@ -75,7 +76,7 @@ int	ray_shooter(t_ray *ray, t_main *main)
 	return (1);
 }
 
-int	anti_aliasing(t_main *main, int pixel_x, int pixel_y)
+int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 {
 	double x;
 	double y;
@@ -84,25 +85,25 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y)
 	int color;
 
 	j = 0;
-	while (j < A_A_DIV)
+	while (j < ant_al)
 	{
 		i = 0;
-		y = ((float)pixel_y + ((1.0 / A_A_DIV) * j));
-		while (i < A_A_DIV)
+		y = ((float)pixel_y + ((1.0 / ant_al) * j));
+		while (i < ant_al)
 		{
-			x = ((float)pixel_x + ((1.0 / A_A_DIV) * i));
+			x = ((float)pixel_x + ((1.0 / ant_al) * i));
 			initialize_ray(&main->ray, x, y, &main->cam);
 			ray_shooter(&main->ray, main);
 			i++;
 		}
 		j++;
 	}
-	fix_aliasing_color(main, (A_A_DIV * A_A_DIV));
+	fix_aliasing_color(main, (ant_al * ant_al));
 	color = color_to_int(main->ray.hit.color);
 	return (color);
 }
 
-void	render_image(t_main	*main)
+void	render_image(t_main	*main, int ant_al)
 {
 	int		y;
 	int		x;
@@ -118,7 +119,11 @@ void	render_image(t_main	*main)
 			main->ray.hit.color.rgb.r = 0.0;
 			main->ray.hit.color.rgb.g = 0.0;
 			main->ray.hit.color.rgb.b = 0.0;
-			color = anti_aliasing(main, x, y);
+			while (ant_al != 1 && x < WIN_W && main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
+				x++;
+			if (x == WIN_W)
+				break;
+			color = anti_aliasing(main, x, y, ant_al);
 			main->sdl.frame_buffer.data[((y * WIN_W) + x)] = color;
 			x++;
 		}

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/18 16:21:06 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/19 22:33:28 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,26 @@ int	initialize_window(t_sdl	*sdl)
 	sdl->frame_buffer.data = (int *)malloc(sizeof(int)
 			* sdl->frame_buffer.data_len);
 	if (sdl->frame_buffer.data == NULL)
+		return (0);
+	sdl->frame_buffer.cartoon = (int *)malloc(sizeof(int)
+			* sdl->frame_buffer.data_len);
+	if (sdl->frame_buffer.cartoon == NULL)
+		return (0);
+	sdl->frame_buffer.b_w = (int *)malloc(sizeof(int)
+			* sdl->frame_buffer.data_len);
+	if (sdl->frame_buffer.b_w == NULL)
+		return (0);
+	sdl->frame_buffer.b_w_cartoon = (int *)malloc(sizeof(int)
+			* sdl->frame_buffer.data_len);
+	if (sdl->frame_buffer.b_w_cartoon == NULL)
+		return (0);
+	sdl->frame_buffer.edge_map = (int *)malloc(sizeof(int)
+			* sdl->frame_buffer.data_len);
+	if (sdl->frame_buffer.edge_map == NULL)
+		return (0);
+	sdl->frame_buffer.mask = (char *)malloc(sizeof(char)
+			* sdl->frame_buffer.data_len);
+	if (sdl->frame_buffer.mask == NULL)
 		return (0);
 	return (1);
 }
