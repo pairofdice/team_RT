@@ -3,6 +3,7 @@
 # include "challenge.h"
 int	main(void)
 {
+	/* 
 	t_tuple t;
 	t_tuple p = new_point(4.3, -4.2, 3.1);
 	assert(p.xyzw.x == 4.3);
@@ -155,15 +156,15 @@ int	main(void)
 	t_matrix44 bb = new_matrix44_inc_c();
 	// print_matrix(&bb);
 
-/*
-	printf("[0][0] - %f\n",mm.rc[0][0]);
-	printf("[0][3] - %f\n",mm.rc[0][3]);
-	printf("[1][0] - %f\n",mm.rc[1][0]);
-	printf("[1][2] - %f\n",mm.rc[1][2]);
-	printf("[2][2] - %f\n",mm.rc[2][2]);
-	printf("[3][0] - %f\n",mm.rc[3][0]);
-	printf("[3][2] - %f\n",mm.rc[3][2]);
-*/
+
+	// printf("[0][0] - %f\n",mm.rc[0][0]);
+	// printf("[0][3] - %f\n",mm.rc[0][3]);
+	// printf("[1][0] - %f\n",mm.rc[1][0]);
+	// printf("[1][2] - %f\n",mm.rc[1][2]);
+	// printf("[2][2] - %f\n",mm.rc[2][2]);
+	// printf("[3][0] - %f\n",mm.rc[3][0]);
+	// printf("[3][2] - %f\n",mm.rc[3][2]);
+
 
 	t_matrix22 m1 = new_matrix22_inc();
 	t_matrix22 m2 = new_matrix22_inc();
@@ -188,9 +189,9 @@ int	main(void)
 	// printf("cc:\n");
 	// print_matrix(&cc);
 	// printf("[1][2] - %f\n",cc.rc[1][0]);
-/* 	printf("[2][2] - %f\n",cc.rc[2][2]);
-	printf("[3][0] - %f\n",cc.rc[3][0]);
-	printf("[3][2] - %f\n",cc.rc[3][2]); */
+ 	// printf("[2][2] - %f\n",cc.rc[2][2]);
+	// printf("[3][0] - %f\n",cc.rc[3][0]);
+	// printf("[3][2] - %f\n",cc.rc[3][2]); 
 
 	assert(nearly_equal(cc.rc[0][0], 24.0) == 1);
 	assert(nearly_equal(cc.rc[1][1], 64.0) == 1);
@@ -223,7 +224,7 @@ int	main(void)
 	mm.rc[3][2] = 0.0;
 	mm.rc[3][3] = 1.0;
 
-	print_matrix(&mm);
+	// print_matrix(&mm);
 
 	a = new_tuple(1.0, 2.0, 3.0, 1.0);
 
@@ -239,18 +240,18 @@ int	main(void)
 	testi.xyzw.z = 3.0;
 	testi.xyzw.w = 4.0;
 
-	printf("x %f, y %f, z %f, w %f\n", testi.a[0], testi.a[1], testi.a[2], testi.a[3]);
+	// printf("x %f, y %f, z %f, w %f\n", testi.a[0], testi.a[1], testi.a[2], testi.a[3]);
 	
 	mm = new_matrix44_inc_a();
 
-	printf("mm\n");
-	print_matrix(&mm);
+	// printf("mm\n");
+	// print_matrix(&mm);
 
 
 	t_matrix44	transposed_should_be = new_matrix44();
 	matrix44_transpose(&mm);
-	printf("mm transposed\n");
-	print_matrix(&mm);
+	// printf("mm transposed\n");
+	// print_matrix(&mm);
 
 	transposed_should_be.rc[0][0] = 1.0;
 	transposed_should_be.rc[0][1] = 5.0;
@@ -272,8 +273,80 @@ int	main(void)
 	transposed_should_be.rc[3][2] = 12.0;
 	transposed_should_be.rc[3][3] = 16.0;
 
-	printf("should be\n");
-	print_matrix(&transposed_should_be);
+	// printf("should be\n");
+	// print_matrix(&transposed_should_be);
 
 	assert(matrices_equal44(&mm, &transposed_should_be));
+
+	// matrix 22 determinant
+
+	t_matrix22 m22;
+
+	m22.rc[0][0] = 1.0;
+	m22.rc[0][1] = 5.0;
+	m22.rc[1][0] = -3.0;
+	m22.rc[1][1] = 2.0;
+
+	double determinant = matrix22_determinant(&m22);
+	assert(nearly_equal(determinant, 17.0));
+	m22.rc[0][0] = -33.0;
+	m22.rc[0][1] = 42.0;
+	m22.rc[1][0] = 11.0;
+	m22.rc[1][1] = 1.0;
+
+	determinant = matrix22_determinant(&m22);
+	assert(nearly_equal(determinant, -495.0));
+
+	// SUB-MATRIX33
+
+	t_matrix33 m33;
+
+	m33.rc[0][0] = 1.0;
+	m33.rc[0][1] = 5.0;
+	m33.rc[0][2] = 0.0;
+
+	m33.rc[1][0] = -3.0;
+	m33.rc[1][1] = 2.0;
+	m33.rc[1][2] = 7.0;
+
+	m33.rc[2][0] = 0.0;
+	m33.rc[2][1] = 6.0;
+	m33.rc[2][2] = -3.0;	
+	m22 = submatrix33(&m33, 0, 2);
+	// printf("m22 %2.0f %2.0f\n", m22.rc[0][0], m22.rc[0][1]);
+	// printf("m22 %2.0f %2.0f\n\n", m22.rc[1][0], m22.rc[1][1]);
+ */
+	t_matrix44 m44;
+
+	m44.rc[0][0] = -6.0;
+	m44.rc[0][1] = 1.0;
+	m44.rc[0][2] = 1.0;
+	m44.rc[0][3] = 6.0;
+
+	m44.rc[1][0] = -8.0;
+	m44.rc[1][1] = 5.0;
+	m44.rc[1][2] = 8.0;
+	m44.rc[1][3] = 6.0;
+
+	m44.rc[2][0] = -1.0;
+	m44.rc[2][1] = 0.0;
+	m44.rc[2][2] = 8.0;
+	m44.rc[2][3] = 2.0;
+
+	m44.rc[3][0] = -7.0;
+	m44.rc[3][1] = 1.0;
+	m44.rc[3][2] = -1.0;
+	m44.rc[3][3] = 1.0;
+
+	print_matrix(&m44);
+
+	t_matrix33	m33_b = new_matrix33_inc();
+
+	m33_b = submatrix44(&m44, 0, 1);
+	print_matrix33(&m33_b);
+
+/* 	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[0][0], m33.rc[0][1],  m33.rc[0][2]);
+	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[1][0], m33.rc[1][1],  m33.rc[1][2]);
+	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[2][0], m33.rc[2][1],  m33.rc[2][2]); */
+
 }

@@ -32,6 +32,7 @@ typedef union u_tuple
 	double a[4];
 } t_tuple;
 
+
 typedef struct s_matrix44
 {
 	double rc[4][4];
@@ -101,9 +102,14 @@ double		row_column_multiply(
 					int row,
 					int col);
 void	print_matrix(t_matrix44 *mm);
+void	print_matrix33(t_matrix33 *mm);
+
 
 t_tuple	mt_multiply(t_matrix44 *m, t_tuple *t);
 void	matrix44_transpose(t_matrix44 *m);
+double	matrix22_determinant(t_matrix22 *m);
+t_matrix22	submatrix33(t_matrix33 *src, int skip_row, int skip_col);
+t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col);
 
 
 #endif

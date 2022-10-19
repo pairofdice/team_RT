@@ -472,6 +472,29 @@ void	print_matrix(t_matrix44 *mm)
 	printf("\n");
 }
 
+
+void	print_matrix33(t_matrix33 *mm)
+{
+	int row;
+	int col;
+
+	printf("    0  1  2\n\n");
+	row = 0;
+	while (row < 3) 
+	{
+		printf("%d: ", row);
+		col = 0;
+		while (col < 3)
+		{
+			printf("%2.0f ",mm->rc[row][col]);
+			col++;
+		}
+		printf("\n");
+		row++;
+	}
+	printf("\n");
+}
+
 static double	row_multiply(t_matrix44 *m, double t[4], int row)
 {
 	int		col;
@@ -540,4 +563,66 @@ void	matrix44_transpose(t_matrix44 *m)
 double	matrix22_determinant(t_matrix22 *m)
 {
 	return (m->rc[0][0] * m->rc[1][1] - m->rc[0][1] * m->rc[1][0]);
+}
+
+t_matrix22	submatrix33(t_matrix33 *src, int skip_row, int skip_col)
+{
+	int			row;
+	int			col;
+	int			pad_x;
+	int			pad_y;
+	t_matrix22	result;
+
+	row = 0;
+	pad_x = 0;
+	pad_y = 0;
+	while(row < 2)
+	{
+
+		if (row == skip_row)
+			pad_y = 1;
+		col = 0;
+		while (col < 2)
+		{
+			if (col == skip_col)
+				pad_x = 1;
+			result.rc[row][col] = src->rc[row + pad_y][col + pad_x];
+			col++;
+		}
+		row++;
+	}
+
+	// printf("Calling submatrix33 with garbage\n");
+	return (result);	
+}
+
+
+t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col)
+{
+	int			row;
+	int			col;
+	int			pad_x;
+	int			pad_y;
+	t_matrix33	result;
+
+	pad_x = 0;
+	pad_y = 0;
+	row = 0;
+	while(row < 3)
+	{
+		if (row == skip_row)
+			pad_y = 1;
+		col = 0;
+		while (col < 3)
+		{
+			if (col == skip_col)
+				pad_x = 1;
+			result.rc[row][col] = src->rc[row + pad_y][col + pad_x];
+			col++;
+		}
+		row++;
+	}
+
+	// printf("Calling submatrix33 with garbage\n");
+	return (result);	
 }
