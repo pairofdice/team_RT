@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/20 13:46:46 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 18:34:14 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,31 +100,34 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 	return (color);
 }
 
-void	render_image(t_main	*main, int ant_al)
+void	render_image(t_main	*main, int task, int ant_al)
 {
+	t_main	copy;
 	int		y;
 	int		x;
 	int		color;
 
-	y = 0;
-	while (y < WIN_H)
+	y = (task * (WIN_H / NUM_TASKS));
+	copy = *main;
+	while (y < ((task + 2) * (WIN_H / NUM_TASKS)) && y < WIN_H)
 	{
 		x = 0;
 		while (x < WIN_W)
 		{
-			main->ray.orig = main->cam.pos;
-			main->ray.hit.color.rgb.r = 0.0;
-			main->ray.hit.color.rgb.g = 0.0;
-			main->ray.hit.color.rgb.b = 0.0;
+			copy.ray.orig = main->cam.pos;
+			copy.ray.hit.color.rgb.r = 0.0;
+			copy.ray.hit.color.rgb.g = 0.0;
+			copy.ray.hit.color.rgb.b = 0.0;
 			while (ant_al != 1 && x < WIN_W
 				&& main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
 				x++;
 			if (x == WIN_W)
 				break ;
-			color = anti_aliasing(main, x, y, ant_al);
+			color = anti_aliasing(&copy, x, y, ant_al);
 			main->sdl.frame_buffer.data[((y * WIN_W) + x)] = color;
 			x++;
 		}
 		y++;
+		
 	}
 }

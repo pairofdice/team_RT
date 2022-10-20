@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/20 11:13:54 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 18:57:14 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "../build/libsdl2/include/SDL2/SDL.h"
 # include "vector.h"
 # include "object.h"
+# include "multi_thread.h"
 # include <stdio.h>
 
 # define WIN_W 1920
@@ -84,6 +85,7 @@ typedef struct s_main
 {
 	t_sdl		sdl;
 	t_cam		cam;
+	t_multi		multi;
 	t_ray		ray;
 	t_ray		shadow;
 	
@@ -91,12 +93,13 @@ typedef struct s_main
 	t_object	obj[10];
 	int			obj_count;
 	int			shape_count;
+	int			ant_al;
 }				t_main;
 
-int		initialize_window(t_sdl	*sdl);
+int		initialize_window(t_main *main);
 void	initialize_camera(t_cam *cam);
 void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam);
-void	render_image(t_main	*main, int ant_al);
+void	render_image(t_main	*main, int task, int ant_al);
 
 double	intersects_cone(t_ray *ray, t_object *cone);
 double	intersects_cylinder(t_ray *ray, t_object *cylinder);
@@ -123,4 +126,9 @@ void	creat_filters(t_frame_buffer * fb);
 int		rgb_to_white(t_color *rgb);
 void	int_to_rgb(int color, t_color *rgb);
 void	edge_detection(t_frame_buffer *fb);
+
+int		draw_frame(t_main *main);
+void	taskhandler(void *main);
+void	create_threads(t_main *main, int ant_al);
+void	init_pthread(t_main *main);
 #endif

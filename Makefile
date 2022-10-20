@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/20 14:01:14 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/10/20 17:03:10 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								anti_aliasing_helper.c\
 								shadow.c\
 								edge_detection.c\
-								filters.c)
+								filters.c\
+								multi_thread.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

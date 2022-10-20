@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/20 14:18:32 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 19:01:17 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	draw_to_window(t_sdl *sdl, int *filter)
 
 void	draw_filter(t_sdl *sdl, int *filter_type, int i)
 {
+	
 	if (i == 1)
 	{
 		if (sdl->event.key.keysym.sym == SDLK_DOWN && *filter_type > 0)
@@ -74,6 +75,7 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	filter_type = 0;
 	while (quit == 0)
 	{
+		
 		if (SDL_WaitEvent(&sdl->event) != 0)
 		{
 			if (sdl->event.type == SDL_QUIT)
@@ -98,7 +100,7 @@ int	main(void)
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (1);
-	if (initialize_window(&main.sdl) == 0)
+	if (initialize_window(&main) == 0)
 		return (1);
 	main.cam.pos.x = 0.0;
 	main.cam.pos.y = 0.0;
@@ -200,9 +202,11 @@ int	main(void)
 	main.obj_count = 7;
 	
 	initialize_camera(&main.cam);
-	render_image(&main, 1);
+	create_threads(&main, 1);
+	draw_frame(&main);
 	edge_detection(&main.sdl.frame_buffer);
-	render_image(&main, A_A_DIV);
+	main.ant_al = A_A_DIV;
+	draw_frame(&main);
 	creat_filters(&main.sdl.frame_buffer);
 	draw_to_window(&main.sdl, main.sdl.frame_buffer.data);
 	rt_loop_and_exit(&main.sdl);
