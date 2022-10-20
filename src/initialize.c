@@ -6,11 +6,27 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/19 22:33:28 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:52:05 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
+
+static int	initialize_buffers(t_frame_buffer *fb)
+{
+	fb->data_len = (WIN_H * WIN_W);
+	fb->data = (int *)malloc(sizeof(int) * fb->data_len);
+	fb->cartoon = (int *)malloc(sizeof(int) * fb->data_len);
+	fb->b_w = (int *)malloc(sizeof(int) * fb->data_len);
+	fb->b_w_cartoon = (int *)malloc(sizeof(int) * fb->data_len);
+	fb->edge_map = (int *)malloc(sizeof(int) * fb->data_len);
+	fb->mask = (char *)malloc(sizeof(char) * fb->data_len);
+	if (fb->data == NULL || fb->cartoon == NULL || fb->b_w == NULL
+		||fb->b_w_cartoon == NULL || fb->edge_map == NULL
+		|| fb->mask == NULL)
+		return (0);
+	return (1);
+}
 
 int	initialize_window(t_sdl	*sdl)
 {
@@ -25,30 +41,7 @@ int	initialize_window(t_sdl	*sdl)
 			SDL_TEXTUREACCESS_STREAMING, WIN_W, WIN_H);
 	if (sdl->texture == NULL)
 		return (0);
-	sdl->frame_buffer.data_len = (WIN_H * WIN_W);
-	sdl->frame_buffer.data = (int *)malloc(sizeof(int)
-			* sdl->frame_buffer.data_len);
-	if (sdl->frame_buffer.data == NULL)
-		return (0);
-	sdl->frame_buffer.cartoon = (int *)malloc(sizeof(int)
-			* sdl->frame_buffer.data_len);
-	if (sdl->frame_buffer.cartoon == NULL)
-		return (0);
-	sdl->frame_buffer.b_w = (int *)malloc(sizeof(int)
-			* sdl->frame_buffer.data_len);
-	if (sdl->frame_buffer.b_w == NULL)
-		return (0);
-	sdl->frame_buffer.b_w_cartoon = (int *)malloc(sizeof(int)
-			* sdl->frame_buffer.data_len);
-	if (sdl->frame_buffer.b_w_cartoon == NULL)
-		return (0);
-	sdl->frame_buffer.edge_map = (int *)malloc(sizeof(int)
-			* sdl->frame_buffer.data_len);
-	if (sdl->frame_buffer.edge_map == NULL)
-		return (0);
-	sdl->frame_buffer.mask = (char *)malloc(sizeof(char)
-			* sdl->frame_buffer.data_len);
-	if (sdl->frame_buffer.mask == NULL)
+	if (initialize_buffers(&sdl->frame_buffer) == 0)
 		return (0);
 	return (1);
 }

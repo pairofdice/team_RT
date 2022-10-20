@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:28:21 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 20:37:07 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 14:20:57 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ double	intersects_sphere(t_ray *ray, t_object *sphere)
 	double	b2_4ac;
 	t_abc	abc;
 
-
 	ray_origin_to_sphere = vec3_sub(ray->orig, sphere->loc);
 	abc.a = vec3_dot(ray->dir, ray->dir);
 	abc.b = (2 * vec3_dot(ray->dir, ray_origin_to_sphere));
-	abc.c = (vec3_dot(ray_origin_to_sphere, ray_origin_to_sphere) - (sphere->size * sphere->size));
+	abc.c = (vec3_dot(ray_origin_to_sphere, ray_origin_to_sphere)
+			- (sphere->size * sphere->size));
 	b2_4ac = calc_b2_4ac(abc);
 	if (b2_4ac > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:02:06 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/19 22:26:31 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:43:00 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void	int_to_rgb(int color, t_color *rgb)
 {
-	
 	rgb->rgb.r = (color) >> 24 & 255;
 	rgb->rgb.g = (color) >> 16 & 255;
 	rgb->rgb.b = (color) >> 8 & 255;
 }
 
-int rgb_to_white(t_color *rgb)
+int	rgb_to_white(t_color *rgb)
 {
 	int	color;
 
@@ -35,7 +34,7 @@ double	test_pixel(int *image, int i, int j)
 
 	pixel = ((((image[(j * WIN_W) + i]) >> 24 & 255) / 255.0));
 	pixel *= 8;
-	compare =  (((image[(j * WIN_W) + (i - 1)]) >> 24 & 255) / 255.0);
+	compare = (((image[(j * WIN_W) + (i - 1)]) >> 24 & 255) / 255.0);
 	compare += (((image[(j * WIN_W) + (i + 1)]) >> 24 & 255) / 255.0);
 	compare += (((image[((j - 1) * WIN_W) + (i - 1)]) >> 24 & 255) / 255.0);
 	compare += (((image[((j - 1) * WIN_W) + (i + 1)]) >> 24 & 255) / 255.0);
@@ -44,14 +43,17 @@ double	test_pixel(int *image, int i, int j)
 	compare += (((image[((j - 1) * WIN_W) + i]) >> 24 & 255) / 255.0);
 	compare += (((image[((j + 1) * WIN_W) + i]) >> 24 & 255) / 255.0);
 	pixel -= compare;
-	return (pixel + 0.5);
+	return (pixel);
 }
 
 static void	great_mask(t_frame_buffer *fb)
 {
-	int	i;
-	int	j;
-	double color;
+	int		i;
+	int		j;
+	double	color;
+	double	scale;
+
+	scale = 0.015686;
 	j = 1;
 	while (j < (WIN_H - 1))
 	{
@@ -59,14 +61,10 @@ static void	great_mask(t_frame_buffer *fb)
 		while (i < (WIN_W -1))
 		{
 			color = test_pixel(fb->b_w, i, j);
-			if (color > 0.52 || color < 0.48)
-			{
-				fb->data[(j * WIN_W) + i] = 0x00000000;
-				fb->mask[(j * WIN_W) + i] = 1;
-			}
+			if (color > scale || color < -scale)
+				fb->mask[(j * WIN_W) + i++] = 1;
 			else
-				fb->mask[(j * WIN_W) + i] = 0;
-			i++;
+				fb->mask[(j * WIN_W) + i++] = 0;
 		}
 		j++;
 	}
@@ -87,8 +85,7 @@ void	edge_detection(t_frame_buffer *fb)
 		{
 			int_to_rgb(fb->data[((j * WIN_W) + i)], &rgb);
 			color = rgb_to_white(&rgb);
-			fb->b_w[((j * WIN_W) + i)] = color;
-			i++;
+			fb->b_w[((j * WIN_W) + i++)] = color;
 		}
 		j++;
 	}

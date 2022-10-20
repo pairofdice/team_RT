@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/19 22:42:48 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 14:18:32 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,53 @@
 
 //Copys 1d arrey to texture and draws it.
 
-void	draw_to_window(t_sdl *sdl)
+void	draw_to_window(t_sdl *sdl, int *filter)
 {
 	int		*texture_data;
 	int		texture_pitch;
 
 	SDL_LockTexture(sdl->texture, NULL, (void **)&texture_data, &texture_pitch);
-	ft_memcpy(texture_data, sdl->frame_buffer.data,
+	ft_memcpy(texture_data, filter,
 		(sdl->frame_buffer.data_len * sizeof(int)));
 	SDL_UnlockTexture(sdl->texture);
 	SDL_RenderCopy(sdl->ren, sdl->texture, NULL, NULL);
 	SDL_RenderPresent(sdl->ren);
+}
+
+void	draw_filter(t_sdl *sdl, int *filter_type, int i)
+{
+	if (i == 1)
+	{
+		if (sdl->event.key.keysym.sym == SDLK_DOWN && *filter_type > 0)
+			*filter_type -= 1;
+		else if (sdl->event.key.keysym.sym == SDLK_DOWN)
+			*filter_type = 4;
+		else if (sdl->event.key.keysym.sym == SDLK_UP && *filter_type < 4)
+			*filter_type += 1;
+		else if (sdl->event.key.keysym.sym == SDLK_UP)
+			*filter_type = 0;
+	}
+	if (*filter_type == 0)
+		draw_to_window(sdl, sdl->frame_buffer.data);
+	else if (*filter_type == 1)
+		draw_to_window(sdl, sdl->frame_buffer.cartoon);
+	else if (*filter_type == 2)
+		draw_to_window(sdl, sdl->frame_buffer.b_w);
+	else if (*filter_type == 3)
+		draw_to_window(sdl, sdl->frame_buffer.b_w_cartoon);
+	else if (*filter_type == 4)
+		draw_to_window(sdl, sdl->frame_buffer.edge_map);
+}
+
+static void	free_buffers_and_sdl(t_sdl *sdl)
+{
+	SDL_DestroyTexture(sdl->texture);
+	SDL_DestroyWindow(sdl->win);
+	free(sdl->frame_buffer.data);
+	free(sdl->frame_buffer.cartoon);
+	free(sdl->frame_buffer.b_w);
+	free(sdl->frame_buffer.b_w_cartoon);
+	free(sdl->frame_buffer.edge_map);
 }
 
 // Infinet loop to handle the window.
@@ -32,8 +68,10 @@ void	draw_to_window(t_sdl *sdl)
 void	rt_loop_and_exit(t_sdl *sdl)
 {
 	int	quit;
+	int	filter_type;
 
 	quit = 0;
+	filter_type = 0;
 	while (quit == 0)
 	{
 		if (SDL_WaitEvent(&sdl->event) != 0)
@@ -41,14 +79,17 @@ void	rt_loop_and_exit(t_sdl *sdl)
 			if (sdl->event.type == SDL_QUIT)
 				quit = 1;
 			if (sdl->event.type == SDL_KEYDOWN)
+			{
 				if (sdl->event.key.keysym.sym == SDLK_ESCAPE)
 					quit = 1;
+				if (sdl->event.key.keysym.sym == SDLK_DOWN
+					|| sdl->event.key.keysym.sym == SDLK_UP)
+					draw_filter(sdl, &filter_type, 1);
+			}
 		}
-		//draw_to_window(sdl);
+		draw_filter(sdl, &filter_type, 0);
 	}
-	SDL_DestroyTexture(sdl->texture);
-	SDL_DestroyWindow(sdl->win);
-	free(sdl->frame_buffer.data);
+	free_buffers_and_sdl(sdl);
 }
 
 int	main(void)
@@ -75,7 +116,12 @@ int	main(void)
 	main.light.pos.y = 0.0;
 	main.light.pos.z = 0.0;
 
+		//0 = sphere
+		//1 = cylinder
+		//2 = plane
+		//3 = cone
 
+		
 	main.obj[0].loc.x = 0.0;
 	main.obj[0].loc.y = 0.0;
 	main.obj[0].loc.z = 30.0;
@@ -112,7 +158,7 @@ int	main(void)
 	main.obj[3].rot.y = 1.0;
 	main.obj[3].rot.z = 0.0;
 	main.obj[3].type = 2;
-	main.obj[3].color.rgb.r = 1.0;
+	main.obj[3].color.rgb.r = 0.0;
 	main.obj[3].color.rgb.g = 1.0;
 	main.obj[3].color.rgb.b = 1.0;
 		
@@ -128,28 +174,37 @@ int	main(void)
 	main.obj[4].color.rgb.g = 1.0;
 	main.obj[4].color.rgb.b = 1.0;
 
-	main.obj[5].loc.x = -10.0;
+	main.obj[5].loc.x = 0.0;
 	main.obj[5].loc.y = 0.0;
 	main.obj[5].loc.z = 30.0;
-	main.obj[5].rot.x = 0.0;
+	main.obj[5].rot.x = -1.0;
 	main.obj[5].rot.y = 1.0;
-	main.obj[5].rot.z = 0.0;
-	main.obj[5].type = 3;
-	main.obj[5].size = 1;
+	main.obj[5].rot.z = 1.0;
+	main.obj[5].type = 1;
+	main.obj[5].size = 0.5;
 	main.obj[5].color.rgb.r = 1.0;
-	main.obj[5].color.rgb.g = 0.1;
-	main.obj[5].color.rgb.b = 0.8;
-	main.obj_count = 6;
+	main.obj[5].color.rgb.g = 0.0;
+	main.obj[5].color.rgb.b = 1.0;
+
+	main.obj[6].loc.x = -10.0;
+	main.obj[6].loc.y = 0.0;
+	main.obj[6].loc.z = 30.0;
+	main.obj[6].rot.x = 0.0;
+	main.obj[6].rot.y = 1.0;
+	main.obj[6].rot.z = 0.0;
+	main.obj[6].type = 3;
+	main.obj[6].size = 1;
+	main.obj[6].color.rgb.r = 1.0;
+	main.obj[6].color.rgb.g = 0.1;
+	main.obj[6].color.rgb.b = 0.8;
+	main.obj_count = 7;
 	
 	initialize_camera(&main.cam);
 	render_image(&main, 1);
 	edge_detection(&main.sdl.frame_buffer);
-	
-	
 	render_image(&main, A_A_DIV);
-	
 	creat_filters(&main.sdl.frame_buffer);
-	draw_to_window(&main.sdl);
+	draw_to_window(&main.sdl, main.sdl.frame_buffer.data);
 	rt_loop_and_exit(&main.sdl);
 	SDL_Quit();
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 13:29:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 20:35:43 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 14:18:56 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_vec3	get_cone_normal(t_main *main, t_hit_record *hit)
 		result = vec3_neg(result);
 	return (result);
 }
-
 
 double	intersects_cone(t_ray *ray, t_object *cone)
 {

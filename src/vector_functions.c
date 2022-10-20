@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 12:55:00 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 18:48:11 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 14:21:24 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 double	vec3_dot(t_vec3 a, t_vec3 b)
 {
 	t_vec3	new;
-	double		ret;
+	double	ret;
 
 	new.x = a.x * b.x;
 	new.y = a.y * b.y;

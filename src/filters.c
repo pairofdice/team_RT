@@ -6,11 +6,12 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 22:21:39 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/19 22:40:17 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:44:13 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
+
 void	create_black_and_white(t_frame_buffer *fb)
 {
 	t_color	rgb;
@@ -48,7 +49,7 @@ void	create_black_and_white_cartoon(t_frame_buffer *fb)
 			while (i < WIN_W && fb->mask[((j * WIN_W) + i)] == 0)
 				i++;
 			if (i == WIN_W)
-				break;
+				break ;
 			fb->b_w_cartoon[((j * WIN_W) + i)] = 0x00000000;
 			i++;
 		}
@@ -71,16 +72,17 @@ void	create_cartoon(t_frame_buffer *fb)
 			while (i < WIN_W && fb->mask[((j * WIN_W) + i)] == 0)
 				i++;
 			if (i == WIN_W)
-				break;
+				break ;
 			fb->cartoon[((j * WIN_W) + i)] = 0x00000000;
 			i++;
 		}
 		j++;
 	}
 }
+
 void	create_edge_map(t_frame_buffer *fb)
 {
-		int		i;
+	int		i;
 	int		j;
 
 	j = 0;
@@ -92,7 +94,7 @@ void	create_edge_map(t_frame_buffer *fb)
 			while (i < WIN_W && fb->mask[((j * WIN_W) + i)] == 0)
 				i++;
 			if (i == WIN_W)
-				break;
+				break ;
 			fb->edge_map[((j * WIN_W) + i)] = 0xffffff00;
 			i++;
 		}

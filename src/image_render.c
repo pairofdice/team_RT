@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/19 18:15:36 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 13:46:46 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ double	get_shape_intersections(t_ray *ray, t_object *shape)
 		ret = intersects_sphere(ray, shape);
 	else if (shape->type == 1)
 		ret = intersects_cylinder(ray, shape);
-	else if (shape->type  == 2)
+	else if (shape->type == 2)
 		ret = intersects_plane(ray, shape);
 	else if (shape->type == 3)
 		ret = intersects_cone(ray, shape);
@@ -29,7 +29,7 @@ double	get_shape_intersections(t_ray *ray, t_object *shape)
 	return (ret);
 }
 
-void fill_hit_record(t_main *main, double clo_ret, int clo_shape)
+void	fill_hit_record(t_main *main, double clo_ret, int clo_shape)
 {
 	main->ray.hit.hit_dist = clo_ret;
 	main->ray.hit.clo_obj_id = clo_shape;
@@ -38,11 +38,10 @@ void fill_hit_record(t_main *main, double clo_ret, int clo_shape)
 		main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
 	else if (main->obj[clo_shape].type == 1)
 		main->ray.hit.normal = get_cylinder_normal(main, &main->ray.hit);
-	else if (main->obj[clo_shape].type  == 2)
+	else if (main->obj[clo_shape].type == 2)
 		main->ray.hit.normal = vec3_unit(main->obj[clo_shape].rot);
 	else if (main->obj[clo_shape].type == 3)
 		main->ray.hit.normal = get_cone_normal(main, &main->ray.hit);
-	
 }
 
 int	ray_shooter(t_ray *ray, t_main *main)
@@ -67,10 +66,8 @@ int	ray_shooter(t_ray *ray, t_main *main)
 		}
 		count++;
 	}
-	if (clo_ret < 0.0)
-		return (0);
 	fill_hit_record(main, clo_ret, clo_shape);
-	if (check_shadow(main, ray) == 1)
+	if (clo_ret < 0.0 || (check_shadow(main, ray) == 1))
 		return (0);
 	add_hit_color(main, &main->shadow);
 	return (1);
@@ -78,11 +75,11 @@ int	ray_shooter(t_ray *ray, t_main *main)
 
 int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 {
-	double x;
-	double y;
+	double	x;
+	double	y;
 	int		i;
 	int		j;
-	int color;
+	int		color;
 
 	j = 0;
 	while (j < ant_al)
@@ -119,10 +116,11 @@ void	render_image(t_main	*main, int ant_al)
 			main->ray.hit.color.rgb.r = 0.0;
 			main->ray.hit.color.rgb.g = 0.0;
 			main->ray.hit.color.rgb.b = 0.0;
-			while (ant_al != 1 && x < WIN_W && main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
+			while (ant_al != 1 && x < WIN_W
+				&& main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
 				x++;
 			if (x == WIN_W)
-				break;
+				break ;
 			color = anti_aliasing(main, x, y, ant_al);
 			main->sdl.frame_buffer.data[((y * WIN_W) + x)] = color;
 			x++;

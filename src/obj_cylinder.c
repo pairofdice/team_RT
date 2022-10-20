@@ -6,16 +6,16 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 18:45:46 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 20:34:26 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 14:20:36 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
 t_abc static	calc_abc_cylinder(t_ray ray,
-									t_vec3 cyldir,
-									t_vec3 raycyl,
-									double radius)
+								t_vec3 cyldir,
+								t_vec3 raycyl,
+								double radius)
 {
 	t_abc	abc;
 
@@ -31,12 +31,10 @@ t_vec3	get_cylinder_normal(t_main *main, t_hit_record *hit)
 {
 	t_vec3	result;
 	t_vec3	hypotenuse;
-	t_vec3	hit_along_cyldir;
 
-	hypotenuse = vec3_sub(hit->hit_loc, main->obj[hit->clo_obj_id].loc);
-	hit_along_cyldir = vec3_ray_at((t_ray){main->obj[hit->clo_obj_id].loc, main->obj[hit->clo_obj_id].rot, *hit},
-			vec3_dot(hypotenuse, main->obj[hit->clo_obj_id].rot));
-	result = vec3_sub(hit->hit_loc, hit_along_cyldir);
+	hypotenuse = (vec3_sub(hit->hit_loc, main->obj[hit->clo_obj_id].loc));
+	result = vec3_unit(vec3_cross(main->obj[hit->clo_obj_id].rot,
+				vec3_cross(hypotenuse, main->obj[hit->clo_obj_id].rot)));
 	return (result);
 }
 
