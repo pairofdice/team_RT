@@ -574,15 +574,45 @@ t_matrix22	submatrix33(t_matrix33 *src, int skip_row, int skip_col)
 	t_matrix22	result;
 
 	row = 0;
-	pad_x = 0;
-	pad_y = 0;
+		pad_y = 0;
 	while(row < 2)
 	{
-
 		if (row == skip_row)
 			pad_y = 1;
 		col = 0;
+			pad_x = 0;
 		while (col < 2)
+		{
+			if (col == skip_col)
+				pad_x = 1;
+			result.rc[row][col] = src->rc[row + pad_y][col + pad_x];
+			col++;
+		}
+		row++;
+	}
+
+	// printf("Calling submatrix33 with garbage\n");
+	return (result);
+}
+
+
+t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col)
+{
+	int			row;
+	int			col;
+	int			pad_x;
+	int			pad_y;
+	t_matrix33	result;
+
+	row = 0;
+		pad_y = 0;
+	while(row < 3)
+	{
+		if (row == skip_row)
+			pad_y = 1;
+		col = 0;
+			pad_x = 0;
+		while (col < 3)
 		{
 			if (col == skip_col)
 				pad_x = 1;
@@ -596,33 +626,32 @@ t_matrix22	submatrix33(t_matrix33 *src, int skip_row, int skip_col)
 	return (result);	
 }
 
-
-t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col)
+double	minor33(t_matrix33 *m, int skip_row, int skip_col)
 {
-	int			row;
-	int			col;
-	int			pad_x;
-	int			pad_y;
-	t_matrix33	result;
+	t_matrix22	m22;
+	double		determinant;
 
-	pad_x = 0;
-	pad_y = 0;
-	row = 0;
-	while(row < 3)
-	{
-		if (row == skip_row)
-			pad_y = 1;
-		col = 0;
-		while (col < 3)
-		{
-			if (col == skip_col)
-				pad_x = 1;
-			result.rc[row][col] = src->rc[row + pad_y][col + pad_x];
-			col++;
-		}
-		row++;
-	}
+	m22 = submatrix33(m, skip_row, skip_col);
+	determinant = matrix22_determinant(&m22);
+	return (determinant);
+}
 
-	// printf("Calling submatrix33 with garbage\n");
-	return (result);	
+double	cofactor33(t_matrix33 *m, int row, int col)
+{
+	double	minor;
+
+	minor = minor33(m, row, col);
+	if ((row + col) % 2 == 1)
+		minor = -minor;
+	return (minor);
+}
+
+double	cofactor44(t_matrix44 *m, int row, int col)
+{
+	double	minor;
+
+	minor = minor33(m, row, col);
+	if ((row + col) % 2 == 1)
+		minor = -minor;
+	return (minor);
 }

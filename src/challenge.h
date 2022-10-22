@@ -101,15 +101,17 @@ double		row_column_multiply(
 					t_matrix44 *b,
 					int row,
 					int col);
-void	print_matrix(t_matrix44 *mm);
-void	print_matrix33(t_matrix33 *mm);
+void		print_matrix(t_matrix44 *mm);
+void		print_matrix33(t_matrix33 *mm);
 
 
-t_tuple	mt_multiply(t_matrix44 *m, t_tuple *t);
-void	matrix44_transpose(t_matrix44 *m);
-double	matrix22_determinant(t_matrix22 *m);
+t_tuple		mt_multiply(t_matrix44 *m, t_tuple *t);
+void		matrix44_transpose(t_matrix44 *m);
+double		matrix22_determinant(t_matrix22 *m);
 t_matrix22	submatrix33(t_matrix33 *src, int skip_row, int skip_col);
 t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col);
+double		minor33(t_matrix33 *m, int skip_row, int skip_col);
+double	cofactor33(t_matrix33 *m, int row, int col);
 
 
 #endif

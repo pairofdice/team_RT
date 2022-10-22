@@ -1,0 +1,80 @@
+scene descriptor file
+	++
+Ambient, no shadow is compeltely dark
+Ambient can be manipulated
+
+slices 
+	• It's possible to slice objects on the x,y,z axes.
+	• It's possible to choose the slice from simple or really position (a cylinder can be sliced following its own axis or following a
+	real axis)
+	• Rotations and translations still works after the slice.
+	• The slice effect is unique to every object and not applied on all of them.
+	• It's possible to slice the plane differently than on the axes (if you limit it on x and y, you'll get a square) like for example a triangle or a disc.
+
+normal disruption
+color dis
+
+• Normale disruption: using sine for example which gives a wave effect.
+• Color disruption: checkerboard for example.
+• Color disruption: a more complicated algo to disrupt the color.
+• Color disruption: a very complicated algo for example Perlin noise (this one is worth 2 point expect if it's the only one
+implemented then don't count the last point).
+	yes/no
+
+parallel light (sun lamp)
+
+mirror effect
+mirror effect adjustable
+transparency
+	shadow affected by transparency
+
+Texture
+• It's possible to apply a texture on at least one of the 4 basic objects.
+• It's possible to apply a texture on the 4 basic objects.
+• It's possible to stretch (or the opposite) a texture on an object.
+• It's possible to shift a texture on an object.
+• Another library than minilibX and its xpm was used to load texture (jpeg, png, ...).
+
+  More texture applications
+One point per implemented option:
+• A texture can be used to disrupt an object's normale (bump mapping roughly)
+• A texture can be used to modify at some places of an object its transparancy.
+• A texture can be used to limit or slice an object.
+• A texture on a semi-transparant object serve as a slide and is projected on another object. (2 points)
+
+negative objects (boolean cuts)
+
+usual visual effects
+• Antialiasing
+• Cartoon effect
+• Motion blur
+• Sepia or any other color filter
+• Simple stereoscopy (like red/green glasses)
+
+• Clustering rendering (computed on several computers) (2 points)
+• Multi thread computing
+• The rendering is really fast
+• It's possible inside the RT to save, screenshot the rendered image.
+
+
+
+• There is a summury interface: a graphic loading message, a progress bar, something more than just terminal messages.
+• There is a cool interface (made with gtk or QT) with configuration elements like file loading, render control, etc. (if true also
+count for the first point)
+• It's possible to interact with the scene live (camera or object position, colors or textures...) without rerunning the program.
+• It's possible to automatically render with modification between the rendering (no interface needed a serie of scripts can be
+used here).
+• It's possible to automatically render objects for a scene for example a torus made of a serie of sphere, and helix made of
+spheres and cylinders...
+
+
+• A video made from your RT (share the love on the forum)
+• Modelers files: it's possible to import pov or 3ds files (for example), and you can render them with your RT.
+• Using 3D TV technology or OculusRift !
+• Infrequent spot: like a light bulb filament, the light source is infrequent and shadows don't have sharpness.
+• Any other crazy stuff.
+
+
+The Moebius ribbon
+Caustics and/or Global illumination
+Is it beautiful? It's 100% subjective, but everyone has different tastes.

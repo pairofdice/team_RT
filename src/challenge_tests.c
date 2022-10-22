@@ -1,9 +1,34 @@
 // #define NDEBUG // disable asserts
 # include <assert.h>
 # include "challenge.h"
+
+void	test_tuples();
+void	test_colors();
+void	test_matrix_equal();
+void	test_matrix_multiply();
+void	test_matrix_transpose();
+void	test_matrix_determinant();
+void	test_matrix_submatrix();
+void	test_matrix_minors();
+
+
 int	main(void)
 {
-	/* 
+	test_tuples();
+	test_colors();
+	test_matrix_equal();
+	test_matrix_multiply();
+	test_matrix_transpose();
+	test_matrix_determinant();
+	test_matrix_submatrix();
+	test_matrix_minors();
+
+
+}
+
+
+void	test_tuples()
+{
 	t_tuple t;
 	t_tuple p = new_point(4.3, -4.2, 3.1);
 	assert(p.xyzw.x == 4.3);
@@ -113,7 +138,10 @@ int	main(void)
 	r =  new_vector(1, -2, 1);
 	cross = vector_cross(v2, v1);
 	assert(tuples_equal(cross, r));
+}
 
+void	test_colors()
+{
 	t_color c1 = new_color(0.9, 0.6, 0.75);
 	t_color c2 = new_color(0.7, 0.1, 0.25);
 	t_color c1c2 = color_add(c1, c2);
@@ -144,7 +172,10 @@ int	main(void)
 	assert(nearly_equal(c1c2.r, should_be.r));
 	assert(nearly_equal(c1c2.g, should_be.g));
 	assert(nearly_equal(c1c2.b, should_be.b));
+}
 
+void	test_matrix_equal()
+{
 	t_matrix44 mm = new_matrix44_inc_a();
 	// print_matrix(&mm);
 
@@ -184,7 +215,17 @@ int	main(void)
 	assert(matrices_equal44(&m5, &m6));
 	m6.rc[1][1] = 454545.9;
 	assert(matrices_equal44(&m5, &m6) == 0);
+}
 
+void	test_matrix_multiply()
+{
+	t_matrix44 mm = new_matrix44_inc_a();
+	// print_matrix(&mm);
+	// printf("aa:\n");
+	t_matrix44 aa = new_matrix44_inc_b();
+	// print_matrix(&aa);
+	// printf("bb:\n");
+	t_matrix44 bb = new_matrix44_inc_c();
 	t_matrix44 cc = mm_multiply(&aa, &bb);
 	// printf("cc:\n");
 	// print_matrix(&cc);
@@ -226,21 +267,18 @@ int	main(void)
 
 	// print_matrix(&mm);
 
-	a = new_tuple(1.0, 2.0, 3.0, 1.0);
+	t_tuple a = new_tuple(1.0, 2.0, 3.0, 1.0);
 
 	t_tuple res = mt_multiply(&mm, &a);
 	t_tuple res_should = new_tuple(18.0, 24.0, 33.0, 1.0);
 	// printf("x %f, y %f, z %f, w %f\n", res.xyzw.x, res.xyzw.y, res.xyzw.z, res.xyzw.w); 
 	assert(tuples_equal(res, res_should));
+}
 
-	t_tuple testi;
+void	test_matrix_transpose()
+{
 
-	testi.xyzw.x = 1.0;
-	testi.xyzw.y = 2.0;
-	testi.xyzw.z = 3.0;
-	testi.xyzw.w = 4.0;
-
-	// printf("x %f, y %f, z %f, w %f\n", testi.a[0], testi.a[1], testi.a[2], testi.a[3]);
+	t_matrix44 mm = new_matrix44_inc_a();
 	
 	mm = new_matrix44_inc_a();
 
@@ -277,9 +315,10 @@ int	main(void)
 	// print_matrix(&transposed_should_be);
 
 	assert(matrices_equal44(&mm, &transposed_should_be));
+}
 
-	// matrix 22 determinant
-
+void	test_matrix_determinant()
+{
 	t_matrix22 m22;
 
 	m22.rc[0][0] = 1.0;
@@ -296,8 +335,10 @@ int	main(void)
 
 	determinant = matrix22_determinant(&m22);
 	assert(nearly_equal(determinant, -495.0));
+}
 
-	// SUB-MATRIX33
+void	test_matrix_submatrix()
+{
 
 	t_matrix33 m33;
 
@@ -312,10 +353,62 @@ int	main(void)
 	m33.rc[2][0] = 0.0;
 	m33.rc[2][1] = 6.0;
 	m33.rc[2][2] = -3.0;	
-	m22 = submatrix33(&m33, 0, 2);
-	// printf("m22 %2.0f %2.0f\n", m22.rc[0][0], m22.rc[0][1]);
-	// printf("m22 %2.0f %2.0f\n\n", m22.rc[1][0], m22.rc[1][1]);
- */
+	t_matrix22 m22sm = submatrix33(&m33, 0, 0);
+	// printf("m22 %2.0f %2.0f\n", m22sm.rc[0][0], m22sm.rc[0][1]);
+	// printf("m22 %2.0f %2.0f\n\n", m22sm.rc[1][0], m22sm.rc[1][1]);
+	assert(nearly_equal(m22sm.rc[0][0], 2.0));
+	assert(nearly_equal(m22sm.rc[0][1], 7.0));
+	assert(nearly_equal(m22sm.rc[1][0], 6.0));
+	assert(nearly_equal(m22sm.rc[1][1], -3.0));
+
+	m22sm = submatrix33(&m33, 1, 0);
+	assert(nearly_equal(m22sm.rc[0][0], 5.0));
+	assert(nearly_equal(m22sm.rc[0][1], 0.0));
+	assert(nearly_equal(m22sm.rc[1][0], 6.0));
+	assert(nearly_equal(m22sm.rc[1][1], -3.0));
+
+	m22sm = submatrix33(&m33, 2, 0);
+	assert(nearly_equal(m22sm.rc[0][0], 5.0));
+	assert(nearly_equal(m22sm.rc[0][1], 0.0));
+	assert(nearly_equal(m22sm.rc[1][0], 2.0));
+	assert(nearly_equal(m22sm.rc[1][1], 7.0));
+
+	m22sm = submatrix33(&m33, 0, 1);
+	assert(nearly_equal(m22sm.rc[0][0], -3.0));
+	assert(nearly_equal(m22sm.rc[0][1], 7.0));
+	assert(nearly_equal(m22sm.rc[1][0], 0.0));
+	assert(nearly_equal(m22sm.rc[1][1], -3.0));
+
+	m22sm = submatrix33(&m33, 0, 2);
+	assert(nearly_equal(m22sm.rc[0][0], -3.0));
+	assert(nearly_equal(m22sm.rc[0][1], 2.0));
+	assert(nearly_equal(m22sm.rc[1][0], 0.0));
+	assert(nearly_equal(m22sm.rc[1][1], 6.0));
+
+	m22sm = submatrix33(&m33, 1, 1);
+	assert(nearly_equal(m22sm.rc[0][0], 1.0));
+	assert(nearly_equal(m22sm.rc[0][1], 0.0));
+	assert(nearly_equal(m22sm.rc[1][0], 0.0));
+	assert(nearly_equal(m22sm.rc[1][1], -3.0));
+
+	m22sm = submatrix33(&m33, 2, 1);
+	assert(nearly_equal(m22sm.rc[0][0], 1.0));
+	assert(nearly_equal(m22sm.rc[0][1], 0.0));
+	assert(nearly_equal(m22sm.rc[1][0], -3.0));
+	assert(nearly_equal(m22sm.rc[1][1], 7.0));
+
+	m22sm = submatrix33(&m33, 1, 2);
+	assert(nearly_equal(m22sm.rc[0][0], 1.0));
+	assert(nearly_equal(m22sm.rc[0][1], 5.0));
+	assert(nearly_equal(m22sm.rc[1][0], 0.0));
+	assert(nearly_equal(m22sm.rc[1][1], 6.0));
+
+	m22sm = submatrix33(&m33, 2, 2);
+	assert(nearly_equal(m22sm.rc[0][0], 1.0));
+	assert(nearly_equal(m22sm.rc[0][1], 5.0));
+	assert(nearly_equal(m22sm.rc[1][0], -3.0));
+	assert(nearly_equal(m22sm.rc[1][1], 2.0));
+
 	t_matrix44 m44;
 
 	m44.rc[0][0] = -6.0;
@@ -348,5 +441,146 @@ int	main(void)
 /* 	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[0][0], m33.rc[0][1],  m33.rc[0][2]);
 	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[1][0], m33.rc[1][1],  m33.rc[1][2]);
 	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[2][0], m33.rc[2][1],  m33.rc[2][2]); */
+
+}
+
+void	test_matrix_minors()
+{
+
+	t_matrix33	m33m = new_matrix33();
+	double		minor;
+	double		cofact;
+
+	m33m.rc[0][0] = 3.0;
+	m33m.rc[0][1] = 5.0;
+	m33m.rc[0][2] = 0.0;
+
+	m33m.rc[1][0] = 2.0;
+	m33m.rc[1][1] = -1.0;
+	m33m.rc[1][2] = -7.0;
+
+	m33m.rc[2][0] = 6.0;
+	m33m.rc[2][1] = -1.0;
+	m33m.rc[2][2] = 5.0;
+
+
+	assert(nearly_equal(m33m.rc[0][0], 3.0));
+	assert(nearly_equal(m33m.rc[1][0], 2.0));
+	assert(nearly_equal(m33m.rc[2][0], 6.0));
+	assert(nearly_equal(m33m.rc[2][2], 5.0));
+	minor = minor33(&m33m, 0, 0);
+	cofact = cofactor33(&m33m, 0, 0);
+
+	assert(nearly_equal(minor, -12));
+	assert(nearly_equal(cofact, -12));
+
+	minor = minor33(&m33m, 1, 0);
+	cofact = cofactor33(&m33m, 1, 0);
+	assert(nearly_equal(minor, 25));
+	assert(nearly_equal(cofact, -25));
+
+	m33m.rc[0][0] = 1.0;
+	m33m.rc[0][1] = 2.0;
+	m33m.rc[0][2] = 6.0;
+	m33m.rc[1][0] = -5.0;
+	m33m.rc[1][1] = 8.0;
+	m33m.rc[1][2] = -4.0;
+	m33m.rc[2][0] = 2.0;
+	m33m.rc[2][1] = 6.0;
+	m33m.rc[2][2] = 4.0;
+
+	cofact = cofactor33(&m33m, 0, 0);
+	assert(nearly_equal(cofact, 56.0));
+
+	cofact = cofactor33(&m33m, 0, 1);
+	assert(nearly_equal(cofact, 12.0));
+
+	cofact = cofactor33(&m33m, 0, 2);
+	assert(nearly_equal(cofact, -46.0));
+
+}
+
+void	test_matrix_determinant_large()
+{
+	t_matrix33	m33m = new_matrix33();
+	double		minor;
+	double		cofact;
+
+	m33m.rc[0][0] = 3.0;
+	m33m.rc[0][1] = 5.0;
+	m33m.rc[0][2] = 0.0;
+
+	m33m.rc[1][0] = 2.0;
+	m33m.rc[1][1] = -1.0;
+	m33m.rc[1][2] = -7.0;
+
+	m33m.rc[2][0] = 6.0;
+	m33m.rc[2][1] = -1.0;
+	m33m.rc[2][2] = 5.0;
+
+
+	assert(nearly_equal(m33m.rc[0][0], 3.0));
+	assert(nearly_equal(m33m.rc[1][0], 2.0));
+	assert(nearly_equal(m33m.rc[2][0], 6.0));
+	assert(nearly_equal(m33m.rc[2][2], 5.0));
+	minor = minor33(&m33m, 0, 0);
+	cofact = cofactor33(&m33m, 0, 0);
+
+	assert(nearly_equal(minor, -12));
+	assert(nearly_equal(cofact, -12));
+
+	minor = minor33(&m33m, 1, 0);
+	cofact = cofactor33(&m33m, 1, 0);
+	assert(nearly_equal(minor, 25));
+	assert(nearly_equal(cofact, -25));
+
+	m33m.rc[0][0] = 1.0;
+	m33m.rc[0][1] = 2.0;
+	m33m.rc[0][2] = 6.0;
+	m33m.rc[1][0] = -5.0;
+	m33m.rc[1][1] = 8.0;
+	m33m.rc[1][2] = -4.0;
+	m33m.rc[2][0] = 2.0;
+	m33m.rc[2][1] = 6.0;
+	m33m.rc[2][2] = 4.0;
+
+	cofact = cofactor33(&m33m, 0, 0);
+	assert(nearly_equal(cofact, 56.0));
+
+	cofact = cofactor33(&m33m, 0, 1);
+	assert(nearly_equal(cofact, 12.0));
+
+	cofact = cofactor33(&m33m, 0, 2);
+	assert(nearly_equal(cofact, -46.0));
+
+/*
+	double determinant = determinant33(&m33m);
+	assert(nearly_equal(determinant, -196));
+*/
+
+	t_matrix44	m44 = new_matrix44();
+
+	m44.rc[0][0] = -2.0;
+	m44.rc[0][1] = -8.0;
+	m44.rc[0][2] = 3.0;
+	m44.rc[0][3] = 5.0;
+
+	m44.rc[1][0] = -3.0;
+	m44.rc[1][1] = 1.0;
+	m44.rc[1][2] = 7.0;
+	m44.rc[1][3] = 3.0;
+
+	m44.rc[2][0] = 1.0;
+	m44.rc[2][1] = 2.0;
+	m44.rc[2][2] = -9.0;
+	m44.rc[2][3] = 6.0;
+
+	m44.rc[3][0] = -6.0;
+	m44.rc[3][1] = 7.0;
+	m44.rc[3][2] = 7.0;
+	m44.rc[3][3] = -9.0;
+
+	// cofac
+
 
 }
