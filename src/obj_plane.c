@@ -6,17 +6,21 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 20:22:17 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/12 13:50:00 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 11:24:13 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-t_vec3	get_plane_normal(t_context *ctx)
+void	fix_normal(t_ray *ray, t_object *plane)
 {
-	if (vec3_dot(ctx->obj.rot, ctx->ray.dir) > 0)
-		return (vec3_neg(ctx->obj.rot));
-	return (ctx->obj.rot);
+	double	temp;
+
+	temp = sqrt((vec3_dot(plane->rot, plane->rot)));
+	div_vect_float(plane->rot, temp);
+	temp = vec3_dot(plane->rot, ray->dir);
+	if (temp < 0)
+		plane->rot = div_vect_float(plane->rot, -1.0);
 }
 
 /*
@@ -38,18 +42,22 @@ t = (N • T - N • R.p) /  (N • R.d)
 t = (N • (T - R.p)) /  (N • R.d)
 */
 
-int	intersects_plane(t_ray *ray, t_object *plane, double *distance)
+double	intersects_plane(t_ray *ray, t_object *plane)
 {
-	double	normal_dot_raydir;
-	double	normal_dot_tr;
-	t_vec3	tr;
+	double		intersection;
+	double		t;
+	t_vec3		n;
+	t_vec3		abc;
 
-	normal_dot_raydir = vec3_dot(plane->rot, ray->dir);
-	tr = vec3_sub(plane->loc, ray->orig);
-	normal_dot_tr = vec3_dot(plane->rot, tr);
-	if ((normal_dot_tr < 0.0001 && normal_dot_raydir > 0.0)
-		|| (normal_dot_tr > 0.0 && normal_dot_raydir < 0.0))
-		return (0);
-	*distance = normal_dot_tr / normal_dot_raydir;
-	return (1);
+	fix_normal(ray, plane);
+	n = plane->rot;
+	intersection = vec3_dot(ray->dir, n);
+	abc = vec3_sub(ray->orig, plane->loc);
+	abc.x *= -1.0;
+	abc.y *= -1.0;
+	abc.z *= -1.0;
+	t = (vec3_dot(abc, n) / intersection);
+	if (intersection != 0 && t > 0)
+		return (t);
+	return (-1);
 }

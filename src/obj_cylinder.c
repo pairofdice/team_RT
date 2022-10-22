@@ -6,16 +6,16 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 18:45:46 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/12 13:47:17 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 14:20:36 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
 t_abc static	calc_abc_cylinder(t_ray ray,
-									t_vec3 cyldir,
-									t_vec3 raycyl,
-									double radius)
+								t_vec3 cyldir,
+								t_vec3 raycyl,
+								double radius)
 {
 	t_abc	abc;
 
@@ -27,35 +27,28 @@ t_abc static	calc_abc_cylinder(t_ray ray,
 	return (abc);
 }
 
-t_vec3	get_cylinder_normal(t_context *ctx)
+t_vec3	get_cylinder_normal(t_main *main, t_hit_record *hit)
 {
 	t_vec3	result;
-	t_vec3	hit_loc;
 	t_vec3	hypotenuse;
-	t_vec3	hit_along_cyldir;
 
-	hit_loc = vec3_ray_at(ctx->ray, ctx->hit.closest_distance);
-	hypotenuse = vec3_sub(hit_loc, ctx->obj.loc);
-	hit_along_cyldir = vec3_ray_at((t_ray){ctx->obj.loc,
-			ctx->obj.rot},
-			vec3_dot(hypotenuse, ctx->obj.rot));
-	result = vec3_sub(hit_loc, hit_along_cyldir);
+	hypotenuse = (vec3_sub(hit->hit_loc, main->obj[hit->clo_obj_id].loc));
+	result = vec3_unit(vec3_cross(main->obj[hit->clo_obj_id].rot,
+				vec3_cross(hypotenuse, main->obj[hit->clo_obj_id].rot)));
 	return (result);
 }
 
-int	intersects_cylinder(t_ray *ray, t_object *cylinder, double *distance)
+double	intersects_cylinder(t_ray *ray, t_object *cylinder)
 {
 	t_vec3	ray_cyl;
 	t_abc	abc;
 	double	b2_4ac;
 
 	ray_cyl = vec3_sub(ray->orig, cylinder->loc);
+	cylinder->rot = vec3_unit(cylinder->rot);
 	abc = calc_abc_cylinder(*ray, cylinder->rot, ray_cyl, cylinder->size);
 	b2_4ac = calc_b2_4ac(abc);
-	if (b2_4ac <= 0)
-		return (0);
-	*distance = quadratic(abc, b2_4ac);
-	if (*distance < 0)
-		return (0);
-	return (1);
+	if (b2_4ac > 0)
+		return (quadratic(abc, b2_4ac));
+	return (-1);
 }

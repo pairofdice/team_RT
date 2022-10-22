@@ -6,16 +6,16 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 12:55:00 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/12 14:12:25 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/20 14:21:24 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-double	dot_prdct(t_vec3 a, t_vec3 b)
+double	vec3_dot(t_vec3 a, t_vec3 b)
 {
 	t_vec3	new;
-	double		ret;
+	double	ret;
 
 	new.x = a.x * b.x;
 	new.y = a.y * b.y;
@@ -24,7 +24,7 @@ double	dot_prdct(t_vec3 a, t_vec3 b)
 	return (ret);
 }
 
-t_vec3	add_vectors(t_vec3 a, t_vec3 b)
+t_vec3	vec3_add(t_vec3 a, t_vec3 b)
 {
 	t_vec3	new;
 
@@ -34,7 +34,7 @@ t_vec3	add_vectors(t_vec3 a, t_vec3 b)
 	return (new);
 }
 
-t_vec3	sub_vectors(t_vec3 a, t_vec3 b)
+t_vec3	vec3_sub(t_vec3 a, t_vec3 b)
 {
 	t_vec3	new;
 
