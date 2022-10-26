@@ -11,7 +11,10 @@ void	test_matrix_determinant();
 void	test_matrix_submatrix();
 void	test_matrix_minors();
 
-
+void	print_tuple(t_tuple t)
+{
+	printf("%5.1f %5.1f %5.1f %5.1f\n", t.xyzw.x, t.xyzw.y, t.xyzw.z, t.xyzw.w);
+}
 int	main(void)
 {
 	test_tuples();
@@ -82,8 +85,11 @@ void	test_tuples()
 	assert(tuples_equal(tuple_sub(zero, v), zero_v));
 
 	t_tuple a = new_tuple(1, -2, 3, -4);
+	t_tuple a_neg = new_tuple(-1, 2, -3, 4);
+	print_tuple(a);
+	print_tuple(a_neg);
 	a = tuple_neg(a);
-	assert(tuples_equal(a, (t_tuple){-1, 2, -3, 4}) == 1);
+	assert(tuples_equal(a, a_neg) == 1);
 	
 	a = new_tuple(1, -2, 3, -4);
 	a = tuple_scalar_mult(a, 3.5);
@@ -146,45 +152,109 @@ void	test_colors()
 	t_color c2 = new_color(0.7, 0.1, 0.25);
 	t_color c1c2 = color_add(c1, c2);
 	t_color should_be = new_color(1.6, 0.7, 1.0);
-	assert(nearly_equal(c1c2.r, should_be.r));
-	assert(nearly_equal(c1c2.g, should_be.g));
-	assert(nearly_equal(c1c2.b, should_be.b));
+	assert(nearly_equal(c1c2.rgb.r, should_be.rgb.r));
+	assert(nearly_equal(c1c2.rgb.g, should_be.rgb.g));
+	assert(nearly_equal(c1c2.rgb.b, should_be.rgb.b));
 
 	c1 = new_color(0.9, 0.6, 0.75);
 	c2 = new_color(0.7, 0.1, 0.25);
 	c1c2 = color_sub(c1, c2);
 	should_be = new_color(0.2, 0.5, 0.5);
-	assert(nearly_equal(c1c2.r, should_be.r));
-	assert(nearly_equal(c1c2.g, should_be.g));
-	assert(nearly_equal(c1c2.b, should_be.b));
+	assert(nearly_equal(c1c2.rgb.r, should_be.rgb.r));
+	assert(nearly_equal(c1c2.rgb.g, should_be.rgb.g));
+	assert(nearly_equal(c1c2.rgb.b, should_be.rgb.b));
 
 	c1 = new_color(0.2, 0.3, 0.4);
 	c1 = color_scalar_multiply(c1, 2.0);
 	should_be = new_color(0.4, 0.6, 0.8);
-	assert(nearly_equal(c1.r, should_be.r));
-	assert(nearly_equal(c1.g, should_be.g));
-	assert(nearly_equal(c1.b, should_be.b));
+	assert(nearly_equal(c1.rgb.r, should_be.rgb.r));
+	assert(nearly_equal(c1.rgb.g, should_be.rgb.g));
+	assert(nearly_equal(c1.rgb.b, should_be.rgb.b));
 
 	c1 = new_color(1, 0.2, 0.4);
 	c2 = new_color(0.9, 1, 0.1);
 	c1c2 = color_multiply(c1, c2);
 	should_be = new_color(0.9, 0.2, 0.04);
-	assert(nearly_equal(c1c2.r, should_be.r));
-	assert(nearly_equal(c1c2.g, should_be.g));
-	assert(nearly_equal(c1c2.b, should_be.b));
+	assert(nearly_equal(c1c2.rgb.r, should_be.rgb.r));
+	assert(nearly_equal(c1c2.rgb.g, should_be.rgb.g));
+	assert(nearly_equal(c1c2.rgb.b, should_be.rgb.b));
+
+/* 
+unsigned int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
+double			clamp(double value, double min, double max);
+unsigned int	color_to_int(t_color color);
+*/
+	int r = -234234;
+	int g = 3204929;
+	int b = 123;
+
+	r = clamp_int(r, 0, 255);
+	g = clamp_int(g, 0, 255);
+	b = clamp_int(b, 0, 255);
+
+	assert(r == 0);
+	assert(g == 255);
+	assert(b == 123);
+
+	double rd = -0.5;
+	double gd = 320.4929;
+	double bd = 123.0;
+
+	rd = clamp_float(rd, 0.0, 255.0);
+	gd = clamp_float(gd, 0.0, 255.0);
+	bd = clamp_float(bd, 0.0, 255.0);
+
+	assert(nearly_equal(rd, 0.0) == 1);
+	assert(nearly_equal(gd, 255.0) == 1);
+	assert(nearly_equal(bd, 123.0) == 1);
+
+// color_to_int
+	t_color clr;
+	clr.rgb.r = 1.0;
+	clr.rgb.g = 1.0;
+	clr.rgb.b = 1.0;
+	int color_ref = 0xFFFFFF00;
+	int color = color_to_int(clr);
+	assert(color == color_ref);
+
+	clr.rgb.r = 0.0;
+	clr.rgb.g = 0.0;
+	clr.rgb.b = 0.0;
+	color_ref = 0x00000000;
+	color = color_to_int(clr);
+	assert(color == color_ref);
+
+	clr.rgb.r = -10.0;
+	clr.rgb.g = -20.0;
+	clr.rgb.b = 1232130.0;
+	color_ref = 0x0000FF00;
+	color = color_to_int(clr);
+	assert(color == color_ref);
+
+// int_to_color
+
+	color = 0x00000000;
+	clr.rgb.r = 0.0;
+	clr.rgb.g = 0.0;
+	clr.rgb.b = 0.0;
+
+	t_color color_test = int_to_color(color);
+	assert(tuples_equal(clr, color_test));
+
+
 }
 
 void	test_matrix_equal()
 {
-	t_matrix44 mm = new_matrix44_inc_a();
+	// t_matrix44 mm = new_matrix44_inc_a();
 	// print_matrix(&mm);
 
 	// printf("aa:\n");
-	t_matrix44 aa = new_matrix44_inc_b();
+	// t_matrix44 aa = new_matrix44_inc_b();
 	// print_matrix(&aa);
 
 	// printf("bb:\n");
-	t_matrix44 bb = new_matrix44_inc_c();
+	// t_matrix44 bb = new_matrix44_inc_c();
 	// print_matrix(&bb);
 
 
@@ -502,7 +572,7 @@ void	test_matrix_minors()
 
 void	test_matrix_determinant_large()
 {
-	t_matrix33	m33m = new_matrix33();
+/* 	t_matrix33	m33m = new_matrix33();
 	double		minor;
 	double		cofact;
 
@@ -553,10 +623,10 @@ void	test_matrix_determinant_large()
 	cofact = cofactor33(&m33m, 0, 2);
 	assert(nearly_equal(cofact, -46.0));
 
-/*
+
 	double determinant = determinant33(&m33m);
 	assert(nearly_equal(determinant, -196));
-*/
+
 
 	t_matrix44	m44 = new_matrix44();
 
@@ -579,7 +649,7 @@ void	test_matrix_determinant_large()
 	m44.rc[3][1] = 7.0;
 	m44.rc[3][2] = 7.0;
 	m44.rc[3][3] = -9.0;
-
+ */
 	// cofac
 
 

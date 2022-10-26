@@ -5,15 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #define EPSILON 0.00006103515625
-/* 
-typedef struct s_tuple
-{
-	double	x;
-	double	y;
-	double	z;
-	double	w;
-} t_tuple;
- */
+
 typedef union u_tuple
 {
 	struct 
@@ -32,7 +24,24 @@ typedef union u_tuple
 	double a[4];
 } t_tuple;
 
+typedef		t_tuple t_vector;
+typedef		t_tuple t_point;
+typedef		t_tuple t_color;
 
+
+typedef struct s_coords
+{
+	size_t	row;
+	size_t	col;
+} t_coords;
+
+typedef struct s_matrix
+{
+	double rc[4][4];
+	size_t	size;
+} t_matrix;
+
+/*
 typedef struct s_matrix44
 {
 	double rc[4][4];
@@ -46,19 +55,10 @@ typedef struct s_matrix33
 typedef struct s_matrix22
 {
 	double rc[2][2];
-} t_matrix22;
+} t_matrix22; 
+*/
 
 // typedef double t_matrix44[4][4];
-
-typedef struct s_color
-{
-	double	r;
-	double	g;
-	double	b;
-}	t_color;
-
-typedef		t_tuple t_vector;
-typedef		t_tuple t_point;
 
 double		fabs(double x);
 int			nearly_equal(double a, double b);
@@ -82,36 +82,35 @@ t_color		color_sub(t_color a, t_color b);
 t_color		color_scalar_multiply(t_color c, double x);
 t_color		color_multiply(t_color a, t_color b);
 
-t_matrix44	new_matrix44();
-t_matrix33	new_matrix33();
-t_matrix22	new_matrix22();
-int			matrices_equal44(t_matrix44 *a, t_matrix44 *b);
-int			matrices_equal33(t_matrix33 *a, t_matrix33 *b);
-int			matrices_equal22(t_matrix22 *a, t_matrix22 *b);
+unsigned int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
+double			clamp_float(double value, double min, double max);
+int				clamp_int(int value, int min, int max);
+unsigned int	color_to_int(t_color color);
+t_color			int_to_color(unsigned int rgba);
 
-t_matrix44	new_matrix44_inc_a();
+
+t_matrix	new_matrix();
+int			matrices_equal(t_matrix *a, t_matrix *b);
+
+/* t_matrix44	new_matrix44_inc_a();
 t_matrix44	new_matrix44_inc_b();
 t_matrix44	new_matrix44_inc_c();
 t_matrix33	new_matrix33_inc();
-t_matrix22	new_matrix22_inc();
+t_matrix22	new_matrix22_inc(); */
 
-t_matrix44	mm_multiply(t_matrix44 *a, t_matrix44 *b);
+t_matrix	mm_multiply(t_matrix *a, t_matrix *b);
 double		row_column_multiply(
-					t_matrix44 *a,
-					t_matrix44 *b,
-					int row,
-					int col);
-void		print_matrix(t_matrix44 *mm);
-void		print_matrix33(t_matrix33 *mm);
+					t_matrix *a,
+					t_matrix *b,
+					t_coords c);
+void		print_matrix(t_matrix *mm);
 
-
-t_tuple		mt_multiply(t_matrix44 *m, t_tuple *t);
-void		matrix44_transpose(t_matrix44 *m);
-double		matrix22_determinant(t_matrix22 *m);
-t_matrix22	submatrix33(t_matrix33 *src, int skip_row, int skip_col);
-t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col);
-double		minor33(t_matrix33 *m, int skip_row, int skip_col);
-double	cofactor33(t_matrix33 *m, int row, int col);
+t_tuple		mt_multiply(t_matrix *m, t_tuple *t);
+void		matrix44_transpose(t_matrix *m); // check up
+double		matrix_determinant(t_matrix *m);
+t_matrix	submatrix(t_matrix *src, int skip_row, int skip_col);
+double		minor(t_matrix *m, int skip_row, int skip_col);
+double		cofactor(t_matrix *m, int row, int col);
 
 
 #endif
