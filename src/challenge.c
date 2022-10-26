@@ -285,106 +285,68 @@ int		matrices_equal(t_matrix *a, t_matrix *b)
 	return (1);
 }
 
-/* t_matrix44	new_matrix44_inc_a()
+t_matrix	new_matrix_inc_a(size_t size)
 {
-	t_matrix44	m;
- 	int			col;
-	int			row;
+	t_matrix	m;
+	t_coords	c;
 
-	col = 0;
-	while (col < 4)
+	m = new_matrix(size);
+	c.col = 0;
+	while (c.col < m.size)
 	{
-		row = 0;
-		while (row < 4)
+		c.row = 0;
+		while (c.row < m.size)
 		{
-			m.rc[row][col] = col + row * 4 + 1;
-			row++;
+			m.rc[c.row][c.col] = c.col + c.row * 4 + 1;
+			c.row++;
 		}
-		col++;
+		c.col++;
+	}
+	return (m);
+}
+t_matrix	new_matrix_inc_b(size_t size)
+{
+	t_matrix	m;
+	t_coords	c;
+
+	m = new_matrix(size);
+	c.col = 0;
+	while (c.col < m.size)
+	{
+		c.row = 0;
+		while (c.row < m.size)
+		{
+			m.rc[c.row][c.col] = c.col + c.row + 1;
+
+			c.row++;
+		}
+		c.col++;
 	}
 	return (m);
 }
 
-t_matrix44	new_matrix44_inc_b()
+t_matrix	new_matrix_inc_c(size_t size)
 {
-	t_matrix44	m;
- 	int			col;
-	int			row;
+	t_matrix	m;
+	t_coords	c;
 
-	col = 0;
-	while (col < 4)
+	m = new_matrix(size);
+	c.col = 0;
+	while (c.col < m.size)
 	{
-		row = 0;
-		while (row < 4)
+		c.row = 0;
+		while (c.row < m.size)
 		{
-			m.rc[row][col] = col + row + 1;
-			row++;
-		}
-		col++;
-	}
-	return (m);
-}
-t_matrix44	new_matrix44_inc_c()
-{
-	t_matrix44	m;
- 	int			col;
-	int			row;
-
-	col = 0;
-	while (col < 4)
-	{
-		row = 0;
-		while (row < 4)
-		{
-			if (row == 0 && col == 0)
+			if (c.row == 0 &&c. col == 0)
 				m.rc[0][0] = 0.0;
 			else
-				m.rc[row][col] = pow(2, row + col - 1) ;
-			row++;
+				m.rc[c.row][c.col] = pow(2, c.row + c.col - 1) ;
+			c.row++;
 		}
-		col++;
+		c.col++;
 	}
 	return (m);
 }
-
-t_matrix33	new_matrix33_inc()
-{
-	t_matrix33	m;
- 	int			col;
-	int			row;
-
-	col = 0;
-	while (col < 3)
-	{
-		row = 0;
-		while (row < 3)
-		{
-			m.rc[row][col] = col + row * 3 + 1;
-			row++;
-		}
-		col++;
-	}
-	return (m);
-}
-t_matrix22	new_matrix22_inc()
-{
-	t_matrix22	m;
- 	int			col;
-	int			row;
-
-	col = 0;
-	while (col < 2)
-	{
-		row = 0;
-		while (row < 2)
-		{
-			m.rc[row][col] = col + row * 2 + 1;
-			row++;
-		}
-		col++;
-	}
-	return (m);
-} */
 
 t_matrix	new_matrix_identity(int size)
 {
@@ -598,16 +560,6 @@ double	minor33(t_matrix33 *m, int skip_row, int skip_col)
 	return (determinant);
 }
 
-double	minor33(t_matrix *m, t_coords skip)
-{
-	t_matrix22	m22;
-	double		determinant;
-
-	m22 = submatrix(m, skip);
-	determinant = matrix22_determinant(&m22);
-	return (determinant);
-}
-
 double	cofactor33(t_matrix33 *m, int row, int col)
 {
 	double	minor;
@@ -642,7 +594,5 @@ double	matrix_determinant(t_matrix *m)
 			m->rc[0][1] * matrix_determinant( submatrix(m, 0, 1) ) +
 			m->rc[0][2] * matrix_determinant( submatrix(m, 0, 2) )
 		);
-
-		
 	}
 }

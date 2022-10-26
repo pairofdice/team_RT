@@ -41,25 +41,6 @@ typedef struct s_matrix
 	size_t	size;
 } t_matrix;
 
-/*
-typedef struct s_matrix44
-{
-	double rc[4][4];
-} t_matrix44;
-
-typedef struct s_matrix33
-{
-	double rc[3][3];
-} t_matrix33;
-
-typedef struct s_matrix22
-{
-	double rc[2][2];
-} t_matrix22; 
-*/
-
-// typedef double t_matrix44[4][4];
-
 double		fabs(double x);
 int			nearly_equal(double a, double b);
 int			tuples_equal(t_tuple a, t_tuple b);
@@ -76,7 +57,6 @@ t_tuple		tuple_unit(t_tuple u);
 double		vector_dot(t_tuple u, t_tuple v);
 t_vector	vector_cross(t_vector u, t_vector v);
 t_color		new_color(double r, double g, double b);
-
 t_color		color_add(t_color a, t_color b);
 t_color		color_sub(t_color a, t_color b);
 t_color		color_scalar_multiply(t_color c, double x);
@@ -92,11 +72,12 @@ t_color			int_to_color(unsigned int rgba);
 t_matrix	new_matrix();
 int			matrices_equal(t_matrix *a, t_matrix *b);
 
-/* t_matrix44	new_matrix44_inc_a();
-t_matrix44	new_matrix44_inc_b();
-t_matrix44	new_matrix44_inc_c();
-t_matrix33	new_matrix33_inc();
-t_matrix22	new_matrix22_inc(); */
+
+t_matrix	new_matrix_inc_a(size_t size);
+t_matrix	new_matrix_inc_b(size_t size);
+t_matrix	new_matrix_inc_c(size_t size);
+
+
 
 t_matrix	mm_multiply(t_matrix *a, t_matrix *b);
 double		row_column_multiply(

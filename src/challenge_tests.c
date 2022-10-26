@@ -267,21 +267,21 @@ void	test_matrix_equal()
 	// printf("[3][2] - %f\n",mm.rc[3][2]);
 
 
-	t_matrix22 m1 = new_matrix22_inc();
-	t_matrix22 m2 = new_matrix22_inc();
+	t_matrix m1 = new_matrix_inc();
+	t_matrix m2 = new_matrix_inc();
 	assert(matrices_equal22(&m1, &m2));
 	m2.rc[1][1] = 454545.9;
 	assert(matrices_equal22(&m1, &m2) == 0);
 
 
-	t_matrix33 m3 = new_matrix33_inc();
-	t_matrix33 m4 = new_matrix33_inc();
+	t_matrix m3 = new_matrix_inc();
+	t_matrix m4 = new_matrix_inc();
 	assert(matrices_equal33(&m3, &m4));
 	m4.rc[1][1] = 454545.9;
 	assert(matrices_equal33(&m3, &m4) == 0);
 
-	t_matrix44 m5 = new_matrix44_inc_a();
-	t_matrix44 m6 = new_matrix44_inc_a();
+	t_matrix m5 = new_matrix_inc_a();
+	t_matrix m6 = new_matrix_inc_a();
 	assert(matrices_equal44(&m5, &m6));
 	m6.rc[1][1] = 454545.9;
 	assert(matrices_equal44(&m5, &m6) == 0);
@@ -289,14 +289,14 @@ void	test_matrix_equal()
 
 void	test_matrix_multiply()
 {
-	t_matrix44 mm = new_matrix44_inc_a();
+	t_matrix mm = new_matrix44_inc_a();
 	// print_matrix(&mm);
 	// printf("aa:\n");
-	t_matrix44 aa = new_matrix44_inc_b();
+	t_matrix aa = new_matrix44_inc_b();
 	// print_matrix(&aa);
 	// printf("bb:\n");
-	t_matrix44 bb = new_matrix44_inc_c();
-	t_matrix44 cc = mm_multiply(&aa, &bb);
+	t_matrix bb = new_matrix44_inc_c();
+	t_matrix cc = mm_multiply(&aa, &bb);
 	// printf("cc:\n");
 	// print_matrix(&cc);
 	// printf("[1][2] - %f\n",cc.rc[1][0]);
