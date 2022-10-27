@@ -418,29 +418,28 @@ t_matrix	mm_multiply(t_matrix *a, t_matrix *b)
 
 void	print_matrix(t_matrix *mm)
 {
-	int row;
-	int col;
+	t_coords	c;
 
 	printf("    0  1  2  3\n\n");
-	row = 0;
-	while (row < mm->size) 
+	c.row = 0;
+	while (c.row < mm->size) 
 	{
-		printf("%d: ", row);
-		col = 0;
-		while (col < mm->size)
+		printf("%zu: ", c.row);
+		c.col = 0;
+		while (c.col < mm->size)
 		{
-			printf("%2.0f ",mm->rc[row][col]);
-			col++;
+			printf("%2.0f ",mm->rc[c.row][c.col]);
+			c.col++;
 		}
 		printf("\n");
-		row++;
+		c.row++;
 	}
 	printf("\n");
 }
 
 static double	row_multiply(t_matrix *m, t_tuple *t, int row)
 {
-	int		col;
+	size_t	col;
 	double	result;
 
 	col = 0;
@@ -488,26 +487,26 @@ void	matrix_transpose(t_matrix *m)
 	}
 }
 
-t_matrix	submatrix(t_matrix *src, int skip_row, int skip_col)
+t_matrix	submatrix(t_matrix *src, t_coords skip)
 {
 	t_coords	c;
 	t_coords	padding;
 	t_matrix	result;
 
+	result = new_matrix(src->size - 1);
 	if (src->size == 3 || src->size == 4)
 	{
-		result = new_matrix(src->size - 1);
 		c.row = 0;
 		padding.row = 0; 
 		while(c.row < result.size)
 		{
-			if (c.row == skip_row)
+			if (c.row == skip.row)
 				padding.row = 1;
 			c.col = 0;
 				padding.col = 0;
 			while (c.col < result.size)
 			{
-				if (c.col == skip_col)
+				if (c.col == skip.col)
 					padding.col  = 1;
 				result.rc[c.row][c.col] = src->rc[c.row + padding.row][c.col + padding.col ];
 				c.col++;
@@ -550,21 +549,21 @@ t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col)
 }
 */
 
-double	minor33(t_matrix33 *m, int skip_row, int skip_col)
+double	minor33(t_matrix *m33, int skip_row, int skip_col)
 {
-	t_matrix22	m22;
+	t_matrix	m22;
 	double		determinant;
 
-	m22 = submatrix33(m, skip_row, skip_col);
-	determinant = matrix22_determinant(&m22);
+	m22 = submatrix(m33, (t_coords){skip_row, skip_col});
+	determinant = matrix_determinant(&m22);
 	return (determinant);
 }
 
-double	cofactor33(t_matrix33 *m, int row, int col)
+double	cofactor33(t_matrix *m33, int row, int col)
 {
 	double	minor;
 
-	minor = minor33(m, row, col);
+	minor = minor33(m33, row, col);
 	if ((row + col) % 2 == 1)
 		minor = -minor;
 	return (minor);
@@ -585,14 +584,17 @@ double	matrix_determinant(t_matrix *m)
 {
 	int	i;
 
+	t_matrix temp;
+
 	if (m->size == 2)
 		return (m->rc[0][0] * m->rc[1][1] - m->rc[0][1] * m->rc[1][0]);
 	if (m->size == 3)
 	{
+		
 		return(
-			m->rc[0][0] * matrix_determinant( submatrix(m, 0, 0) ) - 
-			m->rc[0][1] * matrix_determinant( submatrix(m, 0, 1) ) +
-			m->rc[0][2] * matrix_determinant( submatrix(m, 0, 2) )
+			m->rc[0][0] * matrix_determinant(submatrix(m, 0, 0) ) - 
+			m->rc[0][1] * matrix_determinant(submatrix(m, 0, 1) ) +
+			m->rc[0][2] * matrix_determinant(submatrix(m, 0, 2) )
 		);
 	}
 }

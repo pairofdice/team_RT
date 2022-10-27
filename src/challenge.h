@@ -90,7 +90,9 @@ void		print_matrix(t_matrix *mm);
 t_tuple		mt_multiply(t_matrix *m, t_tuple *t);
 void		matrix44_transpose(t_matrix *m); // check up
 double		matrix_determinant(t_matrix *m);
-t_matrix	submatrix(t_matrix *src, int skip_row, int skip_col);
+// t_matrix	submatrix(t_matrix *src, int skip_row, int skip_col);
+t_matrix	submatrix(t_matrix *src, t_coords c);
+
 double		minor(t_matrix *m, int skip_row, int skip_col);
 double		cofactor(t_matrix *m, int row, int col);
 

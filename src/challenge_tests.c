@@ -503,9 +503,9 @@ void	test_matrix_submatrix()
 
 	print_matrix(&m44);
 
-	t_matrix33	m33_b = new_matrix33_inc();
+	t_matrix	m33_b = new_matrix_inc(3);
 
-	m33_b = submatrix44(&m44, 0, 1);
+	m33_b = submatrix(&m44, 0, 1);
 	print_matrix33(&m33_b);
 
 /* 	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[0][0], m33.rc[0][1],  m33.rc[0][2]);
@@ -517,7 +517,7 @@ void	test_matrix_submatrix()
 void	test_matrix_minors()
 {
 
-	t_matrix33	m33m = new_matrix33();
+	t_matrix	m33m = new_matrix(3);
 	double		minor;
 	double		cofact;
 
