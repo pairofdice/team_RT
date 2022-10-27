@@ -73,6 +73,7 @@ t_matrix	new_matrix();
 int			matrices_equal(t_matrix *a, t_matrix *b);
 
 
+t_matrix	new_matrix_inc(size_t size);
 t_matrix	new_matrix_inc_a(size_t size);
 t_matrix	new_matrix_inc_b(size_t size);
 t_matrix	new_matrix_inc_c(size_t size);
