@@ -6,13 +6,14 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/20 17:03:10 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/10/31 17:09:18 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_DIR = src/
 INCLUDE_DIR = src/ include/ build/libsdl2/include/
 BUILD_DIR = build/
+SCREEN_SHOT_DIR = Images/
 
 libsdl2_makefile = libsdl2/Makefile
 libsdl2_lib = $(BUILD_DIR)libsdl2/lib/libSDL2.a
@@ -36,7 +37,9 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								shadow.c\
 								edge_detection.c\
 								filters.c\
-								multi_thread.c)
+								multi_thread.c\
+								key_hooks.c\
+								create_screen_shot.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 
@@ -54,13 +57,16 @@ CPPFLAGS = -D_REENTRANT
 
 all: $(NAME)
 
-$(NAME): $(FT_LIBRERY) $(OBJCT_FILES) | $(BUILD_DIR) 
+$(NAME): $(FT_LIBRERY) $(SCREEN_SHOT_DIR) $(OBJCT_FILES) | $(BUILD_DIR) 
 	@ $(LD) $(FT_LIBRERY) $(OBJCT_FILES) $(LDFLAGS) -o $(NAME)
 
 $(OBJCT_FILES): $(libsdl2_lib)
 
 $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
+
+$(SCREEN_SHOT_DIR):
+	mkdir $(SCREEN_SHOT_DIR)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c | $(BUILD_DIR)%.dep
@@ -89,6 +95,7 @@ fclean:
 	if test -f $(libsdl2_makefile); then $(MAKE) AUTOMAKE=: --directory=libsdl2\
 		distclean; fi
 	rm -rf $(BUILD_DIR)
+	rm -rf $(SCREEN_SHOT_DIR)
 	make -C libft/ fclean
 	
 re: fclean all

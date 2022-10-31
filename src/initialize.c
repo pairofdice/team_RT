@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/20 17:00:42 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:18:48 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	initialize_window(t_main *main)
 	main->sdl.ren = SDL_CreateRenderer(main->sdl.win, -1, 0);
 	if (main->sdl.ren == NULL)
 		return (0);
-	main->sdl.texture = SDL_CreateTexture(main->sdl.ren, SDL_PIXELFORMAT_RGBA8888,
+	main->sdl.texture = SDL_CreateTexture(main->sdl.ren,
+			SDL_PIXELFORMAT_RGBA8888,
 			SDL_TEXTUREACCESS_STREAMING, WIN_W, WIN_H);
 	if (main->sdl.texture == NULL)
 		return (0);
