@@ -127,6 +127,7 @@ t_vector	vector_cross(t_vector u, t_vector v)
 	crossed.xyzw.x = u.xyzw.y * v.xyzw.z - u.xyzw.z * v.xyzw.y;
 	crossed.xyzw.y = u.xyzw.z * v.xyzw.x - u.xyzw.x * v.xyzw.z;
 	crossed.xyzw.z = u.xyzw.x * v.xyzw.y - u.xyzw.y * v.xyzw.x;
+	crossed.xyzw.w = 0.0;
 	return (crossed);
 }
 
@@ -304,6 +305,7 @@ t_matrix	new_matrix_inc_a(size_t size)
 	}
 	return (m);
 }
+
 t_matrix	new_matrix_inc_b(size_t size)
 {
 	t_matrix	m;
@@ -371,7 +373,6 @@ t_matrix	new_matrix_identity(int size)
 	return (m);
 }
 
-
 double	row_column_multiply(
 					t_matrix *a,
 					t_matrix *b,
@@ -435,6 +436,11 @@ void	print_matrix(t_matrix *mm)
 		c.row++;
 	}
 	printf("\n");
+}
+
+void	print_tuple(t_tuple t)
+{
+	printf("%5.1f %5.1f %5.1f %5.1f\n", t.xyzw.x, t.xyzw.y, t.xyzw.z, t.xyzw.w);
 }
 
 static double	row_multiply(t_matrix *m, t_tuple *t, int row)
@@ -517,38 +523,6 @@ t_matrix	submatrix(t_matrix *src, t_coords skip)
 	return (result);
 }
 
-/*
-t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col)
-{
-	int			row;
-	int			col;
-	int			pad_x;
-	int			pad_y;
-	t_matrix33	result;
-
-	row = 0;
-		pad_y = 0;
-	while(row < 3)
-	{
-		if (row == skip_row)
-			pad_y = 1;
-		col = 0;
-			pad_x = 0;
-		while (col < 3)
-		{
-			if (col == skip_col)
-				pad_x = 1;
-			result.rc[row][col] = src->rc[row + pad_y][col + pad_x];
-			col++;
-		}
-		row++;
-	}
-
-	// printf("Calling submatrix33 with garbage\n");
-	return (result);
-}
-*/
-
 double	minor(t_matrix *m33, int skip_row, int skip_col)
 {
 	t_matrix	m22;
@@ -561,41 +535,36 @@ double	minor(t_matrix *m33, int skip_row, int skip_col)
 
 double	cofactor(t_matrix *m33, int row, int col)
 {
-	double	minor;
+	double	result;
 
-	minor = minor33(m33, row, col);
+	result = minor(m33, row, col);
 	if ((row + col) % 2 == 1)
-		minor = -minor;
-	return (minor);
+		result = -result;
+	return (result);
 }
-
-/* double	cofactor44(t_matrix44 *m, int row, int col)
-{
-	double	minor;
-
-	minor = minor33(m, row, col);
-	if ((row + col) % 2 == 1)
-		minor = -minor;
-	return (minor);
-}
- */
 
 double	matrix_determinant(t_matrix *m)
 {
-	int	i;
-
-	t_matrix temp;
+	size_t	i;
+	double	result;
 
 	if (m->size == 2)
 		return (m->rc[0][0] * m->rc[1][1] - m->rc[0][1] * m->rc[1][0]);
-	if (m->size == 3)
+	result = 0.0;
+	i = 0;
+	while (i < m->size)
 	{
-
-		return(
-			0.0
-			/* m->rc[0][0] * matrix_determinant(&submatrix(m, 0, 0) ) -
-			m->rc[0][1] * matrix_determinant(&submatrix(m, 0, 1) ) +
-			m->rc[0][2] * matrix_determinant(&submatrix(m, 0, 2) ) */
-		);
+		result += m->rc[0][i] * cofactor(m, 0, i);
+		i++;
 	}
+	return (result);
+}
+
+t_matrix	matrix_inverse(t_matrix *m)
+{
+	t_matrix	result;
+
+	result = new_matrix(m->size);
+
+	return (result);
 }

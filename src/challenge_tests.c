@@ -10,23 +10,42 @@ void	test_matrix_transpose();
 void	test_matrix_determinant();
 void	test_matrix_submatrix();
 void	test_matrix_minors();
+void	test_matrix_determinant_large();
+void	test_matrix_inversion();
 
-void	print_tuple(t_tuple t)
-{
-	printf("%5.1f %5.1f %5.1f %5.1f\n", t.xyzw.x, t.xyzw.y, t.xyzw.z, t.xyzw.w);
-}
+
 int	main(void)
 {
+	printf("Testing tuples\n");
 	test_tuples();
+	printf("Tuples OK\n");
+	printf("Testing colors\n");
 	test_colors();
+	printf("Colors OK\n");
+	printf("Testing matrix equality\n");
 	test_matrix_equal();
+	printf("Matrix equality OK\n");
+	printf("Testing matrix multiply\n");
 	test_matrix_multiply();
+	printf("Matrix multiply OK\n");
+	printf("Testing matrix transpose\n");
 	test_matrix_transpose();
-	test_matrix_determinant();
+	printf("Matrix transpose OK\n");
+	printf("Testing submatrices\n");
 	test_matrix_submatrix();
+	printf("Submatrices OK\n");
+	printf("Testing 2x2 determinant\n");
+	test_matrix_determinant();
+	printf("2x2 determinant OK\n");
+	printf("Testin minors\n");
 	test_matrix_minors();
-
-
+	printf("Minors OK\n");
+	printf("Testing larger determinant\n");
+	test_matrix_determinant_large();
+	printf("Larger determinant OK\n");
+	printf("Testing inversions\n");
+	test_matrix_inversion();
+	printf("Inversions OK\n");
 }
 
 
@@ -143,6 +162,9 @@ void	test_tuples()
 	t_vector cross = vector_cross(v1, v2);
 	r =  new_vector(1, -2, 1);
 	cross = vector_cross(v2, v1);
+
+	print_tuple(cross);
+	print_tuple(r);
 	assert(tuples_equal(cross, r));
 }
 
@@ -241,7 +263,6 @@ unsigned int	color_to_int(t_color color);
 	t_color color_test = int_to_color(color);
 	assert(tuples_equal(clr, color_test));
 
-
 }
 
 void	test_matrix_equal()
@@ -267,15 +288,15 @@ void	test_matrix_equal()
 	// printf("[3][2] - %f\n",mm.rc[3][2]);
 
 
-	t_matrix m1 = new_matrix_inc(2);
-	t_matrix m2 = new_matrix_inc(2);
+	t_matrix m1 = new_matrix_inc_a(2);
+	t_matrix m2 = new_matrix_inc_a(2);
 	assert(matrices_equal(&m1, &m2));
 	m2.rc[1][1] = 454545.9;
 	assert(matrices_equal(&m1, &m2) == 0);
 
 
-	t_matrix m3 = new_matrix_inc(3);
-	t_matrix m4 = new_matrix_inc(3);
+	t_matrix m3 = new_matrix_inc_a(3);
+	t_matrix m4 = new_matrix_inc_a(3);
 	assert(matrices_equal(&m3, &m4));
 	m4.rc[1][1] = 454545.9;
 	assert(matrices_equal(&m3, &m4) == 0);
@@ -285,6 +306,7 @@ void	test_matrix_equal()
 	assert(matrices_equal(&m5, &m6));
 	m6.rc[1][1] = 454545.9;
 	assert(matrices_equal(&m5, &m6) == 0);
+
 }
 
 void	test_matrix_multiply()
@@ -357,7 +379,7 @@ void	test_matrix_transpose()
 
 
 	t_matrix	transposed_should_be = new_matrix();
-	matrix44_transpose(&mm);
+	matrix_transpose(&mm);
 	// printf("mm transposed\n");
 	// print_matrix(&mm);
 
@@ -389,13 +411,16 @@ void	test_matrix_transpose()
 
 void	test_matrix_determinant()
 {
+	printf("1\n");
 	t_matrix m22;
+	m22 = new_matrix(2);
 
 	m22.rc[0][0] = 1.0;
 	m22.rc[0][1] = 5.0;
 	m22.rc[1][0] = -3.0;
 	m22.rc[1][1] = 2.0;
 
+	printf("2\n");
 	double determinant = matrix_determinant(&m22);
 	assert(nearly_equal(determinant, 17.0));
 	m22.rc[0][0] = -33.0;
@@ -403,6 +428,7 @@ void	test_matrix_determinant()
 	m22.rc[1][0] = 11.0;
 	m22.rc[1][1] = 1.0;
 
+	printf("3\n");
 	determinant = matrix_determinant(&m22);
 	assert(nearly_equal(determinant, -495.0));
 }
@@ -411,6 +437,8 @@ void	test_matrix_submatrix()
 {
 
 	t_matrix m33;
+
+	m33 = new_matrix(3);
 
 	m33.rc[0][0] = 1.0;
 	m33.rc[0][1] = 5.0;
@@ -423,8 +451,10 @@ void	test_matrix_submatrix()
 	m33.rc[2][0] = 0.0;
 	m33.rc[2][1] = 6.0;
 	m33.rc[2][2] = -3.0;
+	print_matrix(&m33);
 
 	t_matrix m22sm = submatrix(&m33, (t_coords){0, 0});
+	print_matrix(&m22sm);
 	// printf("m22 %2.0f %2.0f\n", m22sm.rc[0][0], m22sm.rc[0][1]);
 	// printf("m22 %2.0f %2.0f\n\n", m22sm.rc[1][0], m22sm.rc[1][1]);
 	assert(nearly_equal(m22sm.rc[0][0], 2.0));
@@ -482,6 +512,8 @@ void	test_matrix_submatrix()
 
 	t_matrix m44;
 
+	m44 = new_matrix(4);
+
 	m44.rc[0][0] = -6.0;
 	m44.rc[0][1] = 1.0;
 	m44.rc[0][2] = 1.0;
@@ -504,9 +536,9 @@ void	test_matrix_submatrix()
 
 	print_matrix(&m44);
 
-	t_matrix	m33_b = new_matrix_inc(3);
+	t_matrix	m33_b = new_matrix_inc_a(3);
 
-	m33_b = submatrix(&m44, 0, 1);
+	m33_b = submatrix(&m44, (t_coords){0, 1});
 	print_matrix(&m33_b);
 
 /* 	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[0][0], m33.rc[0][1],  m33.rc[0][2]);
@@ -519,7 +551,7 @@ void	test_matrix_minors()
 {
 
 	t_matrix	m33m = new_matrix(3);
-	double		minor;
+	double		minor_result;
 	double		cofact;
 
 	m33m.rc[0][0] = 3.0;
@@ -539,15 +571,15 @@ void	test_matrix_minors()
 	assert(nearly_equal(m33m.rc[1][0], 2.0));
 	assert(nearly_equal(m33m.rc[2][0], 6.0));
 	assert(nearly_equal(m33m.rc[2][2], 5.0));
-	minor = minor(&m33m, 0, 0);
+	minor_result = minor(&m33m, 0, 0);
 	cofact = cofactor(&m33m, 0, 0);
 
-	assert(nearly_equal(minor, -12));
+	assert(nearly_equal(minor_result, -12));
 	assert(nearly_equal(cofact, -12));
 
-	minor = minor(&m33m, 1, 0);
+	minor_result = minor(&m33m, 1, 0);
 	cofact = cofactor(&m33m, 1, 0);
-	assert(nearly_equal(minor, 25));
+	assert(nearly_equal(minor_result, 25));
 	assert(nearly_equal(cofact, -25));
 
 	m33m.rc[0][0] = 1.0;
@@ -573,9 +605,9 @@ void	test_matrix_minors()
 
 void	test_matrix_determinant_large()
 {
-/* 	t_matrix33	m33m = new_matrix33();
-	double		minor;
-	double		cofact;
+ 	t_matrix	m33m = new_matrix(3);
+	double		minorr;
+	double		cofactr;
 
 	m33m.rc[0][0] = 3.0;
 	m33m.rc[0][1] = 5.0;
@@ -594,42 +626,45 @@ void	test_matrix_determinant_large()
 	assert(nearly_equal(m33m.rc[1][0], 2.0));
 	assert(nearly_equal(m33m.rc[2][0], 6.0));
 	assert(nearly_equal(m33m.rc[2][2], 5.0));
-	minor = minor33(&m33m, 0, 0);
-	cofact = cofactor33(&m33m, 0, 0);
+	minorr = minor(&m33m, 0, 0);
+	cofactr = cofactor(&m33m, 0, 0);
 
-	assert(nearly_equal(minor, -12));
-	assert(nearly_equal(cofact, -12));
+	assert(nearly_equal(minorr, -12));
+	assert(nearly_equal(cofactr, -12));
 
-	minor = minor33(&m33m, 1, 0);
-	cofact = cofactor33(&m33m, 1, 0);
-	assert(nearly_equal(minor, 25));
-	assert(nearly_equal(cofact, -25));
+	minorr = minor(&m33m, 1, 0);
+	cofactr = cofactor(&m33m, 1, 0);
+	assert(nearly_equal(minorr, 25));
+	assert(nearly_equal(cofactr, -25));
 
 	m33m.rc[0][0] = 1.0;
 	m33m.rc[0][1] = 2.0;
 	m33m.rc[0][2] = 6.0;
+
 	m33m.rc[1][0] = -5.0;
 	m33m.rc[1][1] = 8.0;
 	m33m.rc[1][2] = -4.0;
+
 	m33m.rc[2][0] = 2.0;
 	m33m.rc[2][1] = 6.0;
 	m33m.rc[2][2] = 4.0;
 
-	cofact = cofactor33(&m33m, 0, 0);
-	assert(nearly_equal(cofact, 56.0));
+	cofactr = cofactor(&m33m, 0, 0);
+	assert(nearly_equal(cofactr, 56.0));
 
-	cofact = cofactor33(&m33m, 0, 1);
-	assert(nearly_equal(cofact, 12.0));
+	cofactr = cofactor(&m33m, 0, 1);
+	assert(nearly_equal(cofactr, 12.0));
 
-	cofact = cofactor33(&m33m, 0, 2);
-	assert(nearly_equal(cofact, -46.0));
-
-
-	double determinant = determinant33(&m33m);
-	assert(nearly_equal(determinant, -196));
+	cofactr = cofactor(&m33m, 0, 2);
+	assert(nearly_equal(cofactr, -46.0));
 
 
-	t_matrix44	m44 = new_matrix44();
+	double determinantr = matrix_determinant(&m33m);
+	assert(nearly_equal(determinantr, -196));
+
+
+	t_matrix	m44 = new_matrix(4);
+
 
 	m44.rc[0][0] = -2.0;
 	m44.rc[0][1] = -8.0;
@@ -650,8 +685,105 @@ void	test_matrix_determinant_large()
 	m44.rc[3][1] = 7.0;
 	m44.rc[3][2] = 7.0;
 	m44.rc[3][3] = -9.0;
- */
+ 
 	// cofac
+	cofactr =  cofactor(&m44, 0, 0);
+	assert(nearly_equal(cofactr, 690));
+
+	cofactr =  cofactor(&m44, 0, 1);
+	assert(nearly_equal(cofactr, 447));
+
+	cofactr =  cofactor(&m44, 0, 2);
+	assert(nearly_equal(cofactr, 210));
+
+	cofactr =  cofactor(&m44, 0, 3);
+	assert(nearly_equal(cofactr, 51));
+
+	determinantr =  matrix_determinant(&m44);
+	assert(nearly_equal(determinantr, -4071));
+
+}
+
+void	test_matrix_inversion()
+{
+	
+	t_matrix invertible = new_matrix(4);
+	t_matrix non_invertible = new_matrix(4);
 
 
+	invertible.rc[0][0] = 6.0;
+	invertible.rc[0][1] = 4.0;
+	invertible.rc[0][2] = 4.0;
+	invertible.rc[0][3] = 4.0;
+
+	invertible.rc[1][0] = 5.0;
+	invertible.rc[1][1] = 5.0;
+	invertible.rc[1][2] = 7.0;
+	invertible.rc[1][3] = 6.0;
+
+	invertible.rc[2][0] = 4.0;
+	invertible.rc[2][1] = -9.0;
+	invertible.rc[2][2] = 3.0;
+	invertible.rc[2][3] = -7.0;
+	
+	invertible.rc[3][0] = 9.0;
+	invertible.rc[3][1] = 1.0;
+	invertible.rc[3][2] = 7.0;
+	invertible.rc[3][3] = -6.0;
+
+	double det;
+
+	det = matrix_determinant(&invertible);
+	assert(nearly_equal(det, -2120));
+
+	non_invertible.rc[0][0] = -4.0;
+	non_invertible.rc[0][1] = 2.0;
+	non_invertible.rc[0][2] = -2.0;
+	non_invertible.rc[0][3] = -3.0;
+
+	non_invertible.rc[1][0] = 9.0;
+	non_invertible.rc[1][1] = 6.0;
+	non_invertible.rc[1][2] = 2.0;
+	non_invertible.rc[1][3] = 6.0;
+
+	non_invertible.rc[2][0] = 0.0;
+	non_invertible.rc[2][1] = -5.0;
+	non_invertible.rc[2][2] = 1.0;
+	non_invertible.rc[2][3] = -5.0;
+
+	non_invertible.rc[3][0] = 0.0;
+	non_invertible.rc[3][1] = 0.0;
+	non_invertible.rc[3][2] = 0.0;
+	non_invertible.rc[3][3] = 0.0;
+	
+
+	det = matrix_determinant(&non_invertible);
+	assert(nearly_equal(det, 0.0));
+
+	t_matrix A = new_matrix(4);
+
+	A.rc[0][0] = -5.0;
+	A.rc[0][1] = 2.0;
+	A.rc[0][2] = 6.0;
+	A.rc[0][3] = -8.0;
+
+	A.rc[1][0] = 1.0;
+	A.rc[1][1] = -5.0;
+	A.rc[1][2] = 1.0;
+	A.rc[1][3] = 8.0;
+
+	A.rc[2][0] = 7.0;
+	A.rc[2][1] = 7.0;
+	A.rc[2][2] = -6.0;
+	A.rc[2][3] = -7.0;
+
+	A.rc[3][0] = 1.0;
+	A.rc[3][1] = -3.0;
+	A.rc[3][2] = 7.0;
+	A.rc[3][3] = 4.0;
+
+	t_matrix B = new_matrix(4);
+	t_matrix B = matrix_inverse(&A);
+	det = matrix_determinant(&A);
+	assert(nearly_equal(532, det));
 }
