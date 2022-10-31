@@ -8,14 +8,14 @@
 
 typedef union u_tuple
 {
-	struct 
+	struct
 	{
 		double x;
 		double y;
 		double z;
 		double w;
 	}xyzw;
-	struct 
+	struct
 	{
 		double r;
 		double g;

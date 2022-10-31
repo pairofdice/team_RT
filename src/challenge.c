@@ -24,7 +24,7 @@ int		tuples_equal(t_tuple a, t_tuple b)
 	i = 0;
 	while (i < 4)
 	{
-		if (nearly_equal(a.a[i], b.a[i]) == 0) 
+		if (nearly_equal(a.a[i], b.a[i]) == 0)
 			return (0);
 		i++;
 	}
@@ -422,7 +422,7 @@ void	print_matrix(t_matrix *mm)
 
 	printf("    0  1  2  3\n\n");
 	c.row = 0;
-	while (c.row < mm->size) 
+	while (c.row < mm->size)
 	{
 		printf("%zu: ", c.row);
 		c.col = 0;
@@ -497,7 +497,7 @@ t_matrix	submatrix(t_matrix *src, t_coords skip)
 	if (src->size == 3 || src->size == 4)
 	{
 		c.row = 0;
-		padding.row = 0; 
+		padding.row = 0;
 		while(c.row < result.size)
 		{
 			if (c.row == skip.row)
@@ -517,7 +517,7 @@ t_matrix	submatrix(t_matrix *src, t_coords skip)
 	return (result);
 }
 
-/* 
+/*
 t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col)
 {
 	int			row;
@@ -545,11 +545,11 @@ t_matrix33	submatrix44(t_matrix44 *src, int skip_row, int skip_col)
 	}
 
 	// printf("Calling submatrix33 with garbage\n");
-	return (result);	
+	return (result);
 }
 */
 
-double	minor33(t_matrix *m33, int skip_row, int skip_col)
+double	minor(t_matrix *m33, int skip_row, int skip_col)
 {
 	t_matrix	m22;
 	double		determinant;
@@ -559,7 +559,7 @@ double	minor33(t_matrix *m33, int skip_row, int skip_col)
 	return (determinant);
 }
 
-double	cofactor33(t_matrix *m33, int row, int col)
+double	cofactor(t_matrix *m33, int row, int col)
 {
 	double	minor;
 
@@ -590,11 +590,12 @@ double	matrix_determinant(t_matrix *m)
 		return (m->rc[0][0] * m->rc[1][1] - m->rc[0][1] * m->rc[1][0]);
 	if (m->size == 3)
 	{
-		
+
 		return(
-			m->rc[0][0] * matrix_determinant(submatrix(m, 0, 0) ) - 
-			m->rc[0][1] * matrix_determinant(submatrix(m, 0, 1) ) +
-			m->rc[0][2] * matrix_determinant(submatrix(m, 0, 2) )
+			0.0
+			/* m->rc[0][0] * matrix_determinant(&submatrix(m, 0, 0) ) -
+			m->rc[0][1] * matrix_determinant(&submatrix(m, 0, 1) ) +
+			m->rc[0][2] * matrix_determinant(&submatrix(m, 0, 2) ) */
 		);
 	}
 }

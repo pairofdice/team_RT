@@ -90,7 +90,7 @@ void	test_tuples()
 	print_tuple(a_neg);
 	a = tuple_neg(a);
 	assert(tuples_equal(a, a_neg) == 1);
-	
+
 	a = new_tuple(1, -2, 3, -4);
 	a = tuple_scalar_mult(a, 3.5);
 	t_tuple r = new_tuple(3.5, -7, 10.5, -14);
@@ -100,7 +100,7 @@ void	test_tuples()
 	a = tuple_scalar_mult(a, 0.5);
 	r = new_tuple(0.5, -1, 1.5, -2);
 	assert(tuples_equal(a, r));
-	
+
 	a = new_tuple(1, -2, 3, -4);
 	a = tuple_scalar_div(a, 2.0);
 	r = new_tuple(0.5, -1, 1.5, -2);
@@ -179,7 +179,7 @@ void	test_colors()
 	assert(nearly_equal(c1c2.rgb.g, should_be.rgb.g));
 	assert(nearly_equal(c1c2.rgb.b, should_be.rgb.b));
 
-/* 
+/*
 unsigned int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
 double			clamp(double value, double min, double max);
 unsigned int	color_to_int(t_color color);
@@ -302,7 +302,7 @@ void	test_matrix_multiply()
 	// printf("[1][2] - %f\n",cc.rc[1][0]);
  	// printf("[2][2] - %f\n",cc.rc[2][2]);
 	// printf("[3][0] - %f\n",cc.rc[3][0]);
-	// printf("[3][2] - %f\n",cc.rc[3][2]); 
+	// printf("[3][2] - %f\n",cc.rc[3][2]);
 
 	assert(nearly_equal(cc.rc[0][0], 24.0) == 1);
 	assert(nearly_equal(cc.rc[1][1], 64.0) == 1);
@@ -341,7 +341,7 @@ void	test_matrix_multiply()
 
 	t_tuple res = mt_multiply(&mm, &a);
 	t_tuple res_should = new_tuple(18.0, 24.0, 33.0, 1.0);
-	// printf("x %f, y %f, z %f, w %f\n", res.xyzw.x, res.xyzw.y, res.xyzw.z, res.xyzw.w); 
+	// printf("x %f, y %f, z %f, w %f\n", res.xyzw.x, res.xyzw.y, res.xyzw.z, res.xyzw.w);
 	assert(tuples_equal(res, res_should));
 }
 
@@ -349,7 +349,7 @@ void	test_matrix_transpose()
 {
 
 	t_matrix mm = new_matrix_inc_a(4);
-	
+
 	mm = new_matrix_inc_a(4);
 
 	// printf("mm\n");
@@ -422,8 +422,9 @@ void	test_matrix_submatrix()
 
 	m33.rc[2][0] = 0.0;
 	m33.rc[2][1] = 6.0;
-	m33.rc[2][2] = -3.0;	
-	t_matrix m22sm = submatrix(&m33, 0, 0);
+	m33.rc[2][2] = -3.0;
+
+	t_matrix m22sm = submatrix(&m33, (t_coords){0, 0});
 	// printf("m22 %2.0f %2.0f\n", m22sm.rc[0][0], m22sm.rc[0][1]);
 	// printf("m22 %2.0f %2.0f\n\n", m22sm.rc[1][0], m22sm.rc[1][1]);
 	assert(nearly_equal(m22sm.rc[0][0], 2.0));
@@ -431,49 +432,49 @@ void	test_matrix_submatrix()
 	assert(nearly_equal(m22sm.rc[1][0], 6.0));
 	assert(nearly_equal(m22sm.rc[1][1], -3.0));
 
-	m22sm = submatrix(&m33, 1, 0);
+	m22sm = submatrix(&m33, (t_coords){1, 0});
 	assert(nearly_equal(m22sm.rc[0][0], 5.0));
 	assert(nearly_equal(m22sm.rc[0][1], 0.0));
 	assert(nearly_equal(m22sm.rc[1][0], 6.0));
 	assert(nearly_equal(m22sm.rc[1][1], -3.0));
 
-	m22sm = submatrix(&m33, 2, 0);
+	m22sm = submatrix(&m33, (t_coords){2, 0});
 	assert(nearly_equal(m22sm.rc[0][0], 5.0));
 	assert(nearly_equal(m22sm.rc[0][1], 0.0));
 	assert(nearly_equal(m22sm.rc[1][0], 2.0));
 	assert(nearly_equal(m22sm.rc[1][1], 7.0));
 
-	m22sm = submatrix(&m33, 0, 1);
+	m22sm = submatrix(&m33, (t_coords){0, 1});
 	assert(nearly_equal(m22sm.rc[0][0], -3.0));
 	assert(nearly_equal(m22sm.rc[0][1], 7.0));
 	assert(nearly_equal(m22sm.rc[1][0], 0.0));
 	assert(nearly_equal(m22sm.rc[1][1], -3.0));
 
-	m22sm = submatrix(&m33, 0, 2);
+	m22sm = submatrix(&m33, (t_coords){0, 2});
 	assert(nearly_equal(m22sm.rc[0][0], -3.0));
 	assert(nearly_equal(m22sm.rc[0][1], 2.0));
 	assert(nearly_equal(m22sm.rc[1][0], 0.0));
 	assert(nearly_equal(m22sm.rc[1][1], 6.0));
 
-	m22sm = submatrix(&m33, 1, 1);
+	m22sm = submatrix(&m33, (t_coords){1, 1});
 	assert(nearly_equal(m22sm.rc[0][0], 1.0));
 	assert(nearly_equal(m22sm.rc[0][1], 0.0));
 	assert(nearly_equal(m22sm.rc[1][0], 0.0));
 	assert(nearly_equal(m22sm.rc[1][1], -3.0));
 
-	m22sm = submatrix(&m33, 2, 1);
+	m22sm = submatrix(&m33, (t_coords){2, 1});
 	assert(nearly_equal(m22sm.rc[0][0], 1.0));
 	assert(nearly_equal(m22sm.rc[0][1], 0.0));
 	assert(nearly_equal(m22sm.rc[1][0], -3.0));
 	assert(nearly_equal(m22sm.rc[1][1], 7.0));
 
-	m22sm = submatrix(&m33, 1, 2);
+	m22sm = submatrix(&m33, (t_coords){1, 2});
 	assert(nearly_equal(m22sm.rc[0][0], 1.0));
 	assert(nearly_equal(m22sm.rc[0][1], 5.0));
 	assert(nearly_equal(m22sm.rc[1][0], 0.0));
 	assert(nearly_equal(m22sm.rc[1][1], 6.0));
 
-	m22sm = submatrix(&m33, 2, 2);
+	m22sm = submatrix(&m33, (t_coords){2, 2});
 	assert(nearly_equal(m22sm.rc[0][0], 1.0));
 	assert(nearly_equal(m22sm.rc[0][1], 5.0));
 	assert(nearly_equal(m22sm.rc[1][0], -3.0));
@@ -506,7 +507,7 @@ void	test_matrix_submatrix()
 	t_matrix	m33_b = new_matrix_inc(3);
 
 	m33_b = submatrix(&m44, 0, 1);
-	print_matrix33(&m33_b);
+	print_matrix(&m33_b);
 
 /* 	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[0][0], m33.rc[0][1],  m33.rc[0][2]);
 	printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[1][0], m33.rc[1][1],  m33.rc[1][2]);
@@ -538,14 +539,14 @@ void	test_matrix_minors()
 	assert(nearly_equal(m33m.rc[1][0], 2.0));
 	assert(nearly_equal(m33m.rc[2][0], 6.0));
 	assert(nearly_equal(m33m.rc[2][2], 5.0));
-	minor = minor33(&m33m, 0, 0);
-	cofact = cofactor33(&m33m, 0, 0);
+	minor = minor(&m33m, 0, 0);
+	cofact = cofactor(&m33m, 0, 0);
 
 	assert(nearly_equal(minor, -12));
 	assert(nearly_equal(cofact, -12));
 
-	minor = minor33(&m33m, 1, 0);
-	cofact = cofactor33(&m33m, 1, 0);
+	minor = minor(&m33m, 1, 0);
+	cofact = cofactor(&m33m, 1, 0);
 	assert(nearly_equal(minor, 25));
 	assert(nearly_equal(cofact, -25));
 
@@ -559,13 +560,13 @@ void	test_matrix_minors()
 	m33m.rc[2][1] = 6.0;
 	m33m.rc[2][2] = 4.0;
 
-	cofact = cofactor33(&m33m, 0, 0);
+	cofact = cofactor(&m33m, 0, 0);
 	assert(nearly_equal(cofact, 56.0));
 
-	cofact = cofactor33(&m33m, 0, 1);
+	cofact = cofactor(&m33m, 0, 1);
 	assert(nearly_equal(cofact, 12.0));
 
-	cofact = cofactor33(&m33m, 0, 2);
+	cofact = cofactor(&m33m, 0, 2);
 	assert(nearly_equal(cofact, -46.0));
 
 }
