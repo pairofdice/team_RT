@@ -12,6 +12,12 @@ void	test_matrix_submatrix();
 void	test_matrix_minors();
 void	test_matrix_determinant_large();
 void	test_matrix_inversion();
+void	test_matrix_translate();
+void	test_matrix_scale();
+void	test_matrix_rotate();
+void	test_matrix_shear();
+void	test_transform_chaining();
+
 
 
 int	main(void)
@@ -46,6 +52,21 @@ int	main(void)
 	printf("Testing inversions\n");
 	test_matrix_inversion();
 	printf("Inversions OK\n");
+	printf("Testing matrix translation\n");
+	test_matrix_translate();
+	printf("Translations OK\n");
+	printf("Testing matrix scaling\n");
+	test_matrix_scale();
+	printf("Scaling OK\n");
+	printf("Testing matrix rotate\n");
+	test_matrix_rotate();
+	printf("Rotate OK\n");
+	printf("Testing matrix shear\n");
+	test_matrix_shear();
+	printf("Shear OK\n");
+	printf("Testing transform chaining\n");
+	test_transform_chaining();
+	printf("Transform chaining OK\n");
 }
 
 
@@ -318,7 +339,7 @@ void	test_matrix_multiply()
 	// print_matrix(&aa);
 	// printf("bb:\n");
 	t_matrix bb = new_matrix_inc_c(4);
-	t_matrix cc = mm_multiply(&aa, &bb);
+	t_matrix cc = matrix_multiply(&aa, &bb);
 	// printf("cc:\n");
 	// print_matrix(&cc);
 	// printf("[1][2] - %f\n",cc.rc[1][0]);
@@ -361,7 +382,7 @@ void	test_matrix_multiply()
 
 	t_tuple a = new_tuple(1.0, 2.0, 3.0, 1.0);
 
-	t_tuple res = mt_multiply(&mm, &a);
+	t_tuple res = matrix_tuple_multiply(&mm, &a);
 	t_tuple res_should = new_tuple(18.0, 24.0, 33.0, 1.0);
 	// printf("x %f, y %f, z %f, w %f\n", res.xyzw.x, res.xyzw.y, res.xyzw.z, res.xyzw.w);
 	assert(tuples_equal(res, res_should));
@@ -378,7 +399,7 @@ void	test_matrix_transpose()
 	// print_matrix(&mm);
 
 
-	t_matrix	transposed_should_be = new_matrix();
+	t_matrix	transposed_should_be = new_matrix(4);
 	matrix_transpose(&mm);
 	// printf("mm transposed\n");
 	// print_matrix(&mm);
@@ -783,7 +804,416 @@ void	test_matrix_inversion()
 	A.rc[3][3] = 4.0;
 
 	t_matrix B = new_matrix(4);
-	t_matrix B = matrix_inverse(&A);
+	B = matrix_inverse(&A);
 	det = matrix_determinant(&A);
 	assert(nearly_equal(532, det));
+	double	cofactr = cofactor(&A, 2, 3);
+	assert(nearly_equal(cofactr, -160));
+	assert(nearly_equal(B.rc[3][2], -160.0/532.0));
+
+	cofactr = cofactor(&A, 3, 2);
+	assert(nearly_equal(cofactr, 105));
+	// printf("105.0/532.0 = %f\n", 105.0/532.0);
+	// printf("B.rc[3][2] = %f\n", B.rc[3][2]);
+	assert(nearly_equal(B.rc[2][3], 105.0/532.0));
+
+	t_matrix B_should_be = new_matrix(4);
+
+	B_should_be.rc[0][0] = 0.21805;
+	B_should_be.rc[0][1] = 0.45113;
+	B_should_be.rc[0][2] = 0.24060;
+	B_should_be.rc[0][3] = -0.04511;
+
+	B_should_be.rc[1][0] = -0.80827;
+	B_should_be.rc[1][1] = -1.45677;
+	B_should_be.rc[1][2] = -0.44361;
+	B_should_be.rc[1][3] = 0.52068;
+
+	B_should_be.rc[2][0] = -0.07895;
+	B_should_be.rc[2][1] = -0.22368;
+	B_should_be.rc[2][2] = -0.05263;
+	B_should_be.rc[2][3] = 0.19737;
+
+	B_should_be.rc[3][0] = -0.52256;
+	B_should_be.rc[3][1] = -0.81391;
+	B_should_be.rc[3][2] = -0.30075;
+	B_should_be.rc[3][3] = 0.30639;
+
+	assert(matrices_equal(&B, &B_should_be));
+	// print_matrix(&B_should_be);
+	// print_matrix(&B);
+
+	A.rc[0][0] = 8.0;
+	A.rc[0][1] = -5.0;
+	A.rc[0][2] = 9.0;
+	A.rc[0][3] = 2.0;
+
+	A.rc[1][0] = 7.0;
+	A.rc[1][1] = 5.0;
+	A.rc[1][2] = 6.0;
+	A.rc[1][3] = 1.0;
+
+	A.rc[2][0] = -6.0;
+	A.rc[2][1] = 0.0;
+	A.rc[2][2] = 9.0;
+	A.rc[2][3] = 6.0;
+
+	A.rc[3][0] = -3.0;
+	A.rc[3][1] = 0.0;
+	A.rc[3][2] = -9.0;
+	A.rc[3][3] = -4.0;
+
+	t_matrix	A_inverted_should_be = new_matrix(4);
+
+	A_inverted_should_be.rc[0][0] = -0.15385;
+	A_inverted_should_be.rc[0][1] = -0.15385;
+	A_inverted_should_be.rc[0][2] = -0.28205;
+	A_inverted_should_be.rc[0][3] = -0.53846;
+	A_inverted_should_be.rc[1][0] = -0.07692;
+	A_inverted_should_be.rc[1][1] = 0.12308;
+	A_inverted_should_be.rc[1][2] = 0.02564;
+	A_inverted_should_be.rc[1][3] = 0.03077;
+	A_inverted_should_be.rc[2][0] = 0.35897;
+	A_inverted_should_be.rc[2][1] = 0.35897;
+	A_inverted_should_be.rc[2][2] = 0.43590;
+	A_inverted_should_be.rc[2][3] = 0.92308;
+	A_inverted_should_be.rc[3][0] = -0.69231;
+	A_inverted_should_be.rc[3][1] = -0.69231;
+	A_inverted_should_be.rc[3][2] = -0.76923;
+	A_inverted_should_be.rc[3][3] = -1.92308;
+
+	B = matrix_inverse(&A);
+
+	assert(matrices_equal(&B, &A_inverted_should_be));
+
+
+	// ---------
+
+	A.rc[0][0] = 9.0;
+	A.rc[0][1] = 3.0;
+	A.rc[0][2] = 0.0;
+	A.rc[0][3] = 9.0;
+
+	A.rc[1][0] = -5.0;
+	A.rc[1][1] = -2.0;
+	A.rc[1][2] = -6.0;
+	A.rc[1][3] = -3.0;
+
+	A.rc[2][0] = -4.0;
+	A.rc[2][1] = 9.0;
+	A.rc[2][2] = 6.0;
+	A.rc[2][3] = 4.0;
+
+	A.rc[3][0] = -7.0;
+	A.rc[3][1] = 6.0;
+	A.rc[3][2] = 6.0;
+	A.rc[3][3] = 2.0;
+
+
+	A_inverted_should_be.rc[0][0] = -0.04074;
+	A_inverted_should_be.rc[0][1] = -0.07778;
+	A_inverted_should_be.rc[0][2] = 0.14444;
+	A_inverted_should_be.rc[0][3] = -0.22222;
+
+	A_inverted_should_be.rc[1][0] = -0.07778;
+	A_inverted_should_be.rc[1][1] = 0.03333;
+	A_inverted_should_be.rc[1][2] = 0.36667;
+	A_inverted_should_be.rc[1][3] = -0.33333;
+
+	A_inverted_should_be.rc[2][0] = -0.02901;
+	A_inverted_should_be.rc[2][1] = -0.14630;
+	A_inverted_should_be.rc[2][2] = -0.10926;
+	A_inverted_should_be.rc[2][3] = 0.12963;
+
+	A_inverted_should_be.rc[3][0] = 0.17778;
+	A_inverted_should_be.rc[3][1] = 0.06667;
+	A_inverted_should_be.rc[3][2] = -0.26667;
+	A_inverted_should_be.rc[3][3] = 0.33333;
+
+	A = matrix_inverse(&A);
+
+	// print_matrix(&A);
+	// print_matrix(&A_inverted_should_be);
+	assert(matrices_equal(&A,&A_inverted_should_be));
+	
+	
+	//========
+
+	A.rc[0][0] = 3.0;
+	A.rc[0][1] = -9.0;
+	A.rc[0][2] = 7.0;
+	A.rc[0][3] = 3.0;
+
+	A.rc[1][0] = 3.0;
+	A.rc[1][1] = -8.0;
+	A.rc[1][2] = 2.0;
+	A.rc[1][3] = -9.0;
+
+	A.rc[2][0] = -4.0;
+	A.rc[2][1] = 4.0;
+	A.rc[2][2] = 4.0;
+	A.rc[2][3] = 1.0;
+
+	A.rc[3][0] = -6.0;
+	A.rc[3][1] = 5.0;
+	A.rc[3][2] = -1.0;
+	A.rc[3][3] = 1.0;
+
+//-
+	B.rc[0][0] = 8.0;
+	B.rc[0][1] = 2.0;
+	B.rc[0][2] = 2.0;
+	B.rc[0][3] = 2.0;
+
+	B.rc[1][0] = 3.0;
+	B.rc[1][1] = -1.0;
+	B.rc[1][2] = 7.0;
+	B.rc[1][3] = 0.0;
+
+	B.rc[2][0] = 0.0;
+	B.rc[2][1] = 0.0;
+	B.rc[2][2] = 5.0;
+	B.rc[2][3] = 4.0;
+
+	B.rc[3][0] = 6.0;
+	B.rc[3][1] = -2.0;
+	B.rc[3][2] = 0.0;
+	B.rc[3][3] = 5.0;
+
+	t_matrix C = matrix_multiply(&A, &B);
+	t_matrix inv_B = matrix_inverse(&B);
+	t_matrix C_mult_invB = matrix_multiply(&C, &inv_B);
+
+	// print_matrix(&C_mult_invB);
+	// print_matrix(&A);
+
+	assert(matrices_equal(&C_mult_invB, &A));
+}
+
+void	test_matrix_translate()
+{
+	t_point point_A = new_point(-3, 4, 5);
+	t_matrix	transform = matrix_translate(5, -3, 2);
+	t_point	point_B  = new_point(2, 1, 7);
+	t_point	A_translated = matrix_tuple_multiply(&transform, &point_A);
+	print_tuple(A_translated);
+	print_tuple(point_B);
+	assert(tuples_equal(A_translated, point_B));
+
+
+	transform = matrix_translate(5, -3, 2);
+	t_matrix	inv_transform = matrix_inverse(&transform);
+
+	point_A = new_point(-3, 4, 5);
+	point_B  = new_point(-8, 7, 3);
+	t_tuple B_inv = matrix_tuple_multiply(&inv_transform, &point_A);
+	print_tuple(B_inv);
+	print_tuple(point_B);
+	assert(tuples_equal(B_inv, point_B));
+	printf("Translation does not affect vectors\n");
+	transform = matrix_translate(5, -3, 2);
+	t_vector vec = new_vector(-3, 4, 5);
+	vec = matrix_tuple_multiply(&transform, &vec);
+	t_vector not_transformed = new_vector(-3, 4, 5);
+	assert(tuples_equal(vec, not_transformed));
+
+}
+
+void	test_matrix_scale()
+{
+	t_matrix	transform = matrix_scale(2, 3, 4);
+
+	t_point p = new_point(-4, 6, 8);
+
+	t_point	result  = new_point(-8, 18, 32);
+	t_point	A_translated = matrix_tuple_multiply(&transform, &p);
+	print_tuple(A_translated);
+	print_tuple(result);
+	assert(tuples_equal(A_translated, result));
+	// OK
+
+	t_vector vec = new_vector(-4, 6, 8);
+	t_vector vec_result = new_vector(-8, 18, 32);
+
+	vec = matrix_tuple_multiply(&transform, &vec);
+	printf("Scaling does affect vectors\n");
+
+	print_tuple(vec);
+	print_tuple(vec_result);
+	assert(tuples_equal(vec, vec_result));
+
+	printf("multiplying a tuple by the inverse of a scaling matrix will scale the tuple in the opposite way\n");
+
+	vec = new_vector(-4, 6, 8);
+	transform = matrix_scale(2, 3, 4);
+	t_matrix inv_transform = matrix_inverse(&transform);
+	t_vector vec_inverted = matrix_tuple_multiply(&inv_transform, &vec);
+	t_vector v_should_be = new_vector(-2, 2, 2);
+	print_tuple(vec_inverted);
+	print_tuple(v_should_be);
+	assert(tuples_equal(vec_inverted, v_should_be));
+
+
+	printf("Reflection is essentially the same thing as scaling by a negative value.\n");
+
+	transform = matrix_scale(-1, 1, 1);
+	p = new_point(2, 3, 4);
+	t_point p_should_be = new_point(-2, 3, 4);
+	result = matrix_tuple_multiply(&transform, &p);
+	print_tuple(result);
+	print_tuple(p_should_be);
+	assert(tuples_equal(result, p_should_be));
+
+}
+
+void	test_matrix_rotate()
+{
+	/// x
+	t_tuple		p = new_point(0, 1, 0);
+	t_matrix	rotate_half_quarter = matrix_rotate_x(M_PI_4);
+	t_matrix	rotate_full_quarter = matrix_rotate_x(M_PI_2);
+
+	p = matrix_tuple_multiply(&rotate_half_quarter, &p);
+	t_tuple		p_half_should_be = new_point(0, sqrt(2)/2, sqrt(2)/2);
+	printf("Rotations X\n");
+	// print_tuple(p);
+	// print_tuple(p_half_should_be);
+	assert(tuples_equal(p, p_half_should_be));
+
+	p = new_point(0, 1, 0);
+	p = matrix_tuple_multiply(&rotate_full_quarter, &p);
+
+	t_tuple		p_full_should_be = new_point(0, 0, 1);
+	// print_tuple(p);
+	// print_tuple(p_full_should_be);
+	assert(tuples_equal(p, p_full_should_be));
+
+	/// y
+	p = new_point(0, 0, 1);
+	rotate_half_quarter = matrix_rotate_y(M_PI_4);
+	rotate_full_quarter = matrix_rotate_y(M_PI_2);
+
+	p = matrix_tuple_multiply(&rotate_half_quarter, &p);
+	p_half_should_be = new_point(sqrt(2)/2, 0,  sqrt(2)/2);
+	printf("Rotations Y\n");
+	// print_tuple(p);
+	// print_tuple(p_half_should_be);
+	assert(tuples_equal(p, p_half_should_be));
+
+	p = new_point(0, 0, 1);
+	p = matrix_tuple_multiply(&rotate_full_quarter, &p);
+
+	p_full_should_be = new_point(1, 0, 0);
+	// print_tuple(p);
+	// print_tuple(p_full_should_be);
+	assert(tuples_equal(p, p_full_should_be));
+
+
+	/// z
+	p = new_point(0, 1, 0);
+	rotate_half_quarter = matrix_rotate_z(M_PI_4);
+	p = matrix_tuple_multiply(&rotate_half_quarter, &p);
+	p_half_should_be = new_point(-sqrt(2)/2,   sqrt(2)/2, 0);
+	printf("Rotations Z\n");
+	// print_tuple(p);
+	// print_tuple(p_half_should_be);
+	assert(tuples_equal(p, p_half_should_be));
+
+	p = new_point(0, 1, 0);
+	rotate_full_quarter = matrix_rotate_z(M_PI_2);
+
+	p = matrix_tuple_multiply(&rotate_full_quarter, &p);
+
+	p_full_should_be = new_point(-1, 0, 0);
+	// print_tuple(p);
+	// print_tuple(p_full_should_be);
+	assert(tuples_equal(p, p_full_should_be));
+}
+
+void	test_matrix_shear()
+{
+	printf("Shearing\n");
+	printf("x_y\n");
+	t_matrix	transform = matrix_shear(1, 0, 0, 0, 0, 0);
+	t_point		p = new_point(2, 3, 4);
+	p = matrix_tuple_multiply(&transform, &p);
+	t_point		should_be = new_point(5, 3, 4);
+	print_tuple(p);
+	print_tuple(should_be);
+	assert(tuples_equal(p, should_be));
+
+	printf("x_z\n");
+	transform = matrix_shear(0, 1, 0, 0, 0, 0);
+	p = new_point(2, 3, 4);
+	p = matrix_tuple_multiply(&transform, &p);
+	should_be = new_point(6, 3, 4);
+	print_tuple(p);
+	print_tuple(should_be);
+	assert(tuples_equal(p, should_be));
+
+
+	printf("y_x\n");
+	transform = matrix_shear(0, 0, 1, 0, 0, 0);
+	p = new_point(2, 3, 4);
+	p = matrix_tuple_multiply(&transform, &p);
+	should_be = new_point(2, 5, 4);
+	print_tuple(p);
+	print_tuple(should_be);
+	assert(tuples_equal(p, should_be));
+
+	printf("y_z\n");
+	transform = matrix_shear(0, 0, 0, 1, 0, 0);
+	p = new_point(2, 3, 4);
+	p = matrix_tuple_multiply(&transform, &p);
+	should_be = new_point(2, 7, 4);
+	print_tuple(p);
+	print_tuple(should_be);
+	assert(tuples_equal(p, should_be));
+
+	printf("z_x\n");
+	transform = matrix_shear(0, 0, 0, 0, 1, 0);
+	p = new_point(2, 3, 4);
+	p = matrix_tuple_multiply(&transform, &p);
+	should_be = new_point(2, 3, 6);
+	print_tuple(p);
+	print_tuple(should_be);
+	assert(tuples_equal(p, should_be));
+
+	printf("z_y\n");
+	transform = matrix_shear(0, 0, 0, 0, 0, 1);
+	p = new_point(2, 3, 4);
+	p = matrix_tuple_multiply(&transform, &p);
+	should_be = new_point(2, 3, 7);
+	print_tuple(p);
+	print_tuple(should_be);
+	assert(tuples_equal(p, should_be));
+
+}
+
+void	test_transform_chaining()
+{
+	printf("Individual transformations are applied in sequence\n");
+	t_tuple	p = new_point(1, 0, 1);
+	t_matrix A = matrix_rotate_x(M_PI_2);
+	t_matrix B = matrix_scale(5, 5, 5);
+	t_matrix C = matrix_translate(10, 5, 7);
+	t_tuple p2 = matrix_tuple_multiply(&A, &p);
+	print_tuple(p2);
+	print_tuple(new_point(1, -1, 0));
+	t_tuple p3 = matrix_tuple_multiply(&B, &p2);
+	print_tuple(p3);
+	print_tuple(new_point(5, -5, 0));
+	t_tuple p4 = matrix_tuple_multiply(&C, &p3);
+	print_tuple(p4);
+	print_tuple(new_point(15, 0, 7));
+
+	printf("Chained transformations must be applied in reverse order\n");
+	p = new_point(1, 0, 1);
+	t_matrix temp = matrix_multiply(&C, &B);
+	t_matrix T = matrix_multiply(&temp, &A);
+	p = matrix_tuple_multiply(&T, &p);
+	print_tuple(p);
+	print_tuple(new_point(15, 0, 7));
+
+
 }

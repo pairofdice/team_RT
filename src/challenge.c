@@ -3,6 +3,11 @@
 
 #define EPSILON 0.00006103515625
 
+double	to_radians(double degrees)
+{
+	return (degrees * M_PI / 180);
+}
+
 double	fabs(double x)
 {
 	if (x >= 0.0)
@@ -10,14 +15,14 @@ double	fabs(double x)
 	return (-x);
 }
 
-int nearly_equal(double a, double b)
+int	nearly_equal(double a, double b)
 {
 	if (fabs((a - b)) < EPSILON)
 		return (1);
 	return (0);
 }
 
-int		tuples_equal(t_tuple a, t_tuple b)
+int	tuples_equal(t_tuple a, t_tuple b)
 {
 	int	i;
 
@@ -64,8 +69,6 @@ t_tuple	tuple_neg(t_tuple u)
 	return (r);
 }
 
-
-
 t_tuple	tuple_scalar_mult(t_tuple u, double x)
 {
 	t_tuple	r;
@@ -98,8 +101,6 @@ double	tuple_mag(t_tuple u)
 	r += u.xyzw.w * u.xyzw.w;
 	return (sqrt(r));
 }
-	// return (sqrt(u.x * u.x + u.y * u.y + u.z * u.z));
-
 
 t_tuple	tuple_unit(t_tuple u)
 {
@@ -131,8 +132,7 @@ t_vector	vector_cross(t_vector u, t_vector v)
 	return (crossed);
 }
 
-
-t_point		new_point(double x, double y, double z)
+t_point	new_point(double x, double y, double z)
 {
 	t_point	r;
 
@@ -167,7 +167,7 @@ t_tuple	new_tuple(double x, double y, double z, double w)
 
 t_color	new_color(double r, double g, double b)
 {
-	t_color color;
+	t_color	color;
 
 	color.rgb.r = r;
 	color.rgb.g = g;
@@ -177,7 +177,7 @@ t_color	new_color(double r, double g, double b)
 
 t_color	color_add(t_color a, t_color b)
 {
-	t_color color;
+	t_color	color;
 
 	color = tuple_add(a, b);
 	return (color);
@@ -185,7 +185,7 @@ t_color	color_add(t_color a, t_color b)
 
 t_color	color_sub(t_color a, t_color b)
 {
-	t_color color;
+	t_color	color;
 
 	color = tuple_sub(a, b);
 	return (color);
@@ -193,14 +193,15 @@ t_color	color_sub(t_color a, t_color b)
 
 t_color	color_scalar_multiply(t_color c, double x)
 {
-	t_color color;
+	t_color	color;
 
 	color = tuple_scalar_mult(c, x);
 	return (color);
 }
+
 t_color	color_multiply(t_color a, t_color b)
 {
-	t_color color;
+	t_color	color;
 
 	color.rgb.r = a.rgb.r * b.rgb.r;
 	color.rgb.g = a.rgb.g * b.rgb.g;
@@ -253,7 +254,7 @@ t_color	int_to_color(unsigned int rgba)
 	return (color);
 }
 
-t_matrix	new_matrix(int size)
+t_matrix	new_matrix(size_t size)
 {
 	t_matrix	m;
 
@@ -265,7 +266,7 @@ t_matrix	new_matrix(int size)
 	return (m);
 }
 
-int		matrices_equal(t_matrix *a, t_matrix *b)
+int	matrices_equal(t_matrix *a, t_matrix *b)
 {
 	t_coords	c;
 
@@ -319,7 +320,6 @@ t_matrix	new_matrix_inc_b(size_t size)
 		while (c.row < m.size)
 		{
 			m.rc[c.row][c.col] = c.col + c.row + 1;
-
 			c.row++;
 		}
 		c.col++;
@@ -339,10 +339,10 @@ t_matrix	new_matrix_inc_c(size_t size)
 		c.row = 0;
 		while (c.row < m.size)
 		{
-			if (c.row == 0 &&c. col == 0)
+			if (c.row == 0 && c.col == 0)
 				m.rc[0][0] = 0.0;
 			else
-				m.rc[c.row][c.col] = pow(2, c.row + c.col - 1) ;
+				m.rc[c.row][c.col] = pow(2, c.row + c.col - 1);
 			c.row++;
 		}
 		c.col++;
@@ -373,10 +373,10 @@ t_matrix	new_matrix_identity(int size)
 	return (m);
 }
 
-double	row_column_multiply(
-					t_matrix *a,
-					t_matrix *b,
-					t_coords c)
+double			row_column_multiply(
+	t_matrix *a,
+	t_matrix *b,
+	t_coords c)
 {
 	size_t	i;
 	double	result;
@@ -394,7 +394,7 @@ double	row_column_multiply(
 	return (result);
 }
 
-t_matrix	mm_multiply(t_matrix *a, t_matrix *b)
+t_matrix	matrix_multiply(t_matrix *a, t_matrix *b)
 {
 	t_coords	c;
 	t_matrix	result;
@@ -429,7 +429,7 @@ void	print_matrix(t_matrix *mm)
 		c.col = 0;
 		while (c.col < mm->size)
 		{
-			printf("%2.0f ",mm->rc[c.row][c.col]);
+			printf("%7.5f ", mm->rc[c.row][c.col]);
 			c.col++;
 		}
 		printf("\n");
@@ -458,11 +458,10 @@ static double	row_multiply(t_matrix *m, t_tuple *t, int row)
 	return (result);
 }
 
-t_tuple	mt_multiply(t_matrix *m, t_tuple *t)
+t_tuple	matrix_tuple_multiply(t_matrix *m, t_tuple *t)
 {
 	t_tuple	result;
-
-	int	i;
+	int		i;
 
 	i = 0;
 	while (i < 4)
@@ -482,14 +481,14 @@ void	matrix_transpose(t_matrix *m)
 	while (c.row < m->size)
 	{
 		c.col = 0;
-		while (c.col <c. row)
+		while (c.col < c.row)
 		{
 			temp = m->rc[c.row][c.col];
 			m->rc[c.row][c.col] = m->rc[c.col][c.row];
 			m->rc[c.col][c.row] = temp;
 			c.col++;
 		}
-		c.row ++;
+		c.row++;
 	}
 }
 
@@ -504,17 +503,18 @@ t_matrix	submatrix(t_matrix *src, t_coords skip)
 	{
 		c.row = 0;
 		padding.row = 0;
-		while(c.row < result.size)
+		while (c.row < result.size)
 		{
 			if (c.row == skip.row)
 				padding.row = 1;
 			c.col = 0;
-				padding.col = 0;
+			padding.col = 0;
 			while (c.col < result.size)
 			{
 				if (c.col == skip.col)
-					padding.col  = 1;
-				result.rc[c.row][c.col] = src->rc[c.row + padding.row][c.col + padding.col ];
+					padding.col = 1;
+				result.rc[c.row][c.col] = src->rc[c.row + padding.row][c.col
+					+ padding.col];
 				c.col++;
 			}
 			c.row++;
@@ -563,8 +563,101 @@ double	matrix_determinant(t_matrix *m)
 t_matrix	matrix_inverse(t_matrix *m)
 {
 	t_matrix	result;
+	double		c;
+	t_coords	coords;
+	double		det;
 
+	det = matrix_determinant(m);
+	// if det == 0, ABORT!!!
 	result = new_matrix(m->size);
-
+	coords.row = 0;
+	while (coords.row < m->size)
+	{
+		coords.col = 0;
+		while (coords.col < m->size)
+		{
+			c = cofactor(m, coords.row, coords.col);
+			result.rc[coords.col][coords.row] = c / det;
+			coords.col++;
+		}
+		coords.row++;
+	}
 	return (result);
+}
+
+// == T R A N S F O R M S
+// == T R A N S F O O O R M S
+// == T R A N S F O R M S
+
+t_matrix	matrix_translate(double x, double y, double z)
+{
+	t_matrix	transform;
+
+	transform = new_matrix_identity(4);
+	transform.rc[0][3] = x;
+	transform.rc[1][3] = y;
+	transform.rc[2][3] = z;
+	return (transform);
+}
+
+t_matrix	matrix_scale(double x, double y, double z)
+{
+	t_matrix	transform;
+
+	transform = new_matrix_identity(4);
+	transform.rc[0][0] = x;
+	transform.rc[1][1] = y;
+	transform.rc[2][2] = z;
+	return (transform);
+}
+
+t_matrix	matrix_rotate_x(double w)
+{
+	t_matrix	transform;
+
+	transform = new_matrix_identity(4);
+	transform.rc[1][1] = cos(w);
+	transform.rc[2][2] = cos(w);
+	transform.rc[1][2] = -sin(w);
+	transform.rc[2][1] = sin(w);
+	return (transform);
+}
+
+t_matrix	matrix_rotate_y(double w)
+{
+	t_matrix	transform;
+
+	transform = new_matrix_identity(4);
+	transform.rc[0][0] = cos(w);
+	transform.rc[0][2] = sin(w);
+	transform.rc[2][0] = -sin(w);
+	transform.rc[2][2] = cos(w);
+	return (transform);
+}
+
+t_matrix	matrix_rotate_z(double w)
+{
+	t_matrix	transform;
+
+	transform = new_matrix_identity(4);
+	transform.rc[0][0] = cos(w);
+	transform.rc[1][1] = cos(w);
+	transform.rc[0][1] = -sin(w);
+	transform.rc[1][0] = sin(w);
+	return (transform);
+}
+
+t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
+		double z_x, double z_y)
+{
+	t_matrix	transform;
+
+	transform = new_matrix_identity(4);
+	transform.rc[0][1] = x_y;
+	transform.rc[0][2] = x_z;
+	transform.rc[1][0] = y_x;
+	transform.rc[1][2] = y_z;
+	transform.rc[2][0] = z_x;
+	transform.rc[2][1] = z_y;
+	return (transform);
 }
