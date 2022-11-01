@@ -17,6 +17,7 @@ void	test_matrix_scale();
 void	test_matrix_rotate();
 void	test_matrix_shear();
 void	test_transform_chaining();
+void	test_ray();
 
 
 
@@ -67,6 +68,10 @@ int	main(void)
 	printf("Testing transform chaining\n");
 	test_transform_chaining();
 	printf("Transform chaining OK\n");
+
+	printf("Testing rays\n");
+	test_ray();
+	printf("Rays OK\n");
 }
 
 
@@ -1214,6 +1219,19 @@ void	test_transform_chaining()
 	p = matrix_tuple_multiply(&T, &p);
 	print_tuple(p);
 	print_tuple(new_point(15, 0, 7));
+}
 
+void	test_ray()
+{
+	t_point		origin = new_point(1, 2, 3);
+	t_vector	direction = new_vector(4, 5, 6);
+	t_ray		ray = new_ray(origin, direction);
+	assert(tuples_equal(ray.orig, origin));
+	assert(tuples_equal(ray.dir, direction));
+
+
+	origin = new_point(2, 3, 4);
+	direction = new_vector(1, 0, 0);
+	ray = new_ray(origin, direction);
 
 }

@@ -40,6 +40,12 @@ typedef struct s_matrix
 	size_t		size;
 }				t_matrix;
 
+typedef struct s_ray
+{
+	t_point	orig;
+	t_vector	dir;
+}	t_ray;
+
 double			fabs(double x);
 int				nearly_equal(double a, double b);
 int				tuples_equal(t_tuple a, t_tuple b);
@@ -103,5 +109,7 @@ t_matrix		matrix_rotate_y(double w);
 t_matrix		matrix_rotate_z(double w);
 t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
 		double z_x, double z_y);
+
+t_ray	new_ray(t_point origin, t_vector dir);
 
 #endif

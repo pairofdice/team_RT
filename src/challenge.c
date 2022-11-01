@@ -661,3 +661,24 @@ t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
 	transform.rc[2][1] = z_y;
 	return (transform);
 }
+
+//
+
+//
+
+// Intersections & rays, whatnot
+
+t_ray	new_ray(t_point origin, t_vector dir)
+{
+	t_ray	result;
+
+	result.orig = origin;
+	result.dir = dir;
+	return (result);
+}
+
+t_point	ray_position(t_ray ray, double t)
+{
+	return (tuple_add(ray.orig, tuple_scalar_mult(tuple_unit(ray.dir), t)));
+}
+
