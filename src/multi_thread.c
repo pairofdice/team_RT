@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:03:04 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/20 18:16:23 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:01:04 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static void	worker_wait(t_main *ctx)
 {
 	pthread_mutex_unlock(&ctx->multi.tasks_taken_mutex);
 	pthread_mutex_lock(&ctx->multi.frame_start_mutex);
-	pthread_cond_wait(&ctx->multi.frame_start_cv, &ctx->multi.frame_start_mutex);
+	pthread_cond_wait(&ctx->multi.frame_start_cv,
+			&ctx->multi.frame_start_mutex);
 	pthread_mutex_unlock(&ctx->multi.frame_start_mutex);
 }
 
@@ -100,11 +101,9 @@ int	draw_frame(t_main *main)
 	main->multi.tasks_done = 0;
 	pthread_mutex_unlock(&main->multi.tasks_taken_mutex);
 	pthread_mutex_unlock(&main->multi.tasks_done_mutex);
-	
 	pthread_mutex_lock(&main->multi.frame_start_mutex);
 	pthread_cond_broadcast(&main->multi.frame_start_cv);
 	pthread_mutex_unlock(&main->multi.frame_start_mutex);
-	
 	pthread_mutex_lock(&main->multi.frame_end_mutex);
 	pthread_cond_wait(&main->multi.frame_end_cv, &main->multi.frame_end_mutex);
 	pthread_mutex_unlock(&main->multi.frame_end_mutex);

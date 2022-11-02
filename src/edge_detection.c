@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:02:06 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/20 13:43:00 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:13:25 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	great_mask(t_frame_buffer *fb)
 	double	color;
 	double	scale;
 
-	scale = 0.015686;
+	scale = 0.02;
 	j = 1;
 	while (j < (WIN_H - 1))
 	{

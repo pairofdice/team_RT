@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/20 18:57:14 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/31 18:35:54 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include "multi_thread.h"
 # include <stdio.h>
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 500
+# define WIN_H 350
 # define A_A_DIV 6
 
 typedef struct s_frame_buffer
@@ -81,6 +81,12 @@ typedef struct s_light
 	t_vec3		pos;
 }				t_light;
 
+typedef struct s_screen_shot
+{
+	FILE		*fp;
+	int			fd;
+}				t_screen_shot;
+
 typedef struct s_main
 {
 	t_sdl		sdl;
@@ -90,7 +96,7 @@ typedef struct s_main
 	t_ray		shadow;
 	
 	t_light		light;
-	t_object	obj[10];
+	t_object	obj[500];
 	int			obj_count;
 	int			shape_count;
 	int			ant_al;
@@ -121,13 +127,18 @@ void			add_hit_color(t_main *main, t_ray *shadow);
 unsigned int	color_to_int(t_color color);
 void			fix_aliasing_color(t_main *main, int sub_pixel_count);
 int				check_shadow(t_main *main, t_ray *ray);
-void	creat_filters(t_frame_buffer * fb);
+void			creat_filters(t_frame_buffer * fb);
 
 int		rgb_to_white(t_color *rgb);
 void	int_to_rgb(int color, t_color *rgb);
 void	edge_detection(t_frame_buffer *fb);
 
 int		draw_frame(t_main *main);
+void	draw_to_window(t_sdl *sdl, int *filter);
+void	draw_filter(t_sdl *sdl, int *filter_type, int i);
+void	kay_hooks(t_sdl *sdl,int *quit, int *filter_type);
+void	creat_screen_shot(int *image);
+
 void	taskhandler(void *main);
 void	create_threads(t_main *main, int ant_al);
 void	init_pthread(t_main *main);

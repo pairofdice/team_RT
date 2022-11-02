@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/20 19:01:17 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:21:46 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,8 @@
 
 //Copys 1d arrey to texture and draws it.
 
-void	draw_to_window(t_sdl *sdl, int *filter)
-{
-	int		*texture_data;
-	int		texture_pitch;
-
-	SDL_LockTexture(sdl->texture, NULL, (void **)&texture_data, &texture_pitch);
-	ft_memcpy(texture_data, filter,
-		(sdl->frame_buffer.data_len * sizeof(int)));
-	SDL_UnlockTexture(sdl->texture);
-	SDL_RenderCopy(sdl->ren, sdl->texture, NULL, NULL);
-	SDL_RenderPresent(sdl->ren);
-}
-
 void	draw_filter(t_sdl *sdl, int *filter_type, int i)
 {
-	
 	if (i == 1)
 	{
 		if (sdl->event.key.keysym.sym == SDLK_DOWN && *filter_type > 0)
@@ -75,20 +61,8 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	filter_type = 0;
 	while (quit == 0)
 	{
-		
 		if (SDL_WaitEvent(&sdl->event) != 0)
-		{
-			if (sdl->event.type == SDL_QUIT)
-				quit = 1;
-			if (sdl->event.type == SDL_KEYDOWN)
-			{
-				if (sdl->event.key.keysym.sym == SDLK_ESCAPE)
-					quit = 1;
-				if (sdl->event.key.keysym.sym == SDLK_DOWN
-					|| sdl->event.key.keysym.sym == SDLK_UP)
-					draw_filter(sdl, &filter_type, 1);
-			}
-		}
+			kay_hooks(sdl, &quit, &filter_type);
 		draw_filter(sdl, &filter_type, 0);
 	}
 	free_buffers_and_sdl(sdl);
