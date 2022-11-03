@@ -1,7 +1,10 @@
 #include "challenge.h"
 #include <strings.h>
 
+// #include "../include/object.h"
+
 #define EPSILON 0.00006103515625
+
 
 double	to_radians(double degrees)
 {
@@ -663,10 +666,8 @@ t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
 }
 
 //
-
-//
-
 // Intersections & rays, whatnot
+//
 
 t_ray	new_ray(t_point origin, t_vector dir)
 {
@@ -682,3 +683,57 @@ t_point	ray_position(t_ray ray, double t)
 	return (tuple_add(ray.orig, tuple_scalar_mult(tuple_unit(ray.dir), t)));
 }
 
+
+t_object	new_sphere()
+{
+	static double id;
+	t_object	sphere;
+
+	sphere.id = id;
+	id++;
+	sphere.loc = (t_point){.xyzw={0,0,0,0}};
+	sphere.size = 1.0;
+	sphere.type = 1;
+	return (sphere);
+}
+
+
+double	calc_discriminant(double a, double b, double c)
+{
+	return (b * b - 4 * a * c);
+}
+
+int	new_intersections(t_vec *intersections)
+{
+	return (vec_new(intersections, 4, sizeof(double)));
+}
+
+
+int	intersect_sphere(t_ray *ray)
+{
+	t_abcd		abcd;
+	t_vector	sphere_to_ray;
+	double		t1;
+	double		t2;
+	
+	sphere_to_ray = tuple_sub(ray->orig, new_point(0, 0, 0));
+	abcd.a = vector_dot(ray->dir, ray->dir);
+	abcd.b = 2 * vector_dot(ray->dir, sphere_to_ray);
+	abcd.c = vector_dot(sphere_to_ray, sphere_to_ray) - 1;
+	abcd.d = calc_discriminant(abcd.a, abcd.b, abcd.c);
+	if (abcd.d < 0)
+		return (0);
+	t1 = (-abcd.b - sqrt(abcd.d)) - (2 * abcd.a);
+	t2 = (-abcd.b + sqrt(abcd.d)) - (2 * abcd.a);
+	if (t1 < t2)
+	{
+		vec_push(&ray->xs.vec, &t1);
+		vec_push(&ray->xs.vec, &t2);
+	}
+	else
+	{
+		vec_push(&ray->xs.vec, &t2);
+		vec_push(&ray->xs.vec, &t1);
+	}
+	return (1);
+}

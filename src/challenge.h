@@ -4,6 +4,9 @@
 # define CHALLENGE
 # include <math.h>
 # include <stdio.h>
+#include <stdlib.h>
+
+
 # define EPSILON 0.00006103515625
 
 typedef union u_tuple
@@ -22,7 +25,7 @@ typedef union u_tuple
 		double	b;
 	} rgb;
 	double		a[4];
-}				t_tuple;
+}	t_tuple;
 
 typedef t_tuple	t_vector;
 typedef t_tuple	t_point;
@@ -32,7 +35,21 @@ typedef struct s_coords
 {
 	size_t		row;
 	size_t		col;
-}				t_coords;
+}	t_coords;
+
+typedef struct s_vec
+{
+	void			*memory;
+	size_t			elem_size;
+	size_t			alloc_size;
+	size_t			len;
+}	t_vec;
+
+
+typedef struct s_intersections
+{
+	t_vec		vec;
+}	t_intersections;
 
 typedef struct s_matrix
 {
@@ -44,7 +61,35 @@ typedef struct s_ray
 {
 	t_point	orig;
 	t_vector	dir;
+	t_intersections xs;
 }	t_ray;
+
+typedef struct s_object
+{
+	t_point	loc;
+	t_point	coi;
+	t_vector up;
+	t_vector	rot;
+	double	size;
+	double	brightness;
+	int		type;
+	size_t	id;
+}	t_object;
+
+typedef struct s_intersection
+{
+	double	t1;
+	t_object *object;
+}	t_intersection;
+
+typedef struct s_abcd
+{
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+}	t_abcd;
+
 
 double			fabs(double x);
 int				nearly_equal(double a, double b);
@@ -107,9 +152,26 @@ t_matrix		matrix_scale(double x, double y, double z);
 t_matrix		matrix_rotate_x(double w);
 t_matrix		matrix_rotate_y(double w);
 t_matrix		matrix_rotate_z(double w);
-t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
+t_matrix		matrix_shear(double x_y, double x_z, double y_x, double y_z,
 		double z_x, double z_y);
 
-t_ray	new_ray(t_point origin, t_vector dir);
+t_ray			new_ray(t_point origin, t_vector dir);
+t_point			ray_position(t_ray ray, double t);
+t_object		new_sphere();
+int				intersect_sphere(t_ray *ray);
+int				new_intersections(t_vec *intersections);
+
+
+
+void	*ft_memset(void *b, int c, size_t len);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	vec_free(t_vec *src);
+int	vec_new(t_vec *src, size_t init_len, size_t elem_size);
+int	vec_resize(t_vec *src, size_t target_size);
+int	vec_append(t_vec *dst, t_vec *src);
+int	vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
+void	*vec_get(t_vec *src, size_t index);
+int	vec_push(t_vec *vec, void *elem);
+
 
 #endif
