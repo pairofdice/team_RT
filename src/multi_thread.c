@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:03:04 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 19:01:04 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:56:29 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	create_threads(t_main *main, int ant_al)
 
 static void	worker_wait(t_main *ctx)
 {
+	ctx->multi.threads_done++;
 	pthread_mutex_unlock(&ctx->multi.tasks_taken_mutex);
 	pthread_mutex_lock(&ctx->multi.frame_start_mutex);
 	pthread_cond_wait(&ctx->multi.frame_start_cv,
@@ -60,6 +61,7 @@ static void	worker_task(int *task_n, t_main *ctx)
 
 static void	worker_broadcast(t_main *ctx)
 {
+	ctx->multi.threads_done++;
 	pthread_mutex_unlock(&ctx->multi.tasks_done_mutex);
 	pthread_mutex_lock(&ctx->multi.frame_end_mutex);
 	pthread_cond_broadcast(&ctx->multi.frame_end_cv);
@@ -95,6 +97,7 @@ void	taskhandler(void *main)
 int	draw_frame(t_main *main)
 {
 	main->multi.frame_n++;
+	main->multi.threads_done = 0;
 	pthread_mutex_lock(&main->multi.tasks_done_mutex);
 	pthread_mutex_lock(&main->multi.tasks_taken_mutex);
 	main->multi.tasks_taken = 0;

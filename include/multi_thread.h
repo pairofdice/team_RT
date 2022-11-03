@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:28 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 18:35:15 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:47:33 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <pthread.h>
 
 #define	NUM_THREADS 13
-#define	NUM_TASKS 35
+#define	NUM_TASKS 64
 typedef struct s_multi
 {
 	pthread_mutex_t	tasks_done_mutex;
@@ -29,6 +29,7 @@ typedef struct s_multi
 	size_t			tasks_taken;
 	pthread_t		threadpool[NUM_THREADS];
 	int				frame_n;
+	int				threads_done;
 }		t_multi;
 
 

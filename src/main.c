@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 19:21:46 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/03 14:56:57 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,8 @@ int	main(void)
 	initialize_camera(&main.cam);
 	create_threads(&main, 1);
 	draw_frame(&main);
+	while (main.multi.threads_done < NUM_THREADS)
+		ft_putendl("Threads are working realy hard whit the image");
 	edge_detection(&main.sdl.frame_buffer);
 	main.ant_al = A_A_DIV;
 	draw_frame(&main);
