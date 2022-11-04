@@ -19,11 +19,14 @@ void	test_matrix_shear();
 void	test_transform_chaining();
 void	test_ray();
 void	test_sphere_intersect();
+void	test_intersection();
+void	test_ray_sphere_transforms();
 
 
 
 int	main(void)
 {
+/* 	
 	printf("Testing tuples\n");
 	test_tuples();
 	printf("Tuples OK\n");
@@ -69,16 +72,21 @@ int	main(void)
 	printf("Testing transform chaining\n");
 	test_transform_chaining();
 	printf("Transform chaining OK\n");
-
 	printf("Testing rays\n");
 	test_ray();
 	printf("Rays OK\n");
-
 	printf("Testing sphere intersection\n");
 	test_sphere_intersect();
 	printf("Sphere intersection OK\n");
-}
+	printf("Testing intersection\n");
+	test_intersection();
+	printf("Intersection OK\n");
+ */
 
+	printf("Testing ray transform\n");
+	test_ray_sphere_transforms();
+	printf("Ray transform OK\n");
+}
 
 void	test_tuples()
 {
@@ -186,6 +194,16 @@ void	test_tuples()
 	v2 = new_vector(2, 3, 4);
 	double dot = vector_dot(v1, v2);
 	assert(nearly_equal(dot, 20));
+
+	v1 = new_vector(1, 2, 3);
+	v2 = new_vector(1, 5, 7);
+	dot = vector_dot(v1, v2);
+	assert(nearly_equal(dot, 32));
+
+	v1 = new_vector(-8, 2, 3);
+	v2 = new_vector(1, -5, 7);
+	dot = vector_dot(v1, v2);
+	assert(nearly_equal(dot, 3));
 
 	v1 = new_vector(1, 2, 3);
 	v2 = new_vector(2, 3, 4);
@@ -1250,68 +1268,126 @@ void	test_ray()
 
 void	test_sphere_intersect()
 {
-/* 	t_vector a = new_vector(3,0,0);
-
-	printf("%f\n", vector_dot(a, a));
-	printf("%f\n", temp);
- */
-
-
+	t_object	sphere = new_sphere();
 	t_point p = new_point(0, 0, -5);
 	t_vector v = new_vector(0, 0, 1);
 	t_ray	ray = new_ray(p, v);
+
 	
 	// t_object sphere = new_sphere();
 	new_intersections(&ray.xs.vec);
-	int	does_intersect = intersect_sphere(&ray);
+	int	does_intersect = intersect_sphere(&ray, &sphere);
+	if (does_intersect)
+	{}
 
 	assert(ray.xs.vec.len == 2);
-	double temp = *(double *)ray.xs.vec.memory;
-	 temp = *(double *) vec_get(&ray.xs.vec, 1);
-	 printf("%f\n", temp);
-	assert(temp == 4.0);
-	temp = *(double *)ray.xs.vec.memory;
-	assert(temp == 6.0);
+	// double  temp = *(double *) vec_get(&ray.xs.vec, 0);
+	t_intersection xs = *(t_intersection *) vec_get(&ray.xs.vec, 0);
+	// assert(temp == 4.0);
+	assert(xs.t == 4.0);
+	// temp = *(double *) vec_get(&ray.xs.vec, 1);
+	xs = *(t_intersection *) vec_get(&ray.xs.vec, 1);
 
+	// assert(temp == 6.0);
+	assert(xs.t == 6.0);
+	// RESET
 	ray.xs.vec.len = 0;
 
 	p = new_point(0, 1, -5);
-	ray = new_ray(p, v);
-	does_intersect = intersect_sphere( &ray);
+	// ray = new_ray(p, v);
+	ray.dir = v;
+	ray.orig = p;
+	does_intersect = intersect_sphere( &ray, &sphere);
 	assert(ray.xs.vec.len == 2);
-	temp = *(double *)ray.xs.vec.memory;
-	assert(temp == 5.0);
-	temp = *(double *)ray.xs.vec.memory;
-	assert(temp == 5.0);
+	// temp = *(double *) vec_get(&ray.xs.vec, 0);
+	// assert(temp == 5.0);
+	// temp = *(double *) vec_get(&ray.xs.vec, 1);
+	// assert(temp == 5.0);
+	xs = *(t_intersection *) vec_get(&ray.xs.vec, 0);
+	assert(xs.t == 5.0);
+	xs = *(t_intersection *) vec_get(&ray.xs.vec, 1);
+	assert(xs.t == 5.0);
+	// RESET
 
 	ray.xs.vec.len = 0;
-
 	p = new_point(0, 2, -5);
-	ray = new_ray(p, v);
-	does_intersect = intersect_sphere(&ray);
+	ray.dir = v;
+	ray.orig = p;
+	does_intersect = intersect_sphere(&ray, &sphere);
 	assert(ray.xs.vec.len == 0);
 
+	// RESET
 	ray.xs.vec.len = 0;
-
 	p = new_point(0, 0, 0);
-	ray = new_ray(p, v);
-	does_intersect = intersect_sphere(&ray);
+	ray.dir = v;
+	ray.orig = p;
+	does_intersect = intersect_sphere(&ray, &sphere);
 	assert(ray.xs.vec.len == 2);
-	temp = *(double *)ray.xs.vec.memory;
-	assert(temp == -1.0);
-	temp = *(double *)ray.xs.vec.memory;
-	assert(temp == 1.0);
+	// temp = *(double *) vec_get(&ray.xs.vec, 0);
+	// assert(temp == -1.0);
+	// temp = *(double *) vec_get(&ray.xs.vec, 1);
+	// assert(temp == 1.0);
+	xs = *(t_intersection *) vec_get(&ray.xs.vec, 0);
+	assert(xs.t == -1.0);
+	xs = *(t_intersection *) vec_get(&ray.xs.vec, 1);
+	assert(xs.t == 1.0);
 
+	// RESET
 	ray.xs.vec.len = 0;
 
 	p = new_point(0, 0, 5);
-	ray = new_ray(p, v);
-	does_intersect = intersect_sphere(&ray);
+	ray.dir = v;
+	ray.orig = p;
+	does_intersect = intersect_sphere(&ray, &sphere);
 	assert(ray.xs.vec.len == 2);
-	temp = *(double *)ray.xs.vec.memory;
-	assert(temp == -6.0);
-	temp = *(double *)ray.xs.vec.memory;
-	assert(temp == -4.0);
+	// temp = *(double *) vec_get(&ray.xs.vec, 0);
+	// assert(temp == -6.0);
+	// temp = *(double *) vec_get(&ray.xs.vec, 1);
+	// assert(temp == -4.0);
+	xs = *(t_intersection *) vec_get(&ray.xs.vec, 0);
+	assert(xs.t == -6.0);
+	xs = *(t_intersection *) vec_get(&ray.xs.vec, 1);
+	assert(xs.t == -4.0);
 
+}
 
+void	test_intersection()
+{
+	t_object	s = new_sphere();
+	t_intersection	i = new_intersection(3.5, &s);
+
+	assert(nearly_equal(i.t, 3.5));
+	assert(i.object->id == s.id);
+}
+
+void	test_ray_sphere_transforms()
+{
+	// RAY TRANSLATE
+	t_ray	r1 = new_ray((t_point){.xyzw = {1, 2, 3, 1}}, (t_vector){.xyzw = {0, 1, 0, 0}});
+	t_matrix m = matrix_translate(3, 4, 5);
+	t_ray r2 = ray_transform(&r1, &m);
+
+	assert(tuples_equal(r2.orig, new_point(4, 6, 8)));
+	assert(tuples_equal(r2.dir, new_vector(0, 1, 0)));
+	print_tuple(r2.orig);
+	print_tuple(r2.dir);
+
+	// RAY SCALE
+
+	r1 = new_ray((t_point){.xyzw = {1, 2, 3, 1}}, (t_vector){.xyzw = {0, 1, 0, 0}});
+	m = matrix_scale(2, 3, 4);
+	r2 = ray_transform(&r1, &m);
+
+	assert(tuples_equal(r2.orig, new_point(2, 6, 12)));
+	assert(tuples_equal(r2.dir, new_vector(0, 3, 0)));
+	print_tuple(r2.orig);
+	print_tuple(r2.dir);
+
+	// SPHERE IDENTITY
+	t_object	sphere = new_sphere();
+	t_matrix	m_id = new_matrix_identity(4);
+	assert(matrices_equal(&sphere.transform, &m_id));
+	
+	// SPHERE TRANSFORM
+	m = matrix_translate(2, 3, 4);
 }

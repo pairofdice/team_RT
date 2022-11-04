@@ -74,11 +74,12 @@ typedef struct s_object
 	double	brightness;
 	int		type;
 	size_t	id;
+	t_matrix	transform;
 }	t_object;
 
 typedef struct s_intersection
 {
-	double	t1;
+	double	t;
 	t_object *object;
 }	t_intersection;
 
@@ -125,6 +126,7 @@ t_matrix		new_matrix_inc(size_t size);
 t_matrix		new_matrix_inc_a(size_t size);
 t_matrix		new_matrix_inc_b(size_t size);
 t_matrix		new_matrix_inc_c(size_t size);
+t_matrix	new_matrix_identity(int size);
 
 t_matrix		matrix_multiply(t_matrix *a, t_matrix *b);
 double			row_column_multiply(
@@ -158,8 +160,10 @@ t_matrix		matrix_shear(double x_y, double x_z, double y_x, double y_z,
 t_ray			new_ray(t_point origin, t_vector dir);
 t_point			ray_position(t_ray ray, double t);
 t_object		new_sphere();
-int				intersect_sphere(t_ray *ray);
+int				intersect_sphere(t_ray *ray, t_object *s);
 int				new_intersections(t_vec *intersections);
+t_intersection	new_intersection(double time, t_object *o);
+t_ray	ray_transform(t_ray *source, t_matrix *transform);
 
 
 
@@ -172,6 +176,7 @@ int	vec_append(t_vec *dst, t_vec *src);
 int	vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
 void	*vec_get(t_vec *src, size_t index);
 int	vec_push(t_vec *vec, void *elem);
+
 
 
 #endif

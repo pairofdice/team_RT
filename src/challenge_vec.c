@@ -74,7 +74,7 @@ int	vec_new(t_vec *src, size_t init_len, size_t elem_size)
 int	vec_resize(t_vec *src, size_t target_size)
 {
 	t_vec	resized;
-
+	printf("asdasdasd\n");
 	if (!src || !src->memory)
 		return (-1);
 	if (vec_new(&resized, target_size, src->elem_size) == -1)
@@ -134,7 +134,7 @@ void	*vec_get(t_vec *src, size_t index)
 }
 
 
-
+#include <string.h>
 int	vec_push(t_vec *vec, void *elem)
 {
 	if (!vec || !elem)

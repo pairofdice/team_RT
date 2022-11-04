@@ -686,9 +686,10 @@ t_point	ray_position(t_ray ray, double t)
 
 t_object	new_sphere()
 {
-	static double id;
+	static size_t id;
 	t_object	sphere;
 
+	sphere.transform = new_matrix_identity(4);
 	sphere.id = id;
 	id++;
 	sphere.loc = (t_point){.xyzw={0,0,0,0}};
@@ -700,18 +701,43 @@ t_object	new_sphere()
 
 double	calc_discriminant(double a, double b, double c)
 {
-	return (b * b - 4 * a * c);
+/* 	 printf("a %f\n", a);
+	 printf("b %f\n", b);
+	 printf("c %f\n", c);
+	 printf("d %f\n", (b * b)- 4 * a * c); */
+	return ((b * b)- 4 * a * c);
 }
 
 int	new_intersections(t_vec *intersections)
 {
-	return (vec_new(intersections, 4, sizeof(double)));
+	return (vec_new(intersections, 4, sizeof(t_intersection)));
 }
 
 
-int	intersect_sphere(t_ray *ray)
+void	record_intersections(t_ray *ray, double t1, double t2, t_object *s)
 {
-	t_abcd		abcd;
+	t_intersection xs;
+
+	
+	if (t1 < t2)
+	{
+		xs = new_intersection(t1, s);
+		vec_push(&ray->xs.vec, &xs);
+		xs = new_intersection(t2, s);
+		vec_push(&ray->xs.vec, &xs);
+	}
+ 	else
+	{
+		xs = new_intersection(t2, s);
+		vec_push(&ray->xs.vec, &xs);
+		xs = new_intersection(t1, s);
+		vec_push(&ray->xs.vec, &xs);
+	}
+}
+
+int	intersect_sphere(t_ray *ray, t_object *s)
+{
+	static t_abcd		abcd;
 	t_vector	sphere_to_ray;
 	double		t1;
 	double		t2;
@@ -723,17 +749,50 @@ int	intersect_sphere(t_ray *ray)
 	abcd.d = calc_discriminant(abcd.a, abcd.b, abcd.c);
 	if (abcd.d < 0)
 		return (0);
-	t1 = (-abcd.b - sqrt(abcd.d)) - (2 * abcd.a);
-	t2 = (-abcd.b + sqrt(abcd.d)) - (2 * abcd.a);
-	if (t1 < t2)
-	{
-		vec_push(&ray->xs.vec, &t1);
-		vec_push(&ray->xs.vec, &t2);
-	}
-	else
-	{
-		vec_push(&ray->xs.vec, &t2);
-		vec_push(&ray->xs.vec, &t1);
-	}
+	t1 = (-(abcd.b) - sqrt(abcd.d)) / (2 * abcd.a);
+	t2 = (-(abcd.b) + sqrt(abcd.d)) / (2 * abcd.a);
+	record_intersections(ray, t1, t2, s);
 	return (1);
+}
+
+t_intersection new_intersection(double time, t_object *o)
+{
+	t_intersection	xs;
+
+	xs.t = time;
+	xs.object = o;
+	return (xs);
+}
+
+t_intersection	hit(t_intersections *intersections)
+{
+	size_t			i;
+	t_intersection	xs;
+
+	xs = *(t_intersection *)vec_get(&intersections->vec, 0);
+	i = 1;
+	while (i < intersections->vec.len)
+	{
+		xs = *(t_intersection *)vec_get(&intersections->vec, i);
+		if (xs.t > 0)
+			break ;
+		i++;
+	}
+	return (xs);
+}
+
+t_ray	ray_transform(t_ray *source, t_matrix *transform)
+{
+	t_ray		result;
+/* 	t_point		p;
+	t_vector	v; */
+
+	result.orig = matrix_tuple_multiply(transform, &source->orig);
+	result.dir =  matrix_tuple_multiply(transform, &source->dir);
+	return (result);
+}
+
+void	set_transform(t_object *obj, t_matrix *transform)
+{
+	obj->transform = *transform;
 }
