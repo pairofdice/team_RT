@@ -669,13 +669,41 @@ t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
 // Intersections & rays, whatnot
 //
 
+/* 
+	Mallocs in new_intersections!!!
+ */
 t_ray	new_ray(t_point origin, t_vector dir)
 {
 	t_ray	result;
 
 	result.orig = origin;
 	result.dir = dir;
+	new_intersections(&result.xs.vec);
+	// t_intersection xs;
+	// t_object sphere = new_sphere();
+	// xs = new_intersection(3.5, &sphere);
+	// vec_push(&result.xs.vec, &xs);
+	// printf("%zu\n", result.xs.vec.len);
 	return (result);
+}
+
+t_ray	new_ray_no_malloc(t_point origin, t_vector dir)
+{
+	t_ray	result;
+
+	result.orig = origin;
+	result.dir = dir;
+	return (result);
+}
+
+void	ray_free(t_ray *ray)
+{
+	vec_free(&ray->xs.vec);
+}
+
+int	new_intersections(t_vec *intersections)
+{
+	return (vec_new(intersections, 4, sizeof(t_intersection)));
 }
 
 t_point	ray_position(t_ray ray, double t)
@@ -698,27 +726,17 @@ t_object	new_sphere()
 	return (sphere);
 }
 
-
 double	calc_discriminant(double a, double b, double c)
 {
-/* 	 printf("a %f\n", a);
-	 printf("b %f\n", b);
-	 printf("c %f\n", c);
-	 printf("d %f\n", (b * b)- 4 * a * c); */
 	return ((b * b)- 4 * a * c);
 }
 
-int	new_intersections(t_vec *intersections)
-{
-	return (vec_new(intersections, 4, sizeof(t_intersection)));
-}
 
 
 void	record_intersections(t_ray *ray, double t1, double t2, t_object *s)
 {
-	t_intersection xs;
+	t_intersection	xs;
 
-	
 	if (t1 < t2)
 	{
 		xs = new_intersection(t1, s);
@@ -735,23 +753,30 @@ void	record_intersections(t_ray *ray, double t1, double t2, t_object *s)
 	}
 }
 
-int	intersect_sphere(t_ray *ray, t_object *s)
+int	intersect_sphere(t_ray *inc_ray, t_object *s)
 {
 	static t_abcd		abcd;
 	t_vector	sphere_to_ray;
 	double		t1;
 	double		t2;
+	t_matrix	inverse_transform;
+	t_ray		ray;
+
+	ray = new_ray_no_malloc(inc_ray->orig, inc_ray->dir);
 	
-	sphere_to_ray = tuple_sub(ray->orig, new_point(0, 0, 0));
-	abcd.a = vector_dot(ray->dir, ray->dir);
-	abcd.b = 2 * vector_dot(ray->dir, sphere_to_ray);
+	inverse_transform = matrix_inverse(&s->transform);
+
+	ray = ray_transform(inc_ray, &inverse_transform);
+	sphere_to_ray = tuple_sub(ray.orig, new_point(0, 0, 0));
+	abcd.a = vector_dot(ray.dir, ray.dir);
+	abcd.b = 2 * vector_dot(ray.dir, sphere_to_ray);
 	abcd.c = vector_dot(sphere_to_ray, sphere_to_ray) - 1;
 	abcd.d = calc_discriminant(abcd.a, abcd.b, abcd.c);
 	if (abcd.d < 0)
 		return (0);
 	t1 = (-(abcd.b) - sqrt(abcd.d)) / (2 * abcd.a);
 	t2 = (-(abcd.b) + sqrt(abcd.d)) / (2 * abcd.a);
-	record_intersections(ray, t1, t2, s);
+	record_intersections(inc_ray, t1, t2, s);
 	return (1);
 }
 
@@ -783,16 +808,22 @@ t_intersection	hit(t_intersections *intersections)
 
 t_ray	ray_transform(t_ray *source, t_matrix *transform)
 {
+	t_point		p;
+	t_vector	v;
 	t_ray		result;
-/* 	t_point		p;
-	t_vector	v; */
 
-	result.orig = matrix_tuple_multiply(transform, &source->orig);
-	result.dir =  matrix_tuple_multiply(transform, &source->dir);
+	p = matrix_tuple_multiply(transform, &source->orig);
+	v =  matrix_tuple_multiply(transform, &source->dir);
+	result = new_ray(p, v);
 	return (result);
 }
 
 void	set_transform(t_object *obj, t_matrix *transform)
 {
-	obj->transform = *transform;
+	// Do we want this to set the obj transform to the new one, like this
+	//				vvvv
+	// obj->transform = *transform;
+
+	// Or add to it, like this vvvv?
+	obj->transform = matrix_multiply(&obj->transform, transform);
 }

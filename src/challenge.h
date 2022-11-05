@@ -45,24 +45,12 @@ typedef struct s_vec
 	size_t			len;
 }	t_vec;
 
-
-typedef struct s_intersections
-{
-	t_vec		vec;
-}	t_intersections;
-
 typedef struct s_matrix
 {
 	double		rc[4][4];
 	size_t		size;
 }				t_matrix;
 
-typedef struct s_ray
-{
-	t_point	orig;
-	t_vector	dir;
-	t_intersections xs;
-}	t_ray;
 
 typedef struct s_object
 {
@@ -76,6 +64,18 @@ typedef struct s_object
 	size_t	id;
 	t_matrix	transform;
 }	t_object;
+
+typedef struct s_intersections
+{
+	t_vec		vec;
+}	t_intersections;
+
+typedef struct s_ray
+{
+	t_point	orig;
+	t_vector	dir;
+	t_intersections xs;
+}	t_ray;
 
 typedef struct s_intersection
 {
@@ -126,7 +126,7 @@ t_matrix		new_matrix_inc(size_t size);
 t_matrix		new_matrix_inc_a(size_t size);
 t_matrix		new_matrix_inc_b(size_t size);
 t_matrix		new_matrix_inc_c(size_t size);
-t_matrix	new_matrix_identity(int size);
+t_matrix		new_matrix_identity(int size);
 
 t_matrix		matrix_multiply(t_matrix *a, t_matrix *b);
 double			row_column_multiply(
@@ -139,7 +139,7 @@ void			print_tuple(t_tuple t);
 // t_tuple			mt_multiply(t_matrix *m, t_tuple *t);
 t_tuple			matrix_tuple_multiply(t_matrix *m, t_tuple *t);
 
-void	matrix_transpose(t_matrix *m); // check up
+void			matrix_transpose(t_matrix *m); // check up
 double			matrix_determinant(t_matrix *m);
 // t_matrix	submatrix(t_matrix *src, int skip_row, int skip_col);
 t_matrix		submatrix(t_matrix *src, t_coords c);
@@ -158,24 +158,28 @@ t_matrix		matrix_shear(double x_y, double x_z, double y_x, double y_z,
 		double z_x, double z_y);
 
 t_ray			new_ray(t_point origin, t_vector dir);
+t_ray			new_ray_malloc(t_point origin, t_vector dir);
+void			ray_free(t_ray *ray);
+
 t_point			ray_position(t_ray ray, double t);
 t_object		new_sphere();
 int				intersect_sphere(t_ray *ray, t_object *s);
 int				new_intersections(t_vec *intersections);
 t_intersection	new_intersection(double time, t_object *o);
-t_ray	ray_transform(t_ray *source, t_matrix *transform);
+t_ray			ray_transform(t_ray *source, t_matrix *transform);
+void			set_transform(t_object *obj, t_matrix *transform);
 
 
 
-void	*ft_memset(void *b, int c, size_t len);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-void	vec_free(t_vec *src);
-int	vec_new(t_vec *src, size_t init_len, size_t elem_size);
-int	vec_resize(t_vec *src, size_t target_size);
-int	vec_append(t_vec *dst, t_vec *src);
-int	vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
-void	*vec_get(t_vec *src, size_t index);
-int	vec_push(t_vec *vec, void *elem);
+void			*ft_memset(void *b, int c, size_t len);
+void			*ft_memcpy(void *dst, const void *src, size_t n);
+void			vec_free(t_vec *src);
+int				vec_new(t_vec *src, size_t init_len, size_t elem_size);
+int				vec_resize(t_vec *src, size_t target_size);
+int				vec_append(t_vec *dst, t_vec *src);
+int				vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
+void			*vec_get(t_vec *src, size_t index);
+int				vec_push(t_vec *vec, void *elem);
 
 
 
