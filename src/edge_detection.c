@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   edge_detection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:02:06 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 19:13:25 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/06 15:59:00 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	int_to_rgb(int color, t_color *rgb)
 {
-	rgb->rgb.r = (color) >> 24 & 255;
-	rgb->rgb.g = (color) >> 16 & 255;
-	rgb->rgb.b = (color) >> 8 & 255;
+	rgb->s_rgb.r = (color) >> 24 & 255;
+	rgb->s_rgb.g = (color) >> 16 & 255;
+	rgb->s_rgb.b = (color) >> 8 & 255;
 }
 
 int	rgb_to_white(t_color *rgb)
 {
 	int	color;
 
-	color = (((rgb->rgb.r) + (rgb->rgb.g) + (rgb->rgb.b)) / 3);
+	color = (((rgb->s_rgb.r) + (rgb->s_rgb.g) + (rgb->s_rgb.b)) / 3);
 	return (color << 24 | color << 16 | color << 8);
 }
 

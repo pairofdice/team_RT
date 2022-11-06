@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   object.h                                           :+:      :+:    :+:   */
+/*   tuple_equal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/06 15:48:41 by jsaarine         ###   ########.fr       */
+/*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
+/*   Updated: 2022/11/06 16:31:31 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OBJECT_H
-# define OBJECT_H
+#include "tuple.h"
 
-# include "rt.h"
-# include "tuple.h"
-# include "vector.h"
-
-typedef struct s_object
+int	tuples_equal(t_tuple a, t_tuple b)
 {
-	t_vec3			loc;
-	t_vec3			coi;
-	t_vec3			up;
-	t_vec3			rot;
-	double			size;
-	double			brightness;
-	int				type;
-	union u_tuple	color;
-}					t_object;
+	int	i;
 
-typedef struct s_abc
-{
-	double			a;
-	double			b;
-	double			c;
-	double			d;
-}					t_abc;
-
-#endif
+	i = 0;
+	while (i < 4)
+	{
+		if (nearly_equal(a.a[i], b.a[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}

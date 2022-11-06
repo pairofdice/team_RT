@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_screen_shot.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 13:45:06 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 19:13:01 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/06 15:59:46 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ int	write_file_line(t_screen_shot s_s, int *image)
 			image_str = ft_strnew(0);
 			//malloc check
 			int_to_rgb((image[((y * WIN_W) + x)]), &color);
-			add_to_line_str(&temp_str, &image_str, (int)color.rgb.r, 0);
+			add_to_line_str(&temp_str, &image_str, (int)color.s_rgb.r, 0);
 			//malloc checks
-			add_to_line_str(&temp_str, &image_str, (int)color.rgb.g, 0);
+			add_to_line_str(&temp_str, &image_str, (int)color.s_rgb.g, 0);
 			//malloc checks
-			add_to_line_str(&temp_str, &image_str, (int)color.rgb.b, 1);
+			add_to_line_str(&temp_str, &image_str, (int)color.s_rgb.b, 1);
 			//malloc checks
 			if (x < (WIN_W - 1))
 				image_str = ft_strjoin(temp_str, " ");

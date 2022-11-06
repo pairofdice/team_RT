@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 19:21:46 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/06 16:15:18 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,14 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	free_buffers_and_sdl(sdl);
 }
 
+int	tests(void); // unit tests
+
 int	main(void)
 {
 	t_main	main;
+	t_tuple asdf = tuple_new(1, 2, 3, 4);
+	tuple_print(asdf);
+	tests();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (1);
@@ -103,18 +108,18 @@ int	main(void)
 	main.obj[0].loc.z = 30.0;
 	main.obj[0].size = 3.0;
 	main.obj[0].type = 0;
-	main.obj[0].color.rgb.r = 0.0;
-	main.obj[0].color.rgb.g = 1.0;
-	main.obj[0].color.rgb.b = 0.0;
+	main.obj[0].color.s_rgb.r = 0.0;
+	main.obj[0].color.s_rgb.g = 1.0;
+	main.obj[0].color.s_rgb.b = 0.0;
 	
 	main.obj[1].loc.x = 5.0;
 	main.obj[1].loc.y = 0.0;
 	main.obj[1].loc.z = 30.0;
 	main.obj[1].size = 0.1;
 	main.obj[1].type = 0;
-	main.obj[1].color.rgb.r = 1.0;
-	main.obj[1].color.rgb.g = 0.0;
-	main.obj[1].color.rgb.b = 0.0;
+	main.obj[1].color.s_rgb.r = 1.0;
+	main.obj[1].color.s_rgb.g = 0.0;
+	main.obj[1].color.s_rgb.b = 0.0;
 
 	main.obj[2].loc.x = 0.0;
 	main.obj[2].loc.y = 0.0;
@@ -123,9 +128,9 @@ int	main(void)
 	main.obj[2].rot.y = 0.0;
 	main.obj[2].rot.z = 1.0;
 	main.obj[2].type = 2;
-	main.obj[2].color.rgb.r = 1.0;
-	main.obj[2].color.rgb.g = 1.0;
-	main.obj[2].color.rgb.b = 1.0;
+	main.obj[2].color.s_rgb.r = 1.0;
+	main.obj[2].color.s_rgb.g = 1.0;
+	main.obj[2].color.s_rgb.b = 1.0;
 
 	main.obj[3].loc.x = 0.0;
 	main.obj[3].loc.y = -10.0;
@@ -134,9 +139,9 @@ int	main(void)
 	main.obj[3].rot.y = 1.0;
 	main.obj[3].rot.z = 0.0;
 	main.obj[3].type = 2;
-	main.obj[3].color.rgb.r = 0.0;
-	main.obj[3].color.rgb.g = 1.0;
-	main.obj[3].color.rgb.b = 1.0;
+	main.obj[3].color.s_rgb.r = 0.0;
+	main.obj[3].color.s_rgb.g = 1.0;
+	main.obj[3].color.s_rgb.b = 1.0;
 		
 	main.obj[4].loc.x = 0.0;
 	main.obj[4].loc.y = 0.0;
@@ -146,9 +151,9 @@ int	main(void)
 	main.obj[4].rot.z = 1.0;
 	main.obj[4].type = 1;
 	main.obj[4].size = 1;
-	main.obj[4].color.rgb.r = 1.0;
-	main.obj[4].color.rgb.g = 1.0;
-	main.obj[4].color.rgb.b = 1.0;
+	main.obj[4].color.s_rgb.r = 1.0;
+	main.obj[4].color.s_rgb.g = 1.0;
+	main.obj[4].color.s_rgb.b = 1.0;
 
 	main.obj[5].loc.x = 0.0;
 	main.obj[5].loc.y = 0.0;
@@ -158,9 +163,9 @@ int	main(void)
 	main.obj[5].rot.z = 1.0;
 	main.obj[5].type = 1;
 	main.obj[5].size = 0.5;
-	main.obj[5].color.rgb.r = 1.0;
-	main.obj[5].color.rgb.g = 0.0;
-	main.obj[5].color.rgb.b = 1.0;
+	main.obj[5].color.s_rgb.r = 1.0;
+	main.obj[5].color.s_rgb.g = 0.0;
+	main.obj[5].color.s_rgb.b = 1.0;
 
 	main.obj[6].loc.x = -10.0;
 	main.obj[6].loc.y = 0.0;
@@ -170,9 +175,9 @@ int	main(void)
 	main.obj[6].rot.z = 0.0;
 	main.obj[6].type = 3;
 	main.obj[6].size = 1;
-	main.obj[6].color.rgb.r = 1.0;
-	main.obj[6].color.rgb.g = 0.1;
-	main.obj[6].color.rgb.b = 0.8;
+	main.obj[6].color.s_rgb.r = 1.0;
+	main.obj[6].color.s_rgb.g = 0.1;
+	main.obj[6].color.s_rgb.b = 0.8;
 	main.obj_count = 7;
 	
 	initialize_camera(&main.cam);

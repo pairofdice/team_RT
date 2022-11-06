@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/31 17:09:18 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/06 17:39:47 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,24 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								filters.c\
 								multi_thread.c\
 								key_hooks.c\
-								create_screen_shot.c)
+								create_screen_shot.c\
+								tuple_print.c\
+								tuple_new.c\
+								tuple_equal.c\
+								tuple_add.c\
+								tuple_neg.c\
+								tuple_sub.c\
+								tuple_mag.c\
+								tuple_unit.c\
+								tuple_scalar_div.c\
+								tuple_scalar_mult.c\
+								point_new.c\
+								vector_dot.c\
+								vector_new.c\
+								vector_cross.c\
+								nearly_equal.c\
+								fabs.c\
+								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

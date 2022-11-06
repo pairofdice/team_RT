@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_render.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 19:17:54 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/06 15:56:51 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,9 @@ void	render_image(t_main	*main, int task, int ant_al)
 		x = 0;
 		while (x < WIN_W)
 		{
-			copy.ray.hit.color.rgb.r = 0.0;
-			copy.ray.hit.color.rgb.g = 0.0;
-			copy.ray.hit.color.rgb.b = 0.0;
+			copy.ray.hit.color.s_rgb.r = 0.0;
+			copy.ray.hit.color.s_rgb.g = 0.0;
+			copy.ray.hit.color.s_rgb.b = 0.0;
 			while (ant_al != 1 && x < WIN_W
 				&& main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
 				x++;
