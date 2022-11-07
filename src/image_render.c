@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_render.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/06 15:56:51 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:02:56 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,19 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 {
 	double	x;
 	double	y;
+	double	offset;
 	int		i;
 	int		j;
-	int		color;
 
 	j = 0;
+	offset = (1.0 / ant_al);
 	while (j < ant_al)
 	{
 		i = 0;
-		y = ((float)pixel_y + ((1.0 / ant_al) * j));
+		y = ((float)pixel_y + (offset / 2) + (offset * j));
 		while (i < ant_al)
 		{
-			x = ((float)pixel_x + ((1.0 / ant_al) * i));
+			x = ((float)pixel_x + (offset / 2) + (offset * i));
 			initialize_ray(&main->ray, x, y, &main->cam);
 			ray_shooter(&main->ray, main);
 			i++;
@@ -96,8 +97,7 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 		j++;
 	}
 	fix_aliasing_color(main, (ant_al * ant_al));
-	color = color_to_int(main->ray.hit.color);
-	return (color);
+	return (color_to_int(main->ray.hit.color));
 }
 
 void	render_image(t_main	*main, int task, int ant_al)
@@ -107,9 +107,9 @@ void	render_image(t_main	*main, int task, int ant_al)
 	int		x;
 	int		color;
 
-	y = (task * (WIN_H / NUM_TASKS));
+	y = task;// * (WIN_H / NUM_TASKS));
 	copy = *main;
-	while (y < ((task + 2) * (WIN_H / NUM_TASKS)) && y < WIN_H)
+	while (y < WIN_H)
 	{
 		x = 0;
 		while (x < WIN_W)
@@ -125,6 +125,6 @@ void	render_image(t_main	*main, int task, int ant_al)
 			color = anti_aliasing(&copy, x, y, ant_al);
 			main->sdl.frame_buffer.data[((y * WIN_W) + x++)] = color;
 		}
-		y++;
+		y += NUM_TASKS;
 	}
 }

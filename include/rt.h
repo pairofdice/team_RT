@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 15:02:03 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:04:42 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,16 @@
 # include "vector.h"
 # include <fcntl.h>
 # include <math.h>
+# include "../build/libsdl2/include/SDL2/SDL.h"
+# include "vector.h"
+# include "object.h"
+# include "multi_thread.h"
+# include "perlin_noice.h"
 # include <stdio.h>
 
 # define WIN_W 500
 # define WIN_H 350
-# define A_A_DIV 6
+# define A_A_DIV 2
 
 typedef struct s_frame_buffer
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/07 14:57:24 by jsaarine         ###   ########.fr        #
+#    Updated: 2022/11/07 16:05:35 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								multi_thread.c\
 								key_hooks.c\
 								create_screen_shot.c\
+								perlin_noice.c\
 								tuple_print.c\
 								tuple_new.c\
 								tuple_equal.c\
