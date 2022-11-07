@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/06 17:40:12 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:02:03 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,4 +143,7 @@ void				taskhandler(void *main);
 void				create_threads(t_main *main, int ant_al);
 void				init_pthread(t_main *main);
 double				fabs(double x);
+int					int_clamp(int value, int min, int max);
+double				float_clamp(double value, double min, double max);
+
 #endif

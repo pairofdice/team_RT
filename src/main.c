@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/06 16:15:18 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/06 19:58:54 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	free_buffers_and_sdl(t_sdl *sdl)
 	free(sdl->frame_buffer.edge_map);
 }
 
-// Infinet loop to handle the window.
+// Infinite loop to handle the window.
 
 void	rt_loop_and_exit(t_sdl *sdl)
 {
@@ -73,8 +73,7 @@ int	tests(void); // unit tests
 int	main(void)
 {
 	t_main	main;
-	t_tuple asdf = tuple_new(1, 2, 3, 4);
-	tuple_print(asdf);
+
 	tests();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)

@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:37:35 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/06 17:35:41 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:02:19 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,14 @@ double			tuple_mag(t_tuple u);
 t_tuple			tuple_unit(t_tuple u);
 double			vector_dot(t_tuple u, t_tuple v);
 t_vector		vector_cross(t_vector u, t_vector v);
-t_color			new_color(double r, double g, double b);
-t_color			color_add(t_color a, t_color b);
-t_color			color_sub(t_color a, t_color b);
-t_color			color_scalar_multiply(t_color c, double x);
+t_color			color_new(double r, double g, double b);
+// t_color			color_add(t_color a, t_color b);
+// t_color			color_sub(t_color a, t_color b);
+// t_color			color_scalar_multiply(t_color c, double x);
+// t_color			color_multiply(t_color a, t_color b);
+unsigned int	color_to_int(t_color color);
+t_color			int_to_color(unsigned int rgba);
+unsigned int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
 t_color			color_multiply(t_color a, t_color b);
 
 #endif

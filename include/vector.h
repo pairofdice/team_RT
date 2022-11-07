@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vector.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 12:39:38 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/17 18:33:50 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/07 13:33:15 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_H
 # define VECTOR_H
-
-# include "rt.h"
 
 typedef struct s_vec3
 {

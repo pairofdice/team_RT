@@ -6,7 +6,7 @@
 #    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/06 17:39:47 by jsaarine         ###   ########.fr        #
+#    Updated: 2022/11/07 14:57:24 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,33 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								vector_cross.c\
 								nearly_equal.c\
 								fabs.c\
+								int_clamp.c\
+								float_clamp.c\
+								color.c\
+								matrix_equals.c\
+								matrix_new.c\
+								matrix_multiply.c\
+								matrix_row_column_multiply.c\
+								matrix_tuple_multiply.c\
+								matrix_transpose.c\
+								matrix_determinant.c\
+								matrix_cofactor.c\
+								matrix_minor.c\
+								matrix_submatrix.c\
+								matrix_print.c\
+								matrix_inverse.c\
+								matrix_translate.c\
+								matrix_scale.c\
+								matrix_rotate.c\
+								matrix_identity_new.c\
+								ray_new.c\
+								ray_position.c\
+								ray_transform.c\
+								sphere.c\
+								discriminant.c\
+								intersection_record.c\
+								intersection_new.c\
+								set_transform.c\
 								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
