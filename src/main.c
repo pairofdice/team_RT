@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/03 14:56:57 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:01:15 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,17 @@ int	main(void)
 	main.obj[1].color.rgb.r = 1.0;
 	main.obj[1].color.rgb.g = 0.0;
 	main.obj[1].color.rgb.b = 0.0;
-
-	main.obj[2].loc.x = 0.0;
-	main.obj[2].loc.y = 0.0;
-	main.obj[2].loc.z = 40.0;
-	main.obj[2].rot.x = 0.0;
-	main.obj[2].rot.y = 0.0;
-	main.obj[2].rot.z = 1.0;
-	main.obj[2].type = 2;
-	main.obj[2].color.rgb.r = 1.0;
-	main.obj[2].color.rgb.g = 1.0;
-	main.obj[2].color.rgb.b = 1.0;
+	
+	main.obj[1].loc.x = 0.0;
+	main.obj[1].loc.y = 0.0;
+	main.obj[1].loc.z = 40.0;
+	main.obj[1].rot.x = 0.0;
+	main.obj[1].rot.y = 0.0;
+	main.obj[1].rot.z = 1.0;
+	main.obj[1].type = 2;
+	main.obj[1].color.rgb.r = 1.0;
+	main.obj[1].color.rgb.g = 1.0;
+	main.obj[1].color.rgb.b = 1.0;
 
 	main.obj[3].loc.x = 0.0;
 	main.obj[3].loc.y = -10.0;
@@ -179,7 +179,7 @@ int	main(void)
 	create_threads(&main, 1);
 	draw_frame(&main);
 	while (main.multi.threads_done < NUM_THREADS)
-		ft_putendl("Threads are working realy hard whit the image");
+		ft_putstr("");
 	edge_detection(&main.sdl.frame_buffer);
 	main.ant_al = A_A_DIV;
 	draw_frame(&main);

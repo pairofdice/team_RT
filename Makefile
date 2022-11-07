@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/03 13:54:47 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/03 16:30:46 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								filters.c\
 								multi_thread.c\
 								key_hooks.c\
-								create_screen_shot.c)
+								create_screen_shot.c\
+								perlin_noice.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

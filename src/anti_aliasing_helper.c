@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:49:21 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/03 13:55:09 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:36:09 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,27 @@
 void	add_hit_color(t_main *main, t_ray *shadow)
 {
 	double	angle;
+	static t_perlin perlin_t;
+	double	perlin;
 
+	if (load_perlin_data(&perlin_t) == 0)
+	{
+		ft_putendl("there was error opening perlin noice table\n");
+		perlin = 1;
+	}
+	else
+		perlin = perlin_noice(&main->ray.hit.hit_loc, &perlin_t);
 	if (vec3_dot(main->ray.dir, shadow->hit.normal) > 0)
 		shadow->hit.normal = multiply_vect_float(shadow->hit.normal, -1.0);
 	angle = vec3_dot(shadow->dir, shadow->hit.normal);
 	if (angle >= 0)
 	{
 		main->ray.hit.color.rgb.r
-			+= (main->obj[shadow->hit.clo_obj_id].color.rgb.r * angle);
+			+= ((main->obj[shadow->hit.clo_obj_id].color.rgb.r * (1.0 - perlin * 0.3)) * angle);
 		main->ray.hit.color.rgb.g
-			+= (main->obj[shadow->hit.clo_obj_id].color.rgb.g * angle);
+			+= ((main->obj[shadow->hit.clo_obj_id].color.rgb.g * (1.0 - perlin * 0.3)) * angle);
 		main->ray.hit.color.rgb.b
-			+= (main->obj[shadow->hit.clo_obj_id].color.rgb.b * angle);
+			+= ((main->obj[shadow->hit.clo_obj_id].color.rgb.b * (1.0 - perlin * 0.3)) * angle);
 	}
 }
 
