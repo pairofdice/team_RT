@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/03 16:30:46 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/07 16:05:35 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,51 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								multi_thread.c\
 								key_hooks.c\
 								create_screen_shot.c\
-								perlin_noice.c)
+								perlin_noice.c\
+								tuple_print.c\
+								tuple_new.c\
+								tuple_equal.c\
+								tuple_add.c\
+								tuple_neg.c\
+								tuple_sub.c\
+								tuple_mag.c\
+								tuple_unit.c\
+								tuple_scalar_div.c\
+								tuple_scalar_mult.c\
+								point_new.c\
+								vector_dot.c\
+								vector_new.c\
+								vector_cross.c\
+								nearly_equal.c\
+								fabs.c\
+								int_clamp.c\
+								float_clamp.c\
+								color.c\
+								matrix_equals.c\
+								matrix_new.c\
+								matrix_multiply.c\
+								matrix_row_column_multiply.c\
+								matrix_tuple_multiply.c\
+								matrix_transpose.c\
+								matrix_determinant.c\
+								matrix_cofactor.c\
+								matrix_minor.c\
+								matrix_submatrix.c\
+								matrix_print.c\
+								matrix_inverse.c\
+								matrix_translate.c\
+								matrix_scale.c\
+								matrix_rotate.c\
+								matrix_identity_new.c\
+								ray_new.c\
+								ray_position.c\
+								ray_transform.c\
+								sphere.c\
+								discriminant.c\
+								intersection_record.c\
+								intersection_new.c\
+								set_transform.c\
+								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

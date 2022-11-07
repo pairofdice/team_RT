@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 12:22:17 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/09/09 18:20:15 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/06 14:18:16 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include "get_next_line.h"
+# include "vec.h"
 
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
