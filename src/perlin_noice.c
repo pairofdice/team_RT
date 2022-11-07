@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:43:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 15:34:19 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:20:43 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	load_perlin_data(t_perlin *perlin)
 	return (1);
 }
 
-double	calculate_return(t_vec3 *point, t_perlin *perlin)
+double	calculate_return(t_tuple *point, t_perlin *perlin)
 {
 	double	temp;
 	double	temp_a;
@@ -84,34 +84,34 @@ double	calculate_return(t_vec3 *point, t_perlin *perlin)
 	double	temp_c;
 
 	temp = lerp(perlin->u, grad(perlin->p[perlin->ab + 1],
-				point->x, point->y - 1, point->z - 1),
-			grad(perlin->p[perlin->bb + 1], point->x - 1,
-				point->y - 1, point->z - 1));
+				point->s_xyzw.x, point->s_xyzw.y - 1, point->s_xyzw.z - 1),
+			grad(perlin->p[perlin->bb + 1], point->s_xyzw.x - 1,
+				point->s_xyzw.y - 1, point->s_xyzw.z - 1));
 	temp_a = lerp(perlin->v, lerp(perlin->u,
-				grad(perlin->p[perlin->aa + 1], point->x, point->y,
-					point->z - 1), grad(perlin->p[perlin->ba + 1],
-					point->x - 1, point->y, point->z - 1)), temp);
-	temp_b = lerp(perlin->u, grad(perlin->p[perlin->ab], point->x,
-				point->y - 1, point->z), grad(perlin->p[perlin->bb],
-				point->x - 1, point->y - 1, point->z));
+				grad(perlin->p[perlin->aa + 1], point->s_xyzw.x, point->s_xyzw.y,
+					point->s_xyzw.z - 1), grad(perlin->p[perlin->ba + 1],
+					point->s_xyzw.x - 1, point->s_xyzw.y, point->s_xyzw.z - 1)), temp);
+	temp_b = lerp(perlin->u, grad(perlin->p[perlin->ab], point->s_xyzw.x,
+				point->s_xyzw.y - 1, point->s_xyzw.z), grad(perlin->p[perlin->bb],
+				point->s_xyzw.x - 1, point->s_xyzw.y - 1, point->s_xyzw.z));
 	temp_c = lerp(perlin->w, lerp(perlin->v, lerp(perlin->u,
-					grad(perlin->p[perlin->aa], point->x, point->y, point->z),
-					grad(perlin->p[perlin->ba], point->x - 1,
-						point->y, point->z)), temp_b), temp_a);
+					grad(perlin->p[perlin->aa], point->s_xyzw.x, point->s_xyzw.y, point->s_xyzw.z),
+					grad(perlin->p[perlin->ba], point->s_xyzw.x - 1,
+						point->s_xyzw.y, point->s_xyzw.z)), temp_b), temp_a);
 	return (temp_c * 0.5 + 0.5);
 }
 
-double	perlin_noice(t_vec3 *point, t_perlin *perlin)
+double	perlin_noice(t_tuple *point, t_perlin *perlin)
 {
-	perlin->x_i = (int)floor(point->x) & 255;
-	perlin->y_i = (int)floor(point->y) & 255;
-	perlin->z_i = (int)floor(point->z) & 255;
-	point->x -= floor(point->x);
-	point->y -= floor(point->y);
-	point->z -= floor(point->z);
-	perlin->u = fade(point->x);
-	perlin->v = fade(point->y);
-	perlin->w = fade(point->z);
+	perlin->x_i = (int)floor(point->s_xyzw.x) & 255;
+	perlin->y_i = (int)floor(point->s_xyzw.y) & 255;
+	perlin->z_i = (int)floor(point->s_xyzw.z) & 255;
+	point->s_xyzw.x -= floor(point->s_xyzw.x);
+	point->s_xyzw.y -= floor(point->s_xyzw.y);
+	point->s_xyzw.z -= floor(point->s_xyzw.z);
+	perlin->u = fade(point->s_xyzw.x);
+	perlin->v = fade(point->s_xyzw.y);
+	perlin->w = fade(point->s_xyzw.z);
 	perlin->a = perlin->p[perlin->x_i] + perlin->y_i;
 	perlin->aa = perlin->p[perlin->a] + perlin->z_i;
 	perlin->ab = perlin->p[perlin->a + 1] + perlin->z_i;

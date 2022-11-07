@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:04:42 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:03:01 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,22 @@ typedef struct s_sdl
 
 typedef struct s_cam
 {
-	t_vec3			pos;
-	t_vec3			v_up;
-	t_vec3			coi;
-	t_vec3			v;
-	t_vec3			u;
-	t_vec3			n;
-	t_vec3			c;
-	t_vec3			l;
+	t_tuple			pos;
+	t_tuple			v_up;
+	t_tuple			coi;
+	t_tuple			v;
+	t_tuple			u;
+	t_tuple			n;
+	t_tuple			c;
+	t_tuple			l;
 	double			plane_h;
 	double			plane_w;
 }					t_cam;
 
 typedef struct s_hit_record
 {
-	t_vec3			hit_loc;
-	t_vec3			normal;
+	t_tuple			hit_loc;
+	t_tuple			normal;
 	double			hit_dist;
 	int				clo_obj_id;
 	union u_tuple	color;
@@ -76,14 +76,14 @@ typedef struct s_hit_record
 
 typedef struct s_ray
 {
-	t_vec3			orig;
-	t_vec3			dir;
+	t_tuple			orig;
+	t_tuple			dir;
 	t_hit_record	hit;
 }					t_ray;
 
 typedef struct s_light
 {
-	t_vec3			pos;
+	t_tuple			pos;
 }					t_light;
 
 typedef struct s_screen_shot
@@ -124,9 +124,9 @@ t_vec3				vec3_ray_at(t_ray u, double x);
 
 double				get_shape_intersections(t_ray *ray, t_object *shape);
 
-t_vec3				get_cylinder_normal(t_main *main, t_hit_record *hit);
-t_vec3				get_sphere_normal(t_main *main, t_hit_record *hit);
-t_vec3				get_cone_normal(t_main *main, t_hit_record *hit);
+t_tuple				get_cylinder_normal(t_main *main, t_hit_record *hit);
+t_tuple				get_sphere_normal(t_main *main, t_hit_record *hit);
+t_tuple				get_cone_normal(t_main *main, t_hit_record *hit);
 
 void				add_hit_color(t_main *main, t_ray *shadow);
 unsigned int		color_to_int(t_color color);
@@ -151,4 +151,5 @@ double				fabs(double x);
 int					int_clamp(int value, int min, int max);
 double				float_clamp(double value, double min, double max);
 
+t_point				ray_position(t_ray ray, double t);
 #endif

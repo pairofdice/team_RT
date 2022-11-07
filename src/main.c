@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:03:41 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:41:45 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,21 @@ int	main(void)
 		return (1);
 	if (initialize_window(&main) == 0)
 		return (1);
-	main.cam.pos.x = 0.0;
-	main.cam.pos.y = 0.0;
-	main.cam.pos.z = 0.0;
-	
-	main.cam.v_up.x = 0.0;
-	main.cam.v_up.y = 1.0;
-	main.cam.v_up.z = 0.0;
-	
-	main.cam.coi.x = 0.0;
-	main.cam.coi.y = 0.0;
-	main.cam.coi.z = 10.0;
-
-	main.light.pos.x = 10.0;
-	main.light.pos.y = 0.0;
-	main.light.pos.z = 0.0;
+	//main.cam.pos.x = 0.0;
+	//main.cam.pos.y = 0.0;
+	//main.cam.pos.z = 0.0;
+	//
+	//main.cam.v_up.x = 0.0;
+	//main.cam.v_up.y = 1.0;
+	//main.cam.v_up.z = 0.0;
+	//
+	//main.cam.coi.x = 0.0;
+	//main.cam.coi.y = 0.0;
+	//main.cam.coi.z = 10.0;
+	//
+	//main.light.pos.x = 10.0;
+	//main.light.pos.y = 0.0;
+	//main.light.pos.z = 0.0;
 
 		//0 = sphere
 		//1 = cylinder
@@ -102,88 +102,88 @@ int	main(void)
 		//3 = cone
 
 		
-	main.obj[0].loc.x = 0.0;
-	main.obj[0].loc.y = 0.0;
-	main.obj[0].loc.z = 30.0;
-	main.obj[0].size = 3.0;
-	main.obj[0].type = 0;
-	main.obj[0].color.s_rgb.r = 0.0;
-	main.obj[0].color.s_rgb.g = 1.0;
-	main.obj[0].color.s_rgb.b = 0.0;
-	
-	main.obj[1].loc.x = 5.0;
-	main.obj[1].loc.y = 0.0;
-	main.obj[1].loc.z = 30.0;
-	main.obj[1].size = 0.1;
-	main.obj[1].type = 0;
-	main.obj[1].color.s_rgb.r = 1.0;
-	main.obj[1].color.s_rgb.g = 0.0;
-	main.obj[1].color.s_rgb.b = 0.0;
+	// main.obj[0].loc.x = 0.0;
+	// main.obj[0].loc.y = 0.0;
+	// main.obj[0].loc.z = 30.0;
+	// main.obj[0].size = 3.0;
+	// main.obj[0].type = 0;
+	// main.obj[0].color.s_rgb.r = 0.0;
+	// main.obj[0].color.s_rgb.g = 1.0;
+	// main.obj[0].color.s_rgb.b = 0.0;
+	// 
+	// main.obj[1].loc.x = 5.0;
+	// main.obj[1].loc.y = 0.0;
+	// main.obj[1].loc.z = 30.0;
+	// main.obj[1].size = 0.1;
+	// main.obj[1].type = 0;
+	// main.obj[1].color.s_rgb.r = 1.0;
+	// main.obj[1].color.s_rgb.g = 0.0;
+	// main.obj[1].color.s_rgb.b = 0.0;
 
-	main.obj[2].loc.x = 0.0;
-	main.obj[2].loc.y = 0.0;
-	main.obj[2].loc.z = 40.0;
-	main.obj[2].rot.x = 0.0;
-	main.obj[2].rot.y = 0.0;
-	main.obj[2].rot.z = 1.0;
-	main.obj[2].type = 2;
-	main.obj[2].color.s_rgb.r = 1.0;
-	main.obj[2].color.s_rgb.g = 1.0;
-	main.obj[2].color.s_rgb.b = 1.0;
+	// main.obj[2].loc.x = 0.0;
+	// main.obj[2].loc.y = 0.0;
+	// main.obj[2].loc.z = 40.0;
+	// main.obj[2].rot.x = 0.0;
+	// main.obj[2].rot.y = 0.0;
+	// main.obj[2].rot.z = 1.0;
+	// main.obj[2].type = 2;
+	// main.obj[2].color.s_rgb.r = 1.0;
+	// main.obj[2].color.s_rgb.g = 1.0;
+	// main.obj[2].color.s_rgb.b = 1.0;
 
-	main.obj[3].loc.x = 0.0;
-	main.obj[3].loc.y = -10.0;
-	main.obj[3].loc.z = 40.0;
-	main.obj[3].rot.x = 0.0;
-	main.obj[3].rot.y = 1.0;
-	main.obj[3].rot.z = 0.0;
-	main.obj[3].type = 2;
-	main.obj[3].color.s_rgb.r = 0.0;
-	main.obj[3].color.s_rgb.g = 1.0;
-	main.obj[3].color.s_rgb.b = 1.0;
-		
-	main.obj[4].loc.x = 0.0;
-	main.obj[4].loc.y = 0.0;
-	main.obj[4].loc.z = 30.0;
-	main.obj[4].rot.x = 1.0;
-	main.obj[4].rot.y = 1.0;
-	main.obj[4].rot.z = 1.0;
-	main.obj[4].type = 1;
-	main.obj[4].size = 1;
-	main.obj[4].color.s_rgb.r = 1.0;
-	main.obj[4].color.s_rgb.g = 1.0;
-	main.obj[4].color.s_rgb.b = 1.0;
+	// main.obj[3].loc.x = 0.0;
+	// main.obj[3].loc.y = -10.0;
+	// main.obj[3].loc.z = 40.0;
+	// main.obj[3].rot.x = 0.0;
+	// main.obj[3].rot.y = 1.0;
+	// main.obj[3].rot.z = 0.0;
+	// main.obj[3].type = 2;
+	// main.obj[3].color.s_rgb.r = 0.0;
+	// main.obj[3].color.s_rgb.g = 1.0;
+	// main.obj[3].color.s_rgb.b = 1.0;
+		// 
+	// main.obj[4].loc.x = 0.0;
+	// main.obj[4].loc.y = 0.0;
+	// main.obj[4].loc.z = 30.0;
+	// main.obj[4].rot.x = 1.0;
+	// main.obj[4].rot.y = 1.0;
+	// main.obj[4].rot.z = 1.0;
+	// main.obj[4].type = 1;
+	// main.obj[4].size = 1;
+	// main.obj[4].color.s_rgb.r = 1.0;
+	// main.obj[4].color.s_rgb.g = 1.0;
+	// main.obj[4].color.s_rgb.b = 1.0;
 
-	main.obj[5].loc.x = 0.0;
-	main.obj[5].loc.y = 0.0;
-	main.obj[5].loc.z = 30.0;
-	main.obj[5].rot.x = -1.0;
-	main.obj[5].rot.y = 1.0;
-	main.obj[5].rot.z = 1.0;
-	main.obj[5].type = 1;
-	main.obj[5].size = 0.5;
-	main.obj[5].color.s_rgb.r = 1.0;
-	main.obj[5].color.s_rgb.g = 0.0;
-	main.obj[5].color.s_rgb.b = 1.0;
+	// main.obj[5].loc.x = 0.0;
+	// main.obj[5].loc.y = 0.0;
+	// main.obj[5].loc.z = 30.0;
+	// main.obj[5].rot.x = -1.0;
+	// main.obj[5].rot.y = 1.0;
+	// main.obj[5].rot.z = 1.0;
+	// main.obj[5].type = 1;
+	// main.obj[5].size = 0.5;
+	// main.obj[5].color.s_rgb.r = 1.0;
+	// main.obj[5].color.s_rgb.g = 0.0;
+	// main.obj[5].color.s_rgb.b = 1.0;
 
-	main.obj[6].loc.x = -10.0;
-	main.obj[6].loc.y = 0.0;
-	main.obj[6].loc.z = 30.0;
-	main.obj[6].rot.x = 0.0;
-	main.obj[6].rot.y = 1.0;
-	main.obj[6].rot.z = 0.0;
-	main.obj[6].type = 3;
-	main.obj[6].size = 1;
-	main.obj[6].color.s_rgb.r = 1.0;
-	main.obj[6].color.s_rgb.g = 0.1;
-	main.obj[6].color.s_rgb.b = 0.8;
-	main.obj_count = 7;
+	// main.obj[6].loc.x = -10.0;
+	// main.obj[6].loc.y = 0.0;
+	// main.obj[6].loc.z = 30.0;
+	// main.obj[6].rot.x = 0.0;
+	// main.obj[6].rot.y = 1.0;
+	// main.obj[6].rot.z = 0.0;
+	// main.obj[6].type = 3;
+	// main.obj[6].size = 1;
+	// main.obj[6].color.s_rgb.r = 1.0;
+	// main.obj[6].color.s_rgb.g = 0.1;
+	// main.obj[6].color.s_rgb.b = 0.8;
+	// main.obj_count = 7;
 	
 	initialize_camera(&main.cam);
 	create_threads(&main, 1);
 	draw_frame(&main);
-	while (main.multi.threads_done < NUM_THREADS)
-		ft_putstr("");
+	//while (main.multi.threads_done < NUM_THREADS)
+	//	ft_putstr("");
 	edge_detection(&main.sdl.frame_buffer);
 	main.ant_al = A_A_DIV;
 	draw_frame(&main);

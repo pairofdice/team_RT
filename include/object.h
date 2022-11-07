@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 15:01:51 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:12:52 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@
 # include "vector.h"
 # include <stdlib.h>
 
+//typedef struct s_object
+//{
+//	t_vec3			loc;
+//	t_vec3			coi;
+//	t_vec3			up;
+//	t_vec3			rot;
+//	double			size;
+//	double			brightness;
+//	int				type;
+//	size_t			id;
+//	union u_tuple	color;
+//	t_matrix		transform;
+//
+//}					t_object;
+
 typedef struct s_object
-{
-	t_vec3			loc;
-	t_vec3			coi;
-	t_vec3			up;
-	t_vec3			rot;
-	double			size;
-	double			brightness;
-	int				type;
-	size_t			id;
-	union u_tuple	color;
-	t_matrix		transform;
-
-}					t_object;
-
-typedef struct s_object_mt
 {
 	t_point			loc;
 	t_point			coi;
@@ -45,7 +45,8 @@ typedef struct s_object_mt
 	int				type;
 	size_t			id;
 	t_matrix		transform;
-}					t_object_mt;
+	t_tuple			color;
+}					t_object;
 
 typedef struct s_abc
 {
@@ -70,7 +71,7 @@ typedef struct s_intersections
 typedef struct s_intersection
 {
 	double			t;
-	t_object_mt		*object;
+	t_object		*object;
 }					t_intersection;
 
 typedef struct s_ray_m
@@ -80,21 +81,21 @@ typedef struct s_ray_m
 	t_intersections	xs;
 }					t_ray_m;
 
-t_object_mt			sphere_new(void);
+t_object			sphere_new(void);
 double				calc_discriminant(double a, double b, double c);
 t_ray_m				ray_new(t_point origin, t_vector dir);
 // t_ray_m			ray_new_malloc(t_point origin, t_vector dir);
 t_ray_m				ray_new_no_malloc(t_point origin, t_vector dir);
 void				ray_free(t_ray_m *ray);
-t_point				ray_position(t_ray_m ray, double t);
-int					phere_intersect(t_ray_m *ray, t_object_mt *s);
+
+int					phere_intersect(t_ray_m *ray, t_object *s);
 t_ray_m				ray_transform(t_ray_m *source, t_matrix *transform);
 void				intersection_record(t_ray_m *ray,
 						double t1,
 						double t2,
-						t_object_mt *s);
-int					intersect_sphere(t_ray_m *inc_ray, t_object_mt *s);
-t_intersection		intersection_new(double time, t_object_mt *o);
-void				set_transform(t_object_mt *obj, t_matrix *transform);
+						t_object *s);
+int					intersect_sphere(t_ray_m *inc_ray, t_object *s);
+t_intersection		intersection_new(double time, t_object *o);
+void				set_transform(t_object *obj, t_matrix *transform);
 
 #endif
