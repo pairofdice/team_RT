@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_thread.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:28 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 18:35:15 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/06 15:49:10 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 # include "rt.h"
 # include <pthread.h>
 
-#define	NUM_THREADS 13
-#define	NUM_TASKS 35
+# define NUM_THREADS 13
+# define NUM_TASKS 35
+
 typedef struct s_multi
 {
 	pthread_mutex_t	tasks_done_mutex;
@@ -29,7 +30,6 @@ typedef struct s_multi
 	size_t			tasks_taken;
 	pthread_t		threadpool[NUM_THREADS];
 	int				frame_n;
-}		t_multi;
-
+}					t_multi;
 
 #endif

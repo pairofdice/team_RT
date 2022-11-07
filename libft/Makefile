@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 13:01:51 by jjuntune          #+#    #+#              #
-#    Updated: 2022/10/20 14:00:39 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/06 14:28:23 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ CFILES += ft_memdel.c ft_strsub.c ft_strequ.c ft_strnequ.c ft_itoa.c
 CFILES += ft_arrdel.c ft_numlen.c ft_isupper.c ft_islower.c ft_isthere.c
 CFILES += ft_strmove.c values_abs.c get_next_line.c ft_atoi_base.c
 CFILES += atof.c
+CFILES += vec_append.c vec_free.c vec_from.c vec_get.c vec_new.c
+CFILES += vec_push.c vec_resize.c
 
 OFILES = ft_putchar.o ft_putendl.o ft_putnbr.o ft_putstr.o ft_strchr.o
 OFILES += ft_strcmp.o ft_strcpy.o ft_strdup.o ft_strlen.o ft_strncpy.o
@@ -41,6 +43,8 @@ OFILES += ft_memdel.o ft_strsub.o ft_strequ.o ft_strnequ.o ft_itoa.o
 OFILES += ft_arrdel.o ft_numlen.o ft_isupper.o ft_islower.o ft_isthere.o
 OFILES += ft_strmove.o values_abs.o get_next_line.o ft_atoi_base.o
 OFILES += atof.o
+OFILES += vec_append.o vec_free.o vec_from.o vec_get.o vec_new.o
+OFILES += vec_push.o vec_resize.o
 all: $(NAME) 
 
 $(NAME): $(OFILES) 
