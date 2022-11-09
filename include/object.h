@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 15:01:51 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:51:57 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 # include "tuple.h"
 # include "vector.h"
 # include <stdlib.h>
+
+enum
+{
+	SPHERE,
+	CYLINDER,
+	PLANE,
+	CONE,
+};
 
 typedef struct s_object
 {
@@ -80,7 +88,7 @@ typedef struct s_ray_m
 	t_intersections	xs;
 }					t_ray_m;
 
-t_object_mt			sphere_new(void);
+t_object_mt			object_new(int shape_type);
 double				calc_discriminant(double a, double b, double c);
 t_ray_m				ray_new(t_point origin, t_vector dir);
 // t_ray_m			ray_new_malloc(t_point origin, t_vector dir);
@@ -89,9 +97,9 @@ void				ray_free(t_ray_m *ray);
 t_point				ray_position(t_ray_m ray, double t);
 int					phere_intersect(t_ray_m *ray, t_object_mt *s);
 t_ray_m				ray_transform(t_ray_m *source, t_matrix *transform);
-void				intersection_record(t_ray_m *ray,
-						double t1,
-						double t2,
+void				intersection_record(
+						t_ray_m *ray,
+						double intersect,
 						t_object_mt *s);
 int					intersect_sphere(t_ray_m *inc_ray, t_object_mt *s);
 t_intersection		intersection_new(double time, t_object_mt *o);

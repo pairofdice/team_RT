@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:41:16 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/07 15:03:04 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:52:20 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,7 @@ int	intersect_sphere(t_ray_m *inc_ray, t_object_mt *s)
 		return (0);
 	t1 = (-(abcd.b) - sqrt(abcd.d)) / (2 * abcd.a);
 	t2 = (-(abcd.b) + sqrt(abcd.d)) / (2 * abcd.a);
-	intersection_record(inc_ray, t1, t2, s);
+	intersection_record(inc_ray, t1, s);
+	intersection_record(inc_ray, t2, s);
 	return (1);
-}
-
-t_object_mt	sphere_new(void)
-{
-	static size_t	id;
-	t_object_mt		sphere;
-
-	sphere.transform = matrix_new_identity(4);
-	sphere.id = id;
-	id++;
-	sphere.loc = (t_point){.s_xyzw = {0, 0, 0, 0}};
-	sphere.size = 1.0;
-	sphere.type = 1;
-	return (sphere);
 }

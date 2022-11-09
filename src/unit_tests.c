@@ -84,7 +84,7 @@ void	tests(void)
 	printf("Testing rays\n");
 	test_ray();
 	printf("OK\n");
-	printf("Testing sphere intersection\n");
+	printf("Testing sphere sphere intersection\n");
 	test_sphere_intersect();
 	printf("OK\n");
 	printf("Testing intersection\n");
@@ -1273,13 +1273,13 @@ void	test_ray()
 
 void	test_sphere_intersect()
 {
-	t_object_mt	sphere = sphere_new();
+	t_object_mt	sphere = object_new(SPHERE);
 	t_point p = point_new(0, 0, -5);
 	t_vector v = vector_new(0, 0, 1);
 	t_ray_m	ray = ray_new(p, v);
 
 	
-	// t_object_mt sphere = sphere_new();
+	// t_object_mt sphere = object_new(SPHERE);
 	//new_intersections(&ray.xs.vec);
 	int	does_intersect = intersect_sphere(&ray, &sphere);
 	if (does_intersect)
@@ -1359,7 +1359,7 @@ void	test_sphere_intersect()
 
 void	test_intersection()
 {
-	t_object_mt	s = sphere_new();
+	t_object_mt	s = object_new(SPHERE);
 	t_intersection	i = intersection_new(3.5, &s);
 
 	assert(nearly_equal(i.t, 3.5));
@@ -1391,7 +1391,7 @@ void	test_ray_sphere_transforms()
 	tuple_print(r2.dir);
 
 	// SPHERE IDENTITY
-	t_object_mt	sphere = sphere_new();
+	t_object_mt	sphere = object_new(SPHERE);
 	t_matrix	m_id = matrix_new_identity(4);
 	assert(matrix_equals(&sphere.transform, &m_id));
 	
@@ -1408,7 +1408,7 @@ void	test_ray_sphere_transforms()
 	r1 = ray_new(p, v);
 	//new_intersections(&r1.xs.vec);
 
-	sphere = sphere_new();
+	sphere = object_new(SPHERE);
 	t_m = matrix_scale(2, 2, 2);
 	set_transform(&sphere, &t_m);
 	matrix_print(&sphere.transform);
@@ -1428,7 +1428,7 @@ void	test_ray_sphere_transforms()
 	}
 
 	// Transformed ray-sphere intersection translation
-	sphere = sphere_new();
+	sphere = object_new(SPHERE);
 	p = point_new(0, 0, -5);
 	v = vector_new(0, 0, 1);
 	r1 = ray_new(p, v);

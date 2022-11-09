@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:04:42 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 18:03:52 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define WIN_W 500
 # define WIN_H 350
 # define A_A_DIV 2
+# define EPSILON 0.00006103515625
 
 typedef struct s_frame_buffer
 {
