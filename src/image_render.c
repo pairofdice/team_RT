@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:02:56 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:48:25 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	fill_hit_record(t_main *main, double clo_ret, int clo_shape)
 {
 	main->ray.hit.hit_dist = clo_ret;
 	main->ray.hit.clo_obj_id = clo_shape;
-	main->ray.hit.hit_loc = vec3_ray_at(main->ray, clo_ret);
+	main->ray.hit.hit_loc = ray_position(main->ray, clo_ret);
 	if (main->obj[clo_shape].type == 0)
 		main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
 	else if (main->obj[clo_shape].type == 1)
 		main->ray.hit.normal = get_cylinder_normal(main, &main->ray.hit);
 	else if (main->obj[clo_shape].type == 2)
-		main->ray.hit.normal = vec3_unit(main->obj[clo_shape].rot);
+		main->ray.hit.normal = tuple_unit(main->obj[clo_shape].rot);
 	else if (main->obj[clo_shape].type == 3)
 		main->ray.hit.normal = get_cone_normal(main, &main->ray.hit);
 }
@@ -66,7 +66,8 @@ int	ray_shooter(t_ray *ray, t_main *main)
 		}
 		count++;
 	}
-	fill_hit_record(main, clo_ret, clo_shape);
+	if (clo_ret != -1.0)
+		fill_hit_record(main, clo_ret, clo_shape);
 	if (clo_ret < 0.0 || (check_shadow(main, ray) == 1))
 		return (0);
 	add_hit_color(main, &main->shadow);

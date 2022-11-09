@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 16:17:33 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 15:25:13 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:18:16 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ typedef struct s_perlin
 	int		bb;
 }				t_perlin;
 
-double	perlin_noice(t_vec3 *point, t_perlin *perlin);
+double	perlin_noice(t_tuple *point, t_perlin *perlin);
 int	load_perlin_data(t_perlin *perlin);
 #endif

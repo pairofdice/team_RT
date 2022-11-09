@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:28 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:05:05 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:19:56 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_multi
 	size_t			tasks_taken;
 	pthread_t		threadpool[NUM_THREADS];
 	int				frame_n;
+	int				threads_done;
 }					t_multi;
 
 #endif

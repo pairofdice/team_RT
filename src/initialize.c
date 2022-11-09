@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/10/31 19:18:48 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 16:12:19 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,36 @@ void	initialize_camera(t_cam *cam)
 {
 	double	angle;
 
-	cam->v_up = div_vect_float(cam->v_up,
-			sqrt(vec3_dot(cam->v_up, cam->v_up)));
-	cam->n = vec3_sub(cam->pos, cam->coi);
-	cam->n = div_vect_float(cam->n,
-			sqrt(vec3_dot(cam->n, cam->n)));
-	cam->n = div_vect_float(cam->n, -1.0);
-	angle = vec3_dot(cam->v_up, cam->n);
-	if (angle == 1 || angle == -1)
-		cam->v_up = add_vect_float(cam->v_up, 0.001);
-	cam->u = vec3_cross(cam->n, cam->v_up);
-	cam->u = div_vect_float(cam->u,
-			sqrt(vec3_dot(cam->u, cam->u)));
-	cam->v = vec3_cross(cam->u, cam->n);
-	cam->c = vec3_sub(cam->pos,
-			multiply_vect_float(cam->n, 0.1));
+	cam->v_up = tuple_scalar_div(cam->v_up,
+			sqrt(vector_dot(cam->v_up, cam->v_up)));
+	cam->n = tuple_sub(cam->pos, cam->coi);
+	cam->n = tuple_scalar_div(cam->n,
+			sqrt(vector_dot(cam->n, cam->n)));
+	cam->n = tuple_scalar_div(cam->n, -1.0);
+	angle = vector_dot(cam->v_up, cam->n);
+	//if (angle == 1 || angle == -1)
+	//	cam->v_up = add_vect_float(cam->v_up, 0.001);
+	cam->u = vector_cross(cam->n, cam->v_up);
+	cam->u = tuple_scalar_div(cam->u,
+			sqrt(vector_dot(cam->u, cam->u)));
+	cam->v = vector_cross(cam->u, cam->n);
+	cam->c = tuple_sub(cam->pos,
+			tuple_scalar_mult(cam->n, 0.1));
 	cam->plane_h = tan(1.04719 / 2) * 2 * 0.1;
 	cam->plane_w = cam->plane_h * ((float)WIN_W / WIN_H);
-	cam->l = vec3_sub(cam->c,
-			multiply_vect_float(cam->u, (cam->plane_w / 2.0)));
-	cam->l = vec3_sub(cam->l,
-			multiply_vect_float(cam->v, cam->plane_h / 2.0));
+	cam->l = tuple_sub(cam->c,
+			tuple_scalar_mult(cam->u, (cam->plane_w / 2.0)));
+	cam->l = tuple_sub(cam->l,
+			tuple_scalar_mult(cam->v, cam->plane_h / 2.0));
 }
 
 void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam)
 {
-	ray->dir = vec3_add(cam->l, multiply_vect_float(cam->u,
+	ray->orig = cam->pos;
+	ray->dir = tuple_add(cam->l, tuple_scalar_mult(cam->u,
 				x * (cam->plane_w / WIN_W)));
-	ray->dir = vec3_add(ray->dir, multiply_vect_float(cam->v,
+	ray->dir = tuple_add(ray->dir, tuple_scalar_mult(cam->v,
 				y * (cam->plane_h / WIN_H)));
-	ray->dir = vec3_sub(cam->pos, ray->dir);
-	ray->dir = div_vect_float(ray->dir, sqrt(vec3_dot(ray->dir, ray->dir)));
+	ray->dir = tuple_sub(cam->pos, ray->dir);
+	ray->dir = tuple_scalar_div(ray->dir, sqrt(vector_dot(ray->dir, ray->dir)));
 }
