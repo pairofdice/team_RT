@@ -36,7 +36,8 @@ void	test_ray_cylinder_transforms();
 void	test_ray_cone_transforms();
 
 
-void	tests(void)
+
+void	tests(t_main *main)
 {
 	printf("Testing tuples\n");
 	test_tuples();
@@ -109,6 +110,9 @@ void	tests(void)
 	test_ray_sphere_transforms();
 	printf("OK\n");
 */
+
+	screen_loop(main);
+
 }
 
 void	test_tuples()
@@ -1925,6 +1929,18 @@ t_matrix	matrix_new_inc_c(size_t size)
 	}
 	return (m);
 }
+
+void	img_pixel_put(t_frame_buffer *fb, unsigned int x,
+	unsigned int y, t_color color)
+{
+	int			*dst;
+	unsigned int	color_int;
+
+	color_int = color_to_int(color);
+	dst = fb->data + (y * WIN_W + x);
+	*(unsigned int *)dst = color_int;
+}
+
 
 
 void	screen_loop(t_main *main)

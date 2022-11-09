@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
 /*   Updated: 2022/11/11 22:19:40 by jjuntune         ###   ########.fr       */
@@ -68,7 +68,7 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	free_buffers_and_sdl(sdl);
 }
 
-int	tests(void); // unit tests
+void	tests(t_main *main); // unit tests
 
 int	main(void)
 {
@@ -78,8 +78,6 @@ int	main(void)
 	t_matrix	cam_scale;
 
 	
-	tests();
-
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (1);
 	if (initialize_window(&main) == 0)
@@ -125,6 +123,7 @@ int	main(void)
 	main.obj[0].id = 0;
 	main.obj[0].color.s_rgb.r = 0.0;
 	main.obj[0].color.s_rgb.g = 1.0;
+	main.obj[0].color.s_rgb.b = 0.0;
 	main.obj[0].color.s_rgb.b = 1.0;
 
 	main.obj[1].transform = matrix_translate(0.0, 0.0, 10.0);
