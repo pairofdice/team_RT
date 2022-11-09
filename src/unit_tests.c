@@ -1256,7 +1256,7 @@ void	test_ray()
 {
 	t_point		origin = point_new(1, 2, 3);
 	t_vector	direction = vector_new(4, 5, 6);
-	t_ray_m		ray = ray_new(origin, direction);
+	t_ray		ray = ray_new(origin, direction);
 	assert(tuples_equal(ray.orig, origin));
 	assert(tuples_equal(ray.dir, direction));
 
@@ -1276,10 +1276,10 @@ void	test_ray()
 
 void	test_sphere_intersect()
 {
-	t_object_mt	sphere = object_new(SPHERE);
+	t_object	sphere = object_new(SPHERE);
 	t_point p = point_new(0, 0, -5);
 	t_vector v = vector_new(0, 0, 1);
-	t_ray_m	ray = ray_new(p, v);
+	t_ray	ray = ray_new(p, v);
 
 	
 	// t_object_mt sphere = object_new(SPHERE);
@@ -1362,7 +1362,7 @@ void	test_sphere_intersect()
 
 void	test_intersection()
 {
-	t_object_mt	s = object_new(SPHERE);
+	t_object	s = object_new(SPHERE);
 	t_intersection	i = intersection_new(3.5, &s);
 
 	assert(nearly_equal(i.t, 3.5));
@@ -1373,9 +1373,9 @@ void	test_intersection()
 void	test_ray_sphere_transforms()
 {
 	// RAY TRANSLATE
-	t_ray_m	r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
+	t_ray	r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
 	t_matrix m = matrix_translate(3, 4, 5);
-	t_ray_m r2 = ray_transform(&r1, &m);
+	t_ray r2 = ray_transform(&r1, &m);
 
 	assert(tuples_equal(r2.orig, point_new(4, 6, 8)));
 	assert(tuples_equal(r2.dir, vector_new(0, 1, 0)));
@@ -1394,7 +1394,7 @@ void	test_ray_sphere_transforms()
 	tuple_print(r2.dir);
 
 	// SPHERE IDENTITY
-	t_object_mt	sphere = object_new(SPHERE);
+	t_object	sphere = object_new(SPHERE);
 	t_matrix	m_id = matrix_new_identity(4);
 	assert(matrix_equals(&sphere.transform, &m_id));
 	
@@ -1462,7 +1462,7 @@ void	test_ray_sphere_transforms()
 void	test_ray_plane_transforms()
 {
 	// RAY TRANSLATE
-	 t_ray_m	r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
+	 t_ray	r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
 	// t_matrix m = matrix_translate(3, 4, 5);
 	// t_ray_m r2 = ray_transform(&r1, &m);
 
@@ -1483,7 +1483,7 @@ void	test_ray_plane_transforms()
 	// tuple_print(r2.dir);
 
 	// SPHERE IDENTITY
-	t_object_mt	sphere = object_new(PLANE);
+	t_object	sphere = object_new(PLANE);
 	t_matrix	m_id = matrix_new_identity(4);
 	assert(matrix_equals(&sphere.transform, &m_id));
 	

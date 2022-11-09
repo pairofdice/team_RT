@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:49:21 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:04:14 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:10:09 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	add_hit_color(t_main *main, t_ray *shadow)
 	}
 	else
 		perlin = perlin_noice(&main->ray.hit.hit_loc, &perlin_t);
-	if (vec3_dot(main->ray.dir, shadow->hit.normal) > 0)
-		shadow->hit.normal = multiply_vect_float(shadow->hit.normal, -1.0);
-	angle = vec3_dot(shadow->dir, shadow->hit.normal);
+	if (vector_dot(main->ray.dir, shadow->hit.normal) > 0)
+		shadow->hit.normal = tuple_scalar_mult(shadow->hit.normal, -1.0);
+	angle = vector_dot(shadow->dir, shadow->hit.normal);
 	if (angle >= 0)
 	{
 		main->ray.hit.color.s_rgb.r

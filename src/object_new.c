@@ -6,16 +6,16 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 17:35:17 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 17:35:36 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:35:13 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-t_object_mt	object_new(int shape_type)
+t_object	object_new(int shape_type)
 {
 	static size_t	id;
-	t_object_mt		new_object;
+	t_object		new_object;
 
 	new_object.transform = matrix_new_identity(4);
 	new_object.id = id;

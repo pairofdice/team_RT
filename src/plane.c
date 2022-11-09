@@ -6,18 +6,18 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 17:23:05 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 18:34:04 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:26:33 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-int	intersect_plane(t_ray_m *inc_ray, t_object_mt *s)
+int	intersect_plane(t_ray *inc_ray, t_object *s)
 {
 	//t_vector		plane_to_ray;
 	double			t;
 	t_matrix		inverse_transform;
-	t_ray_m			ray;
+	t_ray			ray;
 
 	ray = ray_new_no_malloc(inc_ray->orig, inc_ray->dir);
 	inverse_transform = matrix_inverse(&s->transform);

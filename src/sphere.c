@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:41:16 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/09 18:14:47 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:28:24 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include "tuple.h"
 #include <math.h>
 
-int	intersect_sphere(t_ray_m *inc_ray, t_object_mt *s)
+int	intersect_sphere(t_ray *inc_ray, t_object *s)
 {
 	static t_abcd	abcd;
 	t_vector		sphere_to_ray;
 	double			t1;
 	double			t2;
 	t_matrix		inverse_transform;
-	t_ray_m			ray;
+	t_ray			ray;
 
 	ray = ray_new_no_malloc(inc_ray->orig, inc_ray->dir);
 	inverse_transform = matrix_inverse(&s->transform);
