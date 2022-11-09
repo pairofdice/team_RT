@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nearly_equal.c                                     :+:      :+:    :+:   */
+/*   object_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/09 18:03:35 by jjuntune         ###   ########.fr       */
+/*   Created: 2022/11/09 17:35:17 by jjuntune          #+#    #+#             */
+/*   Updated: 2022/11/09 19:35:13 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tuple.h"
-#include "rt.h"
+#include "../include/rt.h"
 
-int	nearly_equal(double a, double b)
+t_object	object_new(int shape_type)
 {
-	if (fabs((a - b)) < EPSILON)
-		return (1);
-	return (0);
+	static size_t	id;
+	t_object		new_object;
+
+	new_object.transform = matrix_new_identity(4);
+	new_object.id = id;
+	id++;
+	new_object.loc = (t_point){.s_xyzw = {0, 0, 0, 0}};
+	new_object.size = 1.0;
+	new_object.type = shape_type;
+	return (new_object);
 }

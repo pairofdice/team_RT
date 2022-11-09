@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 15:48:25 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:34:44 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ double	get_shape_intersections(t_ray *ray, t_object *shape)
 {
 	double	ret;
 
-	if (shape->type == 0)
+	if (shape->type == SPHERE)
 		ret = intersects_sphere(ray, shape);
-	else if (shape->type == 1)
+	else if (shape->type == CYLINDER)
 		ret = intersects_cylinder(ray, shape);
-	else if (shape->type == 2)
+	else if (shape->type == PLANE)
 		ret = intersects_plane(ray, shape);
-	else if (shape->type == 3)
+	else if (shape->type == CONE)
 		ret = intersects_cone(ray, shape);
 	else
 		return (-1);
@@ -34,13 +34,13 @@ void	fill_hit_record(t_main *main, double clo_ret, int clo_shape)
 	main->ray.hit.hit_dist = clo_ret;
 	main->ray.hit.clo_obj_id = clo_shape;
 	main->ray.hit.hit_loc = ray_position(main->ray, clo_ret);
-	if (main->obj[clo_shape].type == 0)
+	if (main->obj[clo_shape].type == SPHERE)
 		main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
-	else if (main->obj[clo_shape].type == 1)
+	else if (main->obj[clo_shape].type == CYLINDER)
 		main->ray.hit.normal = get_cylinder_normal(main, &main->ray.hit);
-	else if (main->obj[clo_shape].type == 2)
+	else if (main->obj[clo_shape].type == PLANE)
 		main->ray.hit.normal = tuple_unit(main->obj[clo_shape].rot);
-	else if (main->obj[clo_shape].type == 3)
+	else if (main->obj[clo_shape].type == CONE)
 		main->ray.hit.normal = get_cone_normal(main, &main->ray.hit);
 }
 

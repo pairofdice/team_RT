@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 15:58:26 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 19:26:11 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	draw_filter(t_sdl *sdl, int *filter_type, int i)
 		else if (sdl->event.key.keysym.sym == SDLK_UP && *filter_type < 4)
 			*filter_type += 1;
 		else if (sdl->event.key.keysym.sym == SDLK_UP)
-			*filter_type = 0;
+			*filter_type = SPHERE;
 	}
 	if (*filter_type == 0)
 		draw_to_window(sdl, sdl->frame_buffer.data);
@@ -58,7 +58,7 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	int	filter_type;
 
 	quit = 0;
-	filter_type = 0;
+	filter_type = SPHERE;
 	while (quit == 0)
 	{
 		if (SDL_WaitEvent(&sdl->event) != 0)
@@ -96,35 +96,35 @@ int	main(void)
 		
 	main.obj[0].loc = point_new(0, 0, 30);
 	main.obj[0].size = 3.0;
-	main.obj[0].type = 0;
+	main.obj[0].type = SPHERE;
 	main.obj[0].color.s_rgb.r = 0.0;
 	main.obj[0].color.s_rgb.g = 1.0;
 	main.obj[0].color.s_rgb.b = 0.0;
 
 	main.obj[1].loc = point_new(5, 0, 30);
 	main.obj[1].size = 0.1;
-	main.obj[1].type = 0;
+	main.obj[1].type = SPHERE;
 	main.obj[1].color.s_rgb.r = 1.0;
 	main.obj[1].color.s_rgb.g = 0.0;
 	main.obj[1].color.s_rgb.b = 0.0;
 
 	main.obj[2].loc = point_new(0, 0, 40);
 	main.obj[2].rot = vector_new(0,0,1);
-	main.obj[2].type = 2;
+	main.obj[2].type = PLANE;
 	main.obj[2].color.s_rgb.r = 1.0;
 	main.obj[2].color.s_rgb.g = 1.0;
 	main.obj[2].color.s_rgb.b = 1.0;
 
 	main.obj[3].loc = point_new(0,-10, 40);
 	main.obj[3].rot = vector_new(0,1,0);
-	main.obj[3].type = 2;
+	main.obj[3].type = PLANE;
 	main.obj[3].color.s_rgb.r = 0.0;
 	main.obj[3].color.s_rgb.g = 1.0;
 	main.obj[3].color.s_rgb.b = 1.0;
 
 	main.obj[4].loc = point_new(0, 0, 30);
 	main.obj[4].rot = vector_new(1,1,1);
-	main.obj[4].type = 1;
+	main.obj[4].type = CYLINDER;
 	main.obj[4].size = 0.9;
 	main.obj[4].color.s_rgb.r = 1.0;
 	main.obj[4].color.s_rgb.g = 1.0;
@@ -132,7 +132,7 @@ int	main(void)
 
 	main.obj[5].loc = point_new(0, 0, 30);
 	main.obj[5].rot = vector_new(-1,1,1);
-	main.obj[5].type = 1;
+	main.obj[5].type = CYLINDER;
 	main.obj[5].size = 1.2;
 	main.obj[5].color.s_rgb.r = 1.0;
 	main.obj[5].color.s_rgb.g = 0.0;
@@ -140,7 +140,7 @@ int	main(void)
 
 	main.obj[6].loc = point_new(-10.0, 0, 30);
 	main.obj[6].rot = vector_new(0,1,0);
-	main.obj[6].type = 3;
+	main.obj[6].type = CONE;
 	main.obj[6].size = 1;
 	main.obj[6].color.s_rgb.r = 1.0;
 	main.obj[6].color.s_rgb.g = 0.1;
