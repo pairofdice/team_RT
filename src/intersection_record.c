@@ -6,13 +6,13 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/07 17:24:31 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 14:39:49 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object.h"
 
-void	intersection_record(t_ray_m *ray, double t1, double t2, t_object_mt *s)
+void	intersection_record(t_ray *ray, double t1, double t2, t_object *s)
 {
 	t_intersection	xs;
 

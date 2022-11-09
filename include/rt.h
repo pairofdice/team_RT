@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 17:03:01 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:22:06 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ typedef struct s_sdl
 
 typedef struct s_cam
 {
-	t_tuple			pos;
+	t_point			pos;
 	t_tuple			v_up;
-	t_tuple			coi;
+	t_point			coi;
 	t_tuple			v;
 	t_tuple			u;
 	t_tuple			n;
@@ -65,25 +65,9 @@ typedef struct s_cam
 	double			plane_w;
 }					t_cam;
 
-typedef struct s_hit_record
-{
-	t_tuple			hit_loc;
-	t_tuple			normal;
-	double			hit_dist;
-	int				clo_obj_id;
-	union u_tuple	color;
-}					t_hit_record;
-
-typedef struct s_ray
-{
-	t_tuple			orig;
-	t_tuple			dir;
-	t_hit_record	hit;
-}					t_ray;
-
 typedef struct s_light
 {
-	t_tuple			pos;
+	t_point			pos;
 }					t_light;
 
 typedef struct s_screen_shot
@@ -152,4 +136,5 @@ int					int_clamp(int value, int min, int max);
 double				float_clamp(double value, double min, double max);
 
 t_point				ray_position(t_ray ray, double t);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:57:41 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 16:12:19 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	initialize_camera(t_cam *cam)
 
 void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam)
 {
+	ray->orig = cam->pos;
 	ray->dir = tuple_add(cam->l, tuple_scalar_mult(cam->u,
 				x * (cam->plane_w / WIN_W)));
 	ray->dir = tuple_add(ray->dir, tuple_scalar_mult(cam->v,

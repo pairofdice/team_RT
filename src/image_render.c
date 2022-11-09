@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:59:23 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:48:25 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int	ray_shooter(t_ray *ray, t_main *main)
 		}
 		count++;
 	}
-	fill_hit_record(main, clo_ret, clo_shape);
+	if (clo_ret != -1.0)
+		fill_hit_record(main, clo_ret, clo_shape);
 	if (clo_ret < 0.0 || (check_shadow(main, ray) == 1))
 		return (0);
 	add_hit_color(main, &main->shadow);

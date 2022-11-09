@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 20:44:38 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 17:19:27 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 15:43:37 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_shadow(t_main *main, t_ray *ray)
 	count = 0;
 	ret = -1;
 	offset_and_declare_shadow_ray(main, ray, &main->shadow);
-	while (ret < 0.000000 && count < main->obj_count)
+	while (count < main->obj_count && ret < 0.000000)
 	{
 		ret = get_shape_intersections(&main->shadow, &main->obj[count]);
 		count++;
