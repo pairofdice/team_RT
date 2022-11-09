@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/09 18:33:19 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/09 20:44:12 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,8 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								ray_transform.c\
 								sphere.c\
 								plane.c\
+								cylinder.c\
+								cone.c\
 								discriminant.c\
 								intersection_record.c\
 								intersection_new.c\
