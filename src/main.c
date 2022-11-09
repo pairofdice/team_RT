@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 16:03:41 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:32:31 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	draw_filter(t_sdl *sdl, int *filter_type, int i)
 		else if (sdl->event.key.keysym.sym == SDLK_UP && *filter_type < 4)
 			*filter_type += 1;
 		else if (sdl->event.key.keysym.sym == SDLK_UP)
-			*filter_type = 0;
+			*filter_type = SPHERE;
 	}
 	if (*filter_type == 0)
 		draw_to_window(sdl, sdl->frame_buffer.data);
@@ -58,7 +58,7 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	int	filter_type;
 
 	quit = 0;
-	filter_type = 0;
+	filter_type = SPHERE;
 	while (quit == 0)
 	{
 		if (SDL_WaitEvent(&sdl->event) != 0)
@@ -96,17 +96,11 @@ int	main(void)
 	main.light.pos.y = 0.0;
 	main.light.pos.z = 0.0;
 
-		//0 = sphere
-		//1 = cylinder
-		//2 = plane
-		//3 = cone
-
-		
 	main.obj[0].loc.x = 0.0;
 	main.obj[0].loc.y = 0.0;
 	main.obj[0].loc.z = 30.0;
 	main.obj[0].size = 3.0;
-	main.obj[0].type = 0;
+	main.obj[0].type = SPHERE;
 	main.obj[0].color.s_rgb.r = 0.0;
 	main.obj[0].color.s_rgb.g = 1.0;
 	main.obj[0].color.s_rgb.b = 0.0;
@@ -115,7 +109,7 @@ int	main(void)
 	main.obj[1].loc.y = 0.0;
 	main.obj[1].loc.z = 30.0;
 	main.obj[1].size = 0.1;
-	main.obj[1].type = 0;
+	main.obj[1].type = SPHERE;
 	main.obj[1].color.s_rgb.r = 1.0;
 	main.obj[1].color.s_rgb.g = 0.0;
 	main.obj[1].color.s_rgb.b = 0.0;
@@ -126,7 +120,7 @@ int	main(void)
 	main.obj[2].rot.x = 0.0;
 	main.obj[2].rot.y = 0.0;
 	main.obj[2].rot.z = 1.0;
-	main.obj[2].type = 2;
+	main.obj[2].type = PLANE;
 	main.obj[2].color.s_rgb.r = 1.0;
 	main.obj[2].color.s_rgb.g = 1.0;
 	main.obj[2].color.s_rgb.b = 1.0;
@@ -137,7 +131,7 @@ int	main(void)
 	main.obj[3].rot.x = 0.0;
 	main.obj[3].rot.y = 1.0;
 	main.obj[3].rot.z = 0.0;
-	main.obj[3].type = 2;
+	main.obj[3].type = PLANE;
 	main.obj[3].color.s_rgb.r = 0.0;
 	main.obj[3].color.s_rgb.g = 1.0;
 	main.obj[3].color.s_rgb.b = 1.0;
@@ -148,7 +142,7 @@ int	main(void)
 	main.obj[4].rot.x = 1.0;
 	main.obj[4].rot.y = 1.0;
 	main.obj[4].rot.z = 1.0;
-	main.obj[4].type = 1;
+	main.obj[4].type = CYLINDER;
 	main.obj[4].size = 1;
 	main.obj[4].color.s_rgb.r = 1.0;
 	main.obj[4].color.s_rgb.g = 1.0;
@@ -160,7 +154,7 @@ int	main(void)
 	main.obj[5].rot.x = -1.0;
 	main.obj[5].rot.y = 1.0;
 	main.obj[5].rot.z = 1.0;
-	main.obj[5].type = 1;
+	main.obj[5].type = CYLINDER;
 	main.obj[5].size = 0.5;
 	main.obj[5].color.s_rgb.r = 1.0;
 	main.obj[5].color.s_rgb.g = 0.0;
@@ -172,7 +166,7 @@ int	main(void)
 	main.obj[6].rot.x = 0.0;
 	main.obj[6].rot.y = 1.0;
 	main.obj[6].rot.z = 0.0;
-	main.obj[6].type = 3;
+	main.obj[6].type = CONE;
 	main.obj[6].size = 1;
 	main.obj[6].color.s_rgb.r = 1.0;
 	main.obj[6].color.s_rgb.g = 0.1;
