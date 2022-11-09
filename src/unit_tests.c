@@ -31,7 +31,7 @@ void	test_ray();
 void	test_sphere_intersect();
 void	test_intersection();
 void	test_ray_sphere_transforms();
-
+void	test_ray_plane_transforms();
 
 
 void	tests(void)
@@ -84,8 +84,11 @@ void	tests(void)
 	printf("Testing rays\n");
 	test_ray();
 	printf("OK\n");
-	printf("Testing sphere sphere intersection\n");
+	printf("Testing sphere intersection\n");
 	test_sphere_intersect();
+	printf("OK\n");
+	printf("Testing plane intersection\n");
+	test_ray_plane_transforms();
 	printf("OK\n");
 	printf("Testing intersection\n");
 	test_intersection();
@@ -1453,6 +1456,124 @@ void	test_ray_sphere_transforms()
 
 
 
+
+}
+
+void	test_ray_plane_transforms()
+{
+	// RAY TRANSLATE
+	 t_ray_m	r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
+	// t_matrix m = matrix_translate(3, 4, 5);
+	// t_ray_m r2 = ray_transform(&r1, &m);
+
+	// assert(tuples_equal(r2.orig, point_new(4, 6, 8)));
+	// assert(tuples_equal(r2.dir, vector_new(0, 1, 0)));
+	// tuple_print(r2.orig);
+	// tuple_print(r2.dir);
+
+	// // ray_free(&r1);
+	// // RAY SCALE
+	// r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
+	// m = matrix_scale(2, 3, 4);
+	// r2 = ray_transform(&r1, &m);
+
+	// assert(tuples_equal(r2.orig, point_new(2, 6, 12)));
+	// assert(tuples_equal(r2.dir, vector_new(0, 3, 0)));
+	// tuple_print(r2.orig);
+	// tuple_print(r2.dir);
+
+	// SPHERE IDENTITY
+	t_object_mt	sphere = object_new(PLANE);
+	t_matrix	m_id = matrix_new_identity(4);
+	assert(matrix_equals(&sphere.transform, &m_id));
+	
+	// SPHERE TRANSFORM
+	// t_matrix	t_m	= matrix_new_identity);
+	t_matrix t_m = matrix_translate(2, 3, 4);
+	set_transform(&sphere, &t_m);
+	assert(matrix_equals(&sphere.transform, &t_m));
+
+	// Transformed ray-sphere intersection SCALE
+	t_point p = point_new(0, 0, -5);
+	t_vector v = vector_new(0, 0, 1);
+	r1 = ray_new(p, v);
+	
+	//new_intersections(&r1.xs.vec);
+
+	sphere = object_new(PLANE);
+	t_m = matrix_scale(2, 2, 2);
+	set_transform(&sphere, &t_m);
+	matrix_print(&sphere.transform);
+
+	//  int	does_intersect =  
+	intersect_plane(&r1, &sphere);
+	printf("%zu\n", r1.xs.vec.len);
+
+	size_t i = 0;
+	t_intersection xs ;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("Ray's intersections t%zu: %lf\n", i + 1, xs.t);
+
+		i++;
+	}
+
+	// Transformed ray-sphere intersection translation
+	sphere = object_new(PLANE);
+	p = point_new(0, 0, -5);
+	v = vector_new(0, 0, 1);
+	r1 = ray_new(p, v);
+	t_m = matrix_translate(5, 0, 0);
+	set_transform(&sphere, &t_m);
+ 	
+// matrix_print(&sphere.transform);
+// 	set_transform(&sphere, &t_m);
+// 	matrix_print(&sphere.transform);
+// 	t_m = matrix_translate(5, 0, 0); 
+	
+	intersect_plane(&r1, &sphere);
+
+	printf("%zu\n", r1.xs.vec.len);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("Ray's intersections t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+
+	sphere = object_new(PLANE);
+	p = point_new(0, 1, 0);
+	v = vector_new(0, -1, 0);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+ 	intersect_plane(&r1, &sphere);
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("A ray intersecting a plane from above t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+
+	sphere = object_new(PLANE);
+	p = point_new(0, -1, 0);
+	v = vector_new(1, 1, 0);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+ 	intersect_plane(&r1, &sphere);
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("A ray intersecting a plane from below t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
 
 }
 

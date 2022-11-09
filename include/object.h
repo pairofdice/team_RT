@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 17:51:57 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 18:33:47 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void				intersection_record(
 						double intersect,
 						t_object_mt *s);
 int					intersect_sphere(t_ray_m *inc_ray, t_object_mt *s);
+int	intersect_plane(t_ray_m *inc_ray, t_object_mt *s);
 t_intersection		intersection_new(double time, t_object_mt *o);
 void				set_transform(t_object_mt *obj, t_matrix *transform);
 
