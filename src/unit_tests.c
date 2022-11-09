@@ -1925,3 +1925,72 @@ t_matrix	matrix_new_inc_c(size_t size)
 	}
 	return (m);
 }
+
+
+void	screen_loop(t_main *main)
+{
+	t_coords	xy;
+	t_color		color;
+	t_color		red;
+	int			color_int;
+	t_object	shape;
+	t_ray		ray;
+	t_point		p;
+	t_vector	v;
+	double		wall_size;
+	double		pixel_size;
+	double		half;
+	double		world_y;
+	double		world_x;
+	double		wall_z;
+	t_point		wall_position;
+
+	wall_size = 7.0;
+	pixel_size = wall_size/WIN_W;
+	half = wall_size / 2;
+	wall_z = 10;
+
+	p = point_new(0, 0, -5);
+	// transform = matrix_new_identity(4);
+
+	// t_matrix	transform_scale;
+	// t_matrix	transform_shear;
+	t_matrix	transform;
+	
+	transform = matrix_scale(0.05, 1, 1);
+	//transform_shear = matrix_shear(1.3, 0.7, 1.2, 0.3, 1.1, 0.9);
+	//transform = matrix_multiply(&transform_scale, &transform_shear);
+	int SPHERE = 0;
+	shape = object_new(SPHERE);
+	set_transform(&shape, &transform);
+	red = color_new(1, 0, 0);
+
+	xy.col = 0;
+	
+	while (xy.col < WIN_W)
+	{
+		world_x = -half + pixel_size * xy.col;
+		xy.row = 0;
+		while (xy.row < WIN_H)
+		{
+			world_y = half - pixel_size * xy.row;
+			wall_position = point_new(world_x, world_y, wall_z);
+			v = tuple_unit(  tuple_sub(wall_position, p) );
+			ray = ray_new(p, v);
+			if (intersect_sphere(&ray, &shape))
+			{
+				img_pixel_put(&main->sdl.frame_buffer, xy.col, xy.row, red);
+
+			}
+			else
+			{
+				color = color_new((double)xy.col/WIN_W , (double)xy.row / WIN_H, 1.0);
+				color_int = color_to_int(color);
+				img_pixel_put(&main->sdl.frame_buffer, xy.col, xy.row, color);
+			}
+			xy.row++;
+		}
+		xy.col++;
+	}
+}
+
