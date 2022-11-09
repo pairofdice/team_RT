@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:23:15 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 20:08:01 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <stdio.h>
 
 # define WIN_W 500
-# define WIN_H 350
+# define WIN_H 500
 # define A_A_DIV 2
 # define EPSILON 0.00006103515625
 

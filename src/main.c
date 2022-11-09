@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:26:11 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/09 20:05:08 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,11 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	free_buffers_and_sdl(sdl);
 }
 
-int	tests(void); // unit tests
+void	tests(t_main *main); // unit tests
 
 int	main(void)
 {
 	t_main	main;
-
-	tests();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (1);
@@ -148,14 +146,16 @@ int	main(void)
 	main.obj_count = 7;
 
 	initialize_camera(&main.cam);
-	create_threads(&main, 1);
+/* 	create_threads(&main, 1);
 	draw_frame(&main);
 	while (main.multi.threads_done < NUM_THREADS)
 		ft_putstr("");
 	edge_detection(&main.sdl.frame_buffer);
 	main.ant_al = A_A_DIV;
 	draw_frame(&main);
-	creat_filters(&main.sdl.frame_buffer);
+	creat_filters(&main.sdl.frame_buffer); */
+	
+	tests(&main);
 	draw_to_window(&main.sdl, main.sdl.frame_buffer.data);
 	rt_loop_and_exit(&main.sdl);
 	SDL_Quit();
