@@ -32,6 +32,13 @@
 # define A_A_DIV 2
 # define EPSILON 0.00006103515625
 
+enum 
+{
+	POINT,
+	SUN,
+	AMBIENT,	
+};
+
 typedef struct s_frame_buffer
 {
 	int				*data;
@@ -69,8 +76,26 @@ typedef struct s_cam
 
 typedef struct s_light
 {
+	t_point			location;
+	t_vector		direction;
+	t_color			intensity;
+	int				type;
 	t_point			pos;
 }					t_light;
+
+// For ambient, diffuse, and specular, the typical values are between 0 and 1. 
+// For shininess, values between 10 (very large highlight) 
+// and 200 (very small highlight) seem to work best, 
+// though there is no actual upper bound.
+typedef struct s_material
+{
+	t_color	color;
+	double	ambient;
+	double	diffuse;
+	double	specular;
+	double	shininess;
+	
+}	t_material;
 
 typedef struct s_screen_shot
 {
@@ -138,5 +163,13 @@ int					int_clamp(int value, int min, int max);
 double				float_clamp(double value, double min, double max);
 
 t_point				ray_position(t_ray ray, double t);
+
+
+
+t_light				point_light_new(t_point position, t_color intensity);
+t_light				sun_light_new(t_point direction, t_color intensity);
+t_light				ambient_light_new(t_color intensity);
+t_material			material_new();
+
 
 #endif

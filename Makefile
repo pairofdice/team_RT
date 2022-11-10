@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
 #    Updated: 2022/11/11 18:45:57 by jjuntune         ###   ########.fr        #
@@ -55,6 +55,7 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								vector_dot.c\
 								vector_new.c\
 								vector_cross.c\
+								vector_reflect.c\
 								nearly_equal.c\
 								fabs.c\
 								int_clamp.c\
@@ -88,8 +89,12 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								intersection_new.c\
 								set_transform.c\
 								object_new.c\
+								normal_at.c\
+								light_new.c\
 								unit_tests.c\
 								find_closest_intersection.c)
+								material.c\
+								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

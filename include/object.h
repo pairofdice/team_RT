@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   object.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
 /*   Updated: 2022/11/11 20:17:07 by jjuntune         ###   ########.fr       */
@@ -39,6 +39,7 @@ typedef struct s_object
 	size_t			id;
 	t_matrix		transform;
 	t_tuple			color;
+	// t_material		material;
 }					t_object;
 
 typedef struct s_abc
@@ -97,9 +98,13 @@ int					phere_intersect(t_ray *ray, t_object *s);
 t_ray				ray_transform(t_ray *source, t_matrix *transform);
 void				intersection_record(
 						t_ray *ray,
-						double intersect,
+						double time,
 						t_object *s);
-void	intersection_record_test(t_ray *ray, double t1, double t2, t_object *s);
+void				intersection_record_test(
+						t_ray *ray,
+						double t1,
+						double t2,
+						t_object *s);
 int					intersect_sphere(t_ray *inc_ray, t_object *s);
 int					intersect_plane(t_ray *inc_ray, t_object *s);
 int					intersect_cylinder(t_ray *inc_ray, t_object *s);
@@ -107,5 +112,6 @@ int					intersect_cone(t_ray *inc_ray, t_object *s);
 t_intersection		intersection_new(double time, t_object *o);
 t_intersection	find_closest_intersection(t_intersections *xs);
 void				set_transform(t_object *obj, t_matrix *transform);
+t_vector			normal_at(t_object *obj, t_point point);
 
 #endif
