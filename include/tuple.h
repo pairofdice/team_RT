@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:37:35 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/07 15:02:19 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/10 16:01:32 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,7 @@ unsigned int	color_to_int(t_color color);
 t_color			int_to_color(unsigned int rgba);
 unsigned int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
 t_color			color_multiply(t_color a, t_color b);
+t_vector		vector_reflect(t_vector v, t_vector n);
+
 
 #endif

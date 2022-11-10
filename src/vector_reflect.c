@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tuple_print.c                                      :+:      :+:    :+:   */
+/*   vector_reflect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/09 21:15:25 by jsaarine         ###   ########.fr       */
+/*   Created: 2022/11/10 14:45:59 by jsaarine          #+#    #+#             */
+/*   Updated: 2022/11/10 15:33:17 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tuple.h"
-#include <printf.h>
 
-void	tuple_print(t_tuple t)
+#include "tuple.h"
+
+t_vector	vector_reflect(t_vector in, t_vector normal)
 {
-	printf("%5.2f %5.2f %5.2f %5.2f\n",
-		t.s_xyzw.x,
-		t.s_xyzw.y,
-		t.s_xyzw.z,
-		t.s_xyzw.w);
+	return (tuple_sub(in, tuple_scalar_mult(normal,  2 * vector_dot(in, normal))));
 }

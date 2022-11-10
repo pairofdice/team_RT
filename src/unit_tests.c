@@ -33,8 +33,8 @@ void	test_intersection();
 void	test_ray_sphere_transforms();
 void	test_ray_plane_transforms();
 void	screen_loop(t_main *main);
-
-
+void	test_sphere_normal();
+void	test_reflection();
 
 void	tests(t_main *main)
 {
@@ -103,6 +103,14 @@ void	tests(t_main *main)
 	test_ray_sphere_transforms();
 	printf("OK\n");
 */
+
+	printf("Testing sphere normals\n");
+	test_sphere_normal();
+	printf("OK\n");
+
+	printf("Testing reflections\n");
+	test_reflection();
+	printf("OK\n");
 
 	screen_loop(main);
 
@@ -1656,14 +1664,29 @@ void	img_pixel_put(t_frame_buffer *fb, unsigned int x,
 	*(unsigned int *)dst = color_int;
 }
 
+t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
+		double z_x, double z_y)
+{
+	t_matrix	transform;
+
+	transform = matrix_new_identity(4);
+	transform.rc[0][1] = x_y;
+	transform.rc[0][2] = x_z;
+	transform.rc[1][0] = y_x;
+	transform.rc[1][2] = y_z;
+	transform.rc[2][0] = z_x;
+	transform.rc[2][1] = z_y;
+	return (transform);
+}
+
 
 
 void	screen_loop(t_main *main)
 {
 	t_coords	xy;
 	t_color		color;
-	t_color		red;
-	int			color_int;
+	t_color		temp;
+	// int			color_int;
 	t_object	shape;
 	t_ray		ray;
 	t_point		p;
@@ -1684,17 +1707,18 @@ void	screen_loop(t_main *main)
 	p = point_new(0, 0, -5);
 	// transform = matrix_new_identity(4);
 
-	// t_matrix	transform_scale;
-	// t_matrix	transform_shear;
+	t_matrix	transform_scale;
+	t_matrix	transform_shear;
 	t_matrix	transform;
 	
-	transform = matrix_scale(0.05, 1, 1);
-	//transform_shear = matrix_shear(1.3, 0.7, 1.2, 0.3, 1.1, 0.9);
-	//transform = matrix_multiply(&transform_scale, &transform_shear);
+	transform_scale = matrix_scale(1.0, 1.0, 1);
+	transform_shear = matrix_shear(1.0, 1.7, 1.2, 1.0, 1.1, 1.5);
+	transform_shear = matrix_shear(0,0,0,0,0,0);
+	transform = matrix_multiply(&transform_scale, &transform_shear);
 	int SPHERE = 0;
 	shape = object_new(SPHERE);
 	set_transform(&shape, &transform);
-	red = color_new(1, 0, 0);
+	// red = color_new(1, 0, 0);
 
 	xy.col = 0;
 	
@@ -1710,13 +1734,33 @@ void	screen_loop(t_main *main)
 			ray = ray_new(p, v);
 			if (intersect_sphere(&ray, &shape))
 			{
-				img_pixel_put(&main->sdl.frame_buffer, xy.col, xy.row, red);
+				t_point point = point_new(0,0,0);
+				if (ray.xs.vec.len > 0)
+					point = ray_position(ray, *(double *)vec_get(&ray.xs.vec, 0));
+				temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
+				color.s_rgb.r = 0.2 + (vector_dot(normal_at(&shape, point), tuple_unit(vector_new(-1,0,-1.5)))) ;
+				color.s_rgb.g = 0.2 +  vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,-1,-1.5))) ;
+				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
+				color.s_rgb.b = 0.2 +  ( vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1.5)))) ;
+
+				// temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
+				// color.s_rgb.r =  (1.0 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(-1,0,-1)))) * 0.45;
+				// color.s_rgb.g =  vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,-1,-1))) ;
+				// // color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
+				// color.s_rgb.b =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
+
+				// temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
+				// color.s_rgb.r = 0.5 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1))) ;
+				// color.s_rgb.g = 0.2 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1))) * 0.7 ;
+				// color.s_rgb.b = vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1))) * 1.0;
+				//color = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), vector_new(1,1,-1)));
+				// color_int = color_to_int(normal_at(&shape, point));
+				img_pixel_put(&main->sdl.frame_buffer, xy.col, xy.row, color);
 
 			}
 			else
 			{
 				color = color_new((double)xy.col/WIN_W , (double)xy.row / WIN_H, 1.0);
-				color_int = color_to_int(color);
 				img_pixel_put(&main->sdl.frame_buffer, xy.col, xy.row, color);
 			}
 			xy.row++;
@@ -1725,3 +1769,94 @@ void	screen_loop(t_main *main)
 	}
 }
 
+void	test_sphere_normal()
+{
+	// AT ORIGIN
+	t_object s = object_new(SPHERE);
+	t_vector s_n = normal_at(&s, point_new(1, 0, 0));
+	t_vector n = vector_new(1, 0, 0);
+	assert(tuples_equal(s_n, n));
+
+	
+	s = object_new(SPHERE);
+	s_n = normal_at(&s, point_new(0, 1, 0));
+	n = vector_new(0, 1, 0);
+	assert(tuples_equal(s_n, n));
+
+	s = object_new(SPHERE);
+	s_n = normal_at(&s, point_new(0, 0, 1));
+	n = vector_new(0, 0, 1);
+	assert(tuples_equal(s_n, n));
+
+	s = object_new(SPHERE);
+	s_n = normal_at(&s, point_new(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3));
+	n = vector_new(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3);
+	assert(tuples_equal(s_n, n));
+
+	s = object_new(SPHERE);
+	s_n = normal_at(&s, point_new(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3));
+	n = vector_new(sqrt(3)/3, sqrt(3)/3, sqrt(3)/3);
+	assert(tuples_equal(tuple_unit(n), n));
+
+	// TRANSLATED
+	s = object_new(SPHERE);
+	t_matrix t_m = matrix_translate(0, 1, 0);
+	set_transform(&s, &t_m);
+	s_n = normal_at(&s, point_new(0, 1.70711, -0.70711));
+	n = vector_new(0, 0.70711, -0.70711);
+	tuple_print(n);
+	tuple_print(s_n);
+	assert(tuples_equal(s_n, n));
+
+	// SCALED
+	s = object_new(SPHERE);
+	t_matrix s_m = matrix_scale(1, 0.5, 1);
+	t_matrix r_m = matrix_rotate_z(M_PI/5);
+	t_matrix mm = matrix_multiply( &s_m, &r_m);
+	set_transform(&s, &mm);
+	s_n = normal_at(&s, point_new(0, sqrt(2)/2, -sqrt(2)/2));
+	n = vector_new(0, 0.97014, -0.24254);
+	tuple_print(s_n);
+	tuple_print(n);
+	assert(tuples_equal(s_n, n));
+}
+
+
+void	test_reflection()
+{
+	t_vector	v = vector_new(1, -1, 0);
+	t_vector	n = vector_new(0, 1, 0);
+	t_vector	r = vector_reflect(v, n);
+	tuple_print(r);
+	tuple_print(v);
+	assert(tuples_equal(r, vector_new(1, 1, 0)));
+
+	v = vector_new(0, -1, 0);
+	n = vector_new(sqrt(2)/2, sqrt(2)/2, 0);
+	r = vector_reflect(v, n);
+	assert(tuples_equal(r, vector_new(1, 0, 0)));
+}
+
+void	test_shading()
+{
+/* 	t_color intensity = color_new(1, 1, 1);
+	t_point	location = point_new(0, 0, 0);
+	t_light light = point_light_new(location, intensity);
+	assert(tuples_equal(location, light.location));
+
+	// default material
+
+	t_material	m = material_new();
+	assert(tuples_equal(m.color, color_new(1, 1, 1)));
+	assert(nearly_equal(m.ambient, 0.1));
+	assert(nearly_equal(m.diffuse, 0.9));
+	assert(nearly_equal(m.specular, 0.9));
+	assert(nearly_equal(m.shininess, 200.0));
+
+	t_object shape = object_new(SPHERE);
+
+	// assert(tuples_equal(shape.material, m));
+
+
+ */
+}
