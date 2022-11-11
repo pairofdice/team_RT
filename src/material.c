@@ -6,11 +6,11 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:32:00 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/10 16:59:44 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/11 13:56:13 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "object.h"
 
 t_material	material_new()
 {

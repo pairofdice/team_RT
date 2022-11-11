@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/10 16:59:20 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/11 21:15:44 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 1000
-# define WIN_H 1000
+# define WIN_W 900
+# define WIN_H 900
 # define A_A_DIV 2
 # define EPSILON 0.00006103515625
 
@@ -73,28 +73,7 @@ typedef struct s_cam
 	double			plane_w;
 }					t_cam;
 
-typedef struct s_light
-{
-	t_point			location;
-	t_vector		direction;
-	t_color			intensity;
-	int				type;
-	t_point			pos;
-}					t_light;
 
-// For ambient, diffuse, and specular, the typical values are between 0 and 1. 
-// For shininess, values between 10 (very large highlight) 
-// and 200 (very small highlight) seem to work best, 
-// though there is no actual upper bound.
-typedef struct s_material
-{
-	t_color	color;
-	double	ambient;
-	double	diffuse;
-	double	specular;
-	double	shininess;
-	
-}	t_material;
 
 typedef struct s_screen_shot
 {
@@ -168,7 +147,6 @@ t_point				ray_position(t_ray ray, double t);
 t_light				point_light_new(t_point position, t_color intensity);
 t_light				sun_light_new(t_point direction, t_color intensity);
 t_light				ambient_light_new(t_color intensity);
-t_material			material_new();
 
-
+t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal);
 #endif

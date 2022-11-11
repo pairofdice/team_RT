@@ -6,7 +6,7 @@
 #    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/10 17:17:29 by jsaarine         ###   ########.fr        #
+#    Updated: 2022/11/11 14:51:43 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,7 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								normal_at.c\
 								light_new.c\
 								material.c\
+								lighting.c\
 								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))

@@ -35,74 +35,89 @@ void	test_ray_plane_transforms();
 void	screen_loop(t_main *main);
 void	test_sphere_normal();
 void	test_reflection();
+void	test_shading();
+
 
 void	tests(t_main *main)
 {
 	printf("Testing tuples\n");
 	test_tuples();
 	printf("OK\n");
+
 	printf("Testing colors\n");
 	test_colors();
 	printf("OK\n");
+
 	printf("Testing matrix equality\n");
 	test_matrix_equal();
 	printf("OK\n");
+
 	printf("Testing matrix multiply\n");
 	test_matrix_multiply();
 	printf("OK\n");
+
 	printf("Testing matrix transpose\n");
 	test_matrix_transpose();
 	printf("OK\n");
+
 	printf("Testing 2x2 determinant\n");
 	test_matrix_determinant();
 	printf("OK\n");
+
 	printf("Testing submatrices\n");
 	test_matrix_submatrix();
 	printf("OK\n");
+
 	printf("Testing minors\n");
 	test_matrix_minors();
 	printf("OK\n");
+
 	printf("Testing larger determinant\n");
 	test_matrix_determinant_large();
 	printf("OK\n");
+
 	printf("Testing inversions\n");
 	test_matrix_inversion();
 	printf("OK\n");
+
 	printf("Testing matrix translation\n");
 	test_matrix_translate();
 	printf("OK\n");
+
 	printf("Testing matrix scaling\n");
 	test_matrix_scale();
 	printf("OK\n");
+
 	printf("Testing matrix rotate\n");
 	test_matrix_rotate();
 	printf("OK\n");
+
 	// printf("Testing matrix shear\n");
 	// test_matrix_shear();
 	// printf("OK\n");
 	printf("Testing transform chaining\n");
 	test_transform_chaining();
 	printf("OK\n");
+
 	printf("Testing rays\n");
 	test_ray();
 	printf("OK\n");
+
 	printf("Testing sphere intersection\n");
 	test_sphere_intersect();
 	printf("OK\n");
+
 	printf("Testing plane intersection\n");
 	test_ray_plane_transforms();
 	printf("OK\n");
-	printf("Testing intersection\n");
+
+	printf("Testing intersection ⤭\n");
 	test_intersection();
 	printf("OK\n");
-
-/* 	
-
 
 	printf("Testing ray/sphere transform\n");
 	test_ray_sphere_transforms();
 	printf("OK\n");
-*/
 
 	printf("Testing sphere normals\n");
 	test_sphere_normal();
@@ -110,6 +125,10 @@ void	tests(t_main *main)
 
 	printf("Testing reflections\n");
 	test_reflection();
+	printf("OK\n");
+
+	printf("Testing 😎\n");
+	test_shading();
 	printf("OK\n");
 
 	screen_loop(main);
@@ -1708,16 +1727,33 @@ void	screen_loop(t_main *main)
 	// transform = matrix_new_identity(4);
 
 	t_matrix	transform_scale;
+	t_matrix	transform_t;
 	t_matrix	transform_shear;
 	t_matrix	transform;
 	
-	transform_scale = matrix_scale(1.0, 1.0, 1);
-	transform_shear = matrix_shear(1.0, 1.7, 1.2, 1.0, 1.1, 1.5);
+	transform_t = matrix_translate(1.0,0.2,0.2);
+	transform_t = matrix_translate(0,0,0);
+	transform_scale = matrix_scale(0.6,0.2,0.2);
+	transform_scale = matrix_scale(1,1,1);
+	// transform_scale = matrix_scale(0.2,0.2,0.2);
+	// transform_shear = matrix_shear(1.0, 1.7, 1.2, 1.0, 1.1, 1.5);
 	transform_shear = matrix_shear(0,0,0,0,0,0);
 	transform = matrix_multiply(&transform_scale, &transform_shear);
-	int SPHERE = 0;
-	shape = object_new(SPHERE);
+	transform = matrix_multiply(&transform, &transform_t);
+	int SHAPE = 1;
+	shape = object_new(SHAPE);
+	shape.material = material_new();
+	shape.material.color = color_new(1, 0.2, 1);
+
+	t_point light_pos = point_new(-10, 10, -10);
+	t_color light_color = color_new(1, 1, 1);
+	t_light light = point_light_new(light_pos, light_color);
+	t_vector to_eye;
+	t_vector normal;
+
+
 	set_transform(&shape, &transform);
+	
 	// red = color_new(1, 0, 0);
 
 	xy.col = 0;
@@ -1732,17 +1768,25 @@ void	screen_loop(t_main *main)
 			wall_position = point_new(world_x, world_y, wall_z);
 			v = tuple_unit(  tuple_sub(wall_position, p) );
 			ray = ray_new(p, v);
-			if (intersect_sphere(&ray, &shape))
+			if (intersects_cylinder(&ray, &shape))
 			{
 				t_point point = point_new(0,0,0);
 				if (ray.xs.vec.len > 0)
 					point = ray_position(ray, *(double *)vec_get(&ray.xs.vec, 0));
 				temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
-				color.s_rgb.r = 0.2 + (vector_dot(normal_at(&shape, point), tuple_unit(vector_new(-1,0,-1.5)))) ;
-				color.s_rgb.g = 0.2 +  vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,-1,-1.5))) ;
-				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
-				color.s_rgb.b = 0.2 +  ( vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1.5)))) ;
+				// color.s_rgb.r = (vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1, 1, -1)))) ;
+				// color.s_rgb.g = 0 ;
+				// // color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
+				// color.s_rgb.b = 0 ;
+				normal = normal_at(&shape, point);
 
+				shape.material.color.s_rgb.r = 0.2 + (vector_dot(normal, tuple_unit(vector_new(-1,0,-1.5)))) ;
+				shape.material.color.s_rgb.g = 0.2 +  vector_dot(normal, tuple_unit(vector_new(1,-1,-1.5))) ;
+				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
+				shape.material.color.s_rgb.b = 0.2 +  ( vector_dot(normal, tuple_unit(vector_new(1,1,-1.5)))) ;
+
+				to_eye = tuple_neg(ray.dir);
+				light_color = lighting(shape.material, light, point, to_eye, normal);
 				// temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
 				// color.s_rgb.r =  (1.0 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(-1,0,-1)))) * 0.45;
 				// color.s_rgb.g =  vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,-1,-1))) ;
@@ -1755,7 +1799,7 @@ void	screen_loop(t_main *main)
 				// color.s_rgb.b = vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1))) * 1.0;
 				//color = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), vector_new(1,1,-1)));
 				// color_int = color_to_int(normal_at(&shape, point));
-				img_pixel_put(&main->sdl.frame_buffer, xy.col, xy.row, color);
+				img_pixel_put(&main->sdl.frame_buffer, xy.col, xy.row, light_color);
 
 			}
 			else
@@ -1837,12 +1881,18 @@ void	test_reflection()
 	assert(tuples_equal(r, vector_new(1, 0, 0)));
 }
 
+
+
 void	test_shading()
 {
-/* 	t_color intensity = color_new(1, 1, 1);
+	printf("1\n");
+  	t_color intensity = color_new(1, 1, 1);
 	t_point	location = point_new(0, 0, 0);
+
 	t_light light = point_light_new(location, intensity);
 	assert(tuples_equal(location, light.location));
+	assert(tuples_equal(intensity, light.intensity));
+	printf("2\n");
 
 	// default material
 
@@ -1852,11 +1902,79 @@ void	test_shading()
 	assert(nearly_equal(m.diffuse, 0.9));
 	assert(nearly_equal(m.specular, 0.9));
 	assert(nearly_equal(m.shininess, 200.0));
+	printf("3\n");
 
+	// A sphere has a default material
 	t_object shape = object_new(SPHERE);
+	m = material_new();
+	assert(tuples_equal(shape.material.color, m.color));
+	assert(nearly_equal(shape.material.ambient, m.ambient));
+	assert(nearly_equal(shape.material.diffuse, m.diffuse));
+	assert(nearly_equal(shape.material.shininess, m.shininess));
+	assert(nearly_equal(shape.material.specular, m.diffuse));
 
-	// assert(tuples_equal(shape.material, m));
+	printf("4\n");
+	// A sphere may be assigned a material
+	shape = object_new(SPHERE);
+	m = material_new();
+	m.ambient = 0.5;
+	shape.material = m;
+	assert(nearly_equal(shape.material.ambient, 0.5));
+
+	printf("🌻\n");
+	// Lighting
+
+	m = material_new();
+	t_point pos = point_new(0, 0, 0);
+	t_color result = color_new(0,0,0);
+ 	// Lighting with the eye between the light and the surface <-->
+	t_vector to_eye = vector_new(0, 0, -1);
+	t_vector normal = vector_new(0, 0, -1);
+	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
+	// tuple_print(light.pos);
+	result = lighting(m, light, pos, to_eye, normal);
+	tuple_print(result);
+	printf("6\n");
+	assert(tuples_equal(result, color_new(1.9, 1.9, 1.9)));
+	printf("7\n");
 
 
- */
+	// Lighting with the eye between light and surface, eye offset 45°
+	to_eye = vector_new(0, sqrt(2)/2, -sqrt(2)/2);
+	normal = vector_new(0, 0, -1);
+	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
+	result = lighting(m, light, pos, to_eye, normal);
+	assert(tuples_equal(result, color_new(1.0, 1.0, 1.0)));
+	printf("8\n");
+
+
+// Lighting with eye opposite surface, light offset 45°
+
+	to_eye = vector_new(0,0, -1);
+	normal = vector_new(0, 0, -1);
+	light = point_light_new(point_new(0, 10, -10), color_new(1, 1, 1));
+	result = lighting(m, light, pos, to_eye, normal);
+	assert(tuples_equal(result, color_new(0.7364, 0.7364, 0.7364)));
+
+
+
+//  Lighting with eye in the path of the reflection vector
+
+	to_eye = vector_new(0, -sqrt(2)/2, -sqrt(2)/2);
+	normal = vector_new(0, 0, -1);
+	light = point_light_new(point_new(0, 10, -10), color_new(1, 1, 1));
+	result = lighting(m, light, pos, to_eye, normal);
+	assert(tuples_equal(result, color_new(1.6364, 1.6364, 1.6364)));
+
+	// Lighting with eye opposite surface, light offset 45°
+	m = material_new();
+	pos = point_new(0, 0, 0);
+	to_eye = vector_new(0, 0, -1);
+	normal = vector_new(0, 0, -1);
+	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
+	light = point_light_new(point_new(0, 0, 10), color_new(1, 1, 1));
+	result = lighting(m, light, pos, to_eye, normal);
+	tuple_print(result);
+	assert(tuples_equal(result, color_new(0.1, 0.1, 0.1)));
+
 }
