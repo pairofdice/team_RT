@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 16:12:19 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 17:18:48 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,40 +48,31 @@ int	initialize_window(t_main *main)
 	return (1);
 }
 
-void	initialize_camera(t_cam *cam)
+void	initialize_camera(t_cam *cam, t_matrix transform)
 {
-	double	angle;
-
-	cam->v_up = tuple_scalar_div(cam->v_up,
-			sqrt(vector_dot(cam->v_up, cam->v_up)));
-	cam->n = tuple_sub(cam->pos, cam->coi);
-	cam->n = tuple_scalar_div(cam->n,
-			sqrt(vector_dot(cam->n, cam->n)));
-	cam->n = tuple_scalar_div(cam->n, -1.0);
-	angle = vector_dot(cam->v_up, cam->n);
-	//if (angle == 1 || angle == -1)
-	//	cam->v_up = add_vect_float(cam->v_up, 0.001);
-	cam->u = vector_cross(cam->n, cam->v_up);
-	cam->u = tuple_scalar_div(cam->u,
-			sqrt(vector_dot(cam->u, cam->u)));
-	cam->v = vector_cross(cam->u, cam->n);
-	cam->c = tuple_sub(cam->pos,
-			tuple_scalar_mult(cam->n, 0.1));
+	cam->pos = point_new(0.0, 0.0, 0.0);
+	cam->v_up = vector_new(0.0, 1.0, 0.0);
+	cam->n = vector_new(0.0, 0.0, 1.0);
+	cam->u = vector_new(-1.0, 0.0, 0.0);
+	cam->v = vector_new(0.0, 1.0, 0.0);
+	cam->c = tuple_sub(point_new(0, 0, 0), tuple_scalar_mult(cam->n, 0.1));
 	cam->plane_h = tan(1.04719 / 2) * 2 * 0.1;
 	cam->plane_w = cam->plane_h * ((float)WIN_W / WIN_H);
 	cam->l = tuple_sub(cam->c,
 			tuple_scalar_mult(cam->u, (cam->plane_w / 2.0)));
 	cam->l = tuple_sub(cam->l,
 			tuple_scalar_mult(cam->v, cam->plane_h / 2.0));
+	cam->transform = transform;
 }
 
 void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam)
 {
-	ray->orig = cam->pos;
+	ray->orig = point_new(0, 0, 0);
 	ray->dir = tuple_add(cam->l, tuple_scalar_mult(cam->u,
 				x * (cam->plane_w / WIN_W)));
 	ray->dir = tuple_add(ray->dir, tuple_scalar_mult(cam->v,
 				y * (cam->plane_h / WIN_H)));
 	ray->dir = tuple_sub(cam->pos, ray->dir);
-	ray->dir = tuple_scalar_div(ray->dir, sqrt(vector_dot(ray->dir, ray->dir)));
+	*ray = ray_transform(ray, &cam->transform);
+	ray->dir = tuple_unit(ray->dir);
 }

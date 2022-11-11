@@ -36,6 +36,8 @@ void	screen_loop(t_main *main);
 void	test_sphere_normal();
 void	test_reflection();
 void	test_shading();
+void	test_ray_cylinder_transforms();
+void	test_ray_cone_transforms();
 
 
 void	tests(t_main *main)
@@ -111,7 +113,15 @@ void	tests(t_main *main)
 	test_ray_plane_transforms();
 	printf("OK\n");
 
-	printf("Testing intersection ⤭\n");
+	printf("Testing cylinder intersection\n");
+	test_ray_cylinder_transforms();
+	printf("OK\n");
+
+	printf("Testing cone intersection\n");
+	test_ray_cone_transforms();
+	printf("OK\n");
+
+	printf("Testing intersection\n");
 	test_intersection();
 	printf("OK\n");
 
@@ -1609,6 +1619,284 @@ void	test_ray_plane_transforms()
 
 }
 
+void	test_ray_cylinder_transforms()
+{
+	// RAY TRANSLATE
+	 t_ray	r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
+	// t_matrix m = matrix_translate(3, 4, 5);
+	// t_ray_m r2 = ray_transform(&r1, &m);
+
+	// assert(tuples_equal(r2.orig, point_new(4, 6, 8)));
+	// assert(tuples_equal(r2.dir, vector_new(0, 1, 0)));
+	// tuple_print(r2.orig);
+	// tuple_print(r2.dir);
+
+	// // ray_free(&r1);
+	// // RAY SCALE
+	// r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
+	// m = matrix_scale(2, 3, 4);
+	// r2 = ray_transform(&r1, &m);
+
+	// assert(tuples_equal(r2.orig, point_new(2, 6, 12)));
+	// assert(tuples_equal(r2.dir, vector_new(0, 3, 0)));
+	// tuple_print(r2.orig);
+	// tuple_print(r2.dir);
+
+	// SPHERE IDENTITY
+	t_object	sphere = object_new(CYLINDER);
+	t_matrix	m_id = matrix_new_identity(4);
+	assert(matrix_equals(&sphere.transform, &m_id));
+	
+	// SPHERE TRANSFORM
+	// t_matrix	t_m	= matrix_new_identity);
+	t_matrix t_m = matrix_translate(2, 3, 4);
+	set_transform(&sphere, &t_m);
+	assert(matrix_equals(&sphere.transform, &t_m));
+
+	// Transformed ray-sphere intersection SCALE
+	t_point p = point_new(1, 0, 0);
+	t_vector v = vector_new(0, 1, 0);
+	r1 = ray_new(p, v);
+	
+	//new_intersections(&r1.xs.vec);
+
+	sphere = object_new(CYLINDER);
+	//t_m = matrix_scale(2, 2, 2);
+	//set_transform(&sphere, &t_m);
+	//matrix_print(&sphere.transform);
+
+	//  int	does_intersect =  
+	intersect_cylinder(&r1, &sphere);
+	printf("%zu\n", r1.xs.vec.len);
+
+	size_t i = 0;
+	t_intersection xs ;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("Ray's intersections t%zu: %lf\n", i + 1, xs.t);
+
+		i++;
+	}
+	// Transformed ray-sphere intersection translation
+	sphere = object_new(CYLINDER);
+	p = point_new(0, 0, -5);
+	v = vector_new(1, 1, 1);
+	r1 = ray_new(p, v);
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+ 	
+// matrix_print(&sphere.transform);
+// 	set_transform(&sphere, &t_m);
+// 	matrix_print(&sphere.transform);
+// 	t_m = matrix_translate(5, 0, 0); 
+	
+	intersect_cylinder(&r1, &sphere);
+
+	printf("%zu\n", r1.xs.vec.len);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("Ray's intersections t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+	printf("\n");
+
+	sphere = object_new(CYLINDER);
+	p = point_new(1, 0, -5);
+	v = vector_new(0, 0, 1);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+ 	intersect_cylinder(&r1, &sphere);
+
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("A ray intersecting a cylinder from above t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+	printf("\n");
+
+	sphere = object_new(CYLINDER);
+	p = point_new(0, 0, -5);
+	v = vector_new(0, 0, 1);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+ 	intersect_cylinder(&r1, &sphere);
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("A ray intersecting a cylinder from below t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+
+	printf("\n");
+
+	sphere = object_new(CYLINDER);
+	p = point_new(0.5, 0, -5);
+	v = vector_new(0.1, 1, 1);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+ 	intersect_cylinder(&r1, &sphere);
+
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("A ray intersecting a cylinder from above t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+
+}
+
+void	test_ray_cone_transforms()
+{
+	// RAY TRANSLATE
+	 t_ray	r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
+	// t_matrix m = matrix_translate(3, 4, 5);
+	// t_ray_m r2 = ray_transform(&r1, &m);
+
+	// assert(tuples_equal(r2.orig, point_new(4, 6, 8)));
+	// assert(tuples_equal(r2.dir, vector_new(0, 1, 0)));
+	// tuple_print(r2.orig);
+	// tuple_print(r2.dir);
+
+	// // ray_free(&r1);
+	// // RAY SCALE
+	// r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
+	// m = matrix_scale(2, 3, 4);
+	// r2 = ray_transform(&r1, &m);
+
+	// assert(tuples_equal(r2.orig, point_new(2, 6, 12)));
+	// assert(tuples_equal(r2.dir, vector_new(0, 3, 0)));
+	// tuple_print(r2.orig);
+	// tuple_print(r2.dir);
+
+	// SPHERE IDENTITY
+	t_object	sphere = object_new(CONE);
+	t_matrix	m_id = matrix_new_identity(4);
+	assert(matrix_equals(&sphere.transform, &m_id));
+	
+	// SPHERE TRANSFORM
+	// t_matrix	t_m	= matrix_new_identity);
+	t_matrix t_m = matrix_translate(2, 3, 4);
+	set_transform(&sphere, &t_m);
+	assert(matrix_equals(&sphere.transform, &t_m));
+
+	// Transformed ray-sphere intersection SCALE
+	t_point p = point_new(1, 0, 0);
+	t_vector v = vector_new(0, 1, 0);
+	r1 = ray_new(p, v);
+	
+	//new_intersections(&r1.xs.vec);
+
+	sphere = object_new(CONE);
+	//t_m = matrix_scale(2, 2, 2);
+	//set_transform(&sphere, &t_m);
+	//matrix_print(&sphere.transform);
+
+	//  int	does_intersect =  
+	intersect_cone(&r1, &sphere);
+	printf("%zu\n", r1.xs.vec.len);
+
+	size_t i = 0;
+	t_intersection xs ;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("Ray's intersections t%zu: %lf\n", i + 1, xs.t);
+
+		i++;
+	}
+	// Transformed ray-sphere intersection translation
+	sphere = object_new(CONE);
+	p = point_new(0, 0, -5);
+	v = vector_new(0, 0, 1);
+	r1 = ray_new(p, v);
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+ 	
+// matrix_print(&sphere.transform);
+// 	set_transform(&sphere, &t_m);
+// 	matrix_print(&sphere.transform);
+// 	t_m = matrix_translate(5, 0, 0); 
+	
+	intersect_cone(&r1, &sphere);
+
+	printf("%zu\n", r1.xs.vec.len);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("Ray's intersections t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+	printf("\n");
+
+	sphere = object_new(CONE);
+	p = point_new(0, 0, -5);
+	v = vector_new(0, 0, 1);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+ 	intersect_cone(&r1, &sphere);
+
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("A ray intersecting a cone from above t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+	printf("\n");
+
+	sphere = object_new(CONE);
+	p = point_new(0, 0, -5);
+	v = vector_new(1, 1, 1);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+ 	intersect_cone(&r1, &sphere);
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("A ray intersecting a cone from below t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+
+	printf("\n");
+
+	sphere = object_new(CONE);
+	p = point_new(1, 1, -5);
+	v = vector_new(-0.5, -1, 1);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+ 	intersect_cone(&r1, &sphere);
+
+	//t_m = matrix_translate(5, 0, 0);
+	//set_transform(&sphere, &t_m);
+	i = 0;
+	while (i < r1.xs.vec.len )
+	{
+		xs = *(t_intersection *) vec_get(&r1.xs.vec, i);
+		printf("A ray intersecting a cone from above t%zu: %lf\n", i + 1, xs.t);
+		i++;
+	}
+
+}
+
 t_matrix	matrix_new_inc_a(size_t size)
 {
 	t_matrix	m;
@@ -1734,14 +2022,16 @@ void	screen_loop(t_main *main)
 	transform_t = matrix_translate(1.0,0.2,0.2);
 	transform_t = matrix_translate(0,0,0);
 	transform_scale = matrix_scale(0.6,0.2,0.2);
-	transform_scale = matrix_scale(1,1,1);
+	transform_scale = matrix_scale(0.51,0.51,0.51);
 	// transform_scale = matrix_scale(0.2,0.2,0.2);
 	// transform_shear = matrix_shear(1.0, 1.7, 1.2, 1.0, 1.1, 1.5);
 	transform_shear = matrix_shear(0,0,0,0,0,0);
 	transform = matrix_multiply(&transform_scale, &transform_shear);
 	transform = matrix_multiply(&transform, &transform_t);
-	int SHAPE = 1;
-	shape = object_new(SHAPE);
+
+	shape = object_new(SPHERE);
+	shape = object_new(CYLINDER);
+	shape = object_new(CONE);
 	shape.material = material_new();
 	shape.material.color = color_new(1, 0.2, 1);
 
@@ -1768,7 +2058,9 @@ void	screen_loop(t_main *main)
 			wall_position = point_new(world_x, world_y, wall_z);
 			v = tuple_unit(  tuple_sub(wall_position, p) );
 			ray = ray_new(p, v);
-			if (intersects_cylinder(&ray, &shape))
+			if (intersect_cone(&ray, &shape))
+			// if (intersect_cylinder(&ray, &shape))
+			// if (intersect_sphere(&ray, &shape))
 			{
 				t_point point = point_new(0,0,0);
 				if (ray.xs.vec.len > 0)
