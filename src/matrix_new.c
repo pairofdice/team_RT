@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/07 14:53:51 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/11 22:15:00 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_matrix	matrix_new(size_t size)
 {
 	t_matrix	m;
 
-	ft_bzero(&m, sizeof(t_matrix));
+	//ft_bzero(&m, sizeof(t_matrix));
 	if (size >= 2 && size <= 4)
 		m.size = size;
 	else

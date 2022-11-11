@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 17:23:05 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:26:33 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 21:42:28 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	intersect_plane(t_ray *inc_ray, t_object *s)
 	//plane_to_ray = tuple_sub(ray.orig, point_new(0, 0, 0));
 	if (fabs(ray.dir.s_xyzw.y) < EPSILON)
 		return (0);
-	t = (-ray.orig.s_xyzw.y / ray.dir.s_xyzw.y);
+	t = ((-ray.orig.s_xyzw.y) / ray.dir.s_xyzw.y);
+	if (t < 0)
+		return (0);
 	intersection_record(inc_ray, t, s);
 	return (1);
 }
