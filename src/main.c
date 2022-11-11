@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:26:11 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 17:19:25 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,32 @@ int	tests(void); // unit tests
 
 int	main(void)
 {
-	t_main	main;
+	t_main		main;
+	t_matrix	cam_transform;
+	t_matrix	cam_rotate;
+	t_matrix	cam_scale;
 
+	
 	tests();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (1);
 	if (initialize_window(&main) == 0)
 		return (1);
-	main.cam.pos = point_new(0, 0, 0);
-	main.cam.coi = point_new(0, 0, 10);
+	
+	cam_transform = matrix_translate(0.0, 0.0, 0.0);
+	double						x_r = 0.0;
+	double						y_r = 0.0;
+	double						z_r = 0.0;
 
-	main.cam.v_up = vector_new(0,1,0);
+	cam_rotate = matrix_rotate_x(x_r);
+	cam_transform = matrix_multiply(&cam_transform, &cam_rotate);
+	cam_rotate = matrix_rotate_y(y_r);
+	cam_transform = matrix_multiply(&cam_transform, &cam_rotate);
+	cam_rotate = matrix_rotate_z(z_r);
+	cam_transform = matrix_multiply(&cam_transform, &cam_rotate);
+	cam_scale = matrix_scale(1,1,1);
+	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
 	
 
 	main.light.pos = point_new(10, 0, 0);
@@ -147,7 +161,7 @@ int	main(void)
 	main.obj[6].color.s_rgb.b = 0.8;
 	main.obj_count = 7;
 
-	initialize_camera(&main.cam);
+	initialize_camera(&main.cam, cam_transform);
 	create_threads(&main, 1);
 	draw_frame(&main);
 	while (main.multi.threads_done < NUM_THREADS)

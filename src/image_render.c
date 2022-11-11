@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:34:44 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 17:14:30 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	render_image(t_main	*main, int task, int ant_al)
 	int		x;
 	int		color;
 
-	y = task;// * (WIN_H / NUM_TASKS));
+	y = task;
 	copy = *main;
 	while (y < WIN_H)
 	{
