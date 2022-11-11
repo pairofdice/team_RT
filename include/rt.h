@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:23:15 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 16:52:53 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 # define WIN_W 500
 # define WIN_H 350
-# define A_A_DIV 2
+# define A_A_DIV 3
 # define EPSILON 0.00006103515625
 
 typedef struct s_frame_buffer
@@ -62,6 +62,7 @@ typedef struct s_cam
 	t_tuple			n;
 	t_tuple			c;
 	t_tuple			l;
+	t_matrix 		transform;
 	double			plane_h;
 	double			plane_w;
 }					t_cam;
@@ -93,7 +94,7 @@ typedef struct s_main
 }					t_main;
 
 int					initialize_window(t_main *main);
-void				initialize_camera(t_cam *cam);
+void				initialize_camera(t_cam *cam, t_matrix transform);
 void				initialize_ray(t_ray *ray, double x, double y, t_cam *cam);
 void				render_image(t_main *main, int task, int ant_al);
 

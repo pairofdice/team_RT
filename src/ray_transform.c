@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/09 14:37:25 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 17:14:15 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@ t_ray	ray_transform(t_ray *source, t_matrix *transform)
 	p = matrix_tuple_multiply(transform, &source->orig);
 	v = matrix_tuple_multiply(transform, &source->dir);
 	result = ray_new_no_malloc(p, v);
+	result.hit = source->hit;
+	result.xs = source->xs;
 	return (result);
 }
