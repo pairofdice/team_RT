@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 17:19:25 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 22:19:40 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(void)
 {
 	t_main		main;
 	t_matrix	cam_transform;
-	t_matrix	cam_rotate;
+	t_matrix	rotate;
 	t_matrix	cam_scale;
 
 	
@@ -85,17 +85,17 @@ int	main(void)
 	if (initialize_window(&main) == 0)
 		return (1);
 	
-	cam_transform = matrix_translate(0.0, 0.0, 0.0);
+	cam_transform = matrix_translate(-5.0, 1.0, 0.0);
 	double						x_r = 0.0;
-	double						y_r = 0.0;
+	double						y_r = 1.0;
 	double						z_r = 0.0;
 
-	cam_rotate = matrix_rotate_x(x_r);
-	cam_transform = matrix_multiply(&cam_transform, &cam_rotate);
-	cam_rotate = matrix_rotate_y(y_r);
-	cam_transform = matrix_multiply(&cam_transform, &cam_rotate);
-	cam_rotate = matrix_rotate_z(z_r);
-	cam_transform = matrix_multiply(&cam_transform, &cam_rotate);
+	rotate = matrix_rotate_x(x_r);
+	cam_transform = matrix_multiply(&cam_transform, &rotate);
+	rotate = matrix_rotate_y(y_r);
+	cam_transform = matrix_multiply(&cam_transform, &rotate);
+	rotate = matrix_rotate_z(z_r);
+	cam_transform = matrix_multiply(&cam_transform, &rotate);
 	cam_scale = matrix_scale(1,1,1);
 	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
 	
@@ -107,59 +107,84 @@ int	main(void)
 		//2 = plane
 		//3 = cone
 
-		
-	main.obj[0].loc = point_new(0, 0, 30);
-	main.obj[0].size = 3.0;
-	main.obj[0].type = SPHERE;
+	
+	main.obj[0].transform = matrix_translate(0.0, 0.0, 10.0);
+											x_r = 0.0;
+											y_r = 0.0;
+											z_r = 0.0;
+
+	rotate = matrix_rotate_x(x_r);
+	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
+	rotate = matrix_rotate_y(y_r);
+	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
+	rotate = matrix_rotate_z(z_r);
+	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
+	//cam_scale = matrix_scale(1,1,1);
+	//main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &cam_scale);
+	main.obj[0].type = PLANE;
+	main.obj[0].id = 0;
 	main.obj[0].color.s_rgb.r = 0.0;
 	main.obj[0].color.s_rgb.g = 1.0;
-	main.obj[0].color.s_rgb.b = 0.0;
+	main.obj[0].color.s_rgb.b = 1.0;
 
-	main.obj[1].loc = point_new(5, 0, 30);
-	main.obj[1].size = 0.1;
-	main.obj[1].type = SPHERE;
-	main.obj[1].color.s_rgb.r = 1.0;
-	main.obj[1].color.s_rgb.g = 0.0;
+	main.obj[1].transform = matrix_translate(0.0, 0.0, 10.0);
+											x_r = M_PI_2;
+											y_r = 0.0;
+											z_r = 0.0;
+
+	rotate = matrix_rotate_x(x_r);
+	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
+	rotate = matrix_rotate_y(y_r);
+	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
+	rotate = matrix_rotate_z(z_r);
+	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
+	//cam_scale = matrix_scale(1,1,1);
+	//main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &cam_scale);
+	main.obj[1].type = PLANE;
+	main.obj[1].id = 1;
+	main.obj[1].color.s_rgb.r = 0.0;
+	main.obj[1].color.s_rgb.g = 1.0;
 	main.obj[1].color.s_rgb.b = 0.0;
 
-	main.obj[2].loc = point_new(0, 0, 40);
-	main.obj[2].rot = vector_new(0,0,1);
-	main.obj[2].type = PLANE;
+	main.obj[2].transform = matrix_translate(0.0, 0.0, 10.0);
+											x_r = 0.0;
+											y_r = 0.0;
+											z_r = 0.0;
+
+	rotate = matrix_rotate_x(x_r);
+	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
+	rotate = matrix_rotate_y(y_r);
+	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
+	rotate = matrix_rotate_z(z_r);
+	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
+	//cam_scale = matrix_scale(1,1,1);
+	//main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &cam_scale);
+	main.obj[2].type = SPHERE;
+	main.obj[2].id = 2;
 	main.obj[2].color.s_rgb.r = 1.0;
-	main.obj[2].color.s_rgb.g = 1.0;
-	main.obj[2].color.s_rgb.b = 1.0;
+	main.obj[2].color.s_rgb.g = 0.0;
+	main.obj[2].color.s_rgb.b = 0.0;
 
-	main.obj[3].loc = point_new(0,-10, 40);
-	main.obj[3].rot = vector_new(0,1,0);
-	main.obj[3].type = PLANE;
-	main.obj[3].color.s_rgb.r = 0.0;
-	main.obj[3].color.s_rgb.g = 1.0;
-	main.obj[3].color.s_rgb.b = 1.0;
+	main.obj[3].transform = matrix_translate(0.0, 2.0, 5.0);
+											x_r = 0.0;
+											y_r = 0.0;
+											z_r = 0.0;
 
-	main.obj[4].loc = point_new(0, 0, 30);
-	main.obj[4].rot = vector_new(1,1,1);
-	main.obj[4].type = CYLINDER;
-	main.obj[4].size = 0.9;
-	main.obj[4].color.s_rgb.r = 1.0;
-	main.obj[4].color.s_rgb.g = 1.0;
-	main.obj[4].color.s_rgb.b = 1.0;
+	rotate = matrix_rotate_x(x_r);
+	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate);
+	rotate = matrix_rotate_y(y_r);
+	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate);
+	rotate = matrix_rotate_z(z_r);
+	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate);
+	cam_scale = matrix_scale(0.5,1,1);
+	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &cam_scale);
+	main.obj[3].type = CONE;
+	main.obj[3].id = 3;
+	main.obj[3].color.s_rgb.r = 1.0;
+	main.obj[3].color.s_rgb.g = 0.5;
+	main.obj[3].color.s_rgb.b = 0.0;
 
-	main.obj[5].loc = point_new(0, 0, 30);
-	main.obj[5].rot = vector_new(-1,1,1);
-	main.obj[5].type = CYLINDER;
-	main.obj[5].size = 1.2;
-	main.obj[5].color.s_rgb.r = 1.0;
-	main.obj[5].color.s_rgb.g = 0.0;
-	main.obj[5].color.s_rgb.b = 1.0;
-
-	main.obj[6].loc = point_new(-10.0, 0, 30);
-	main.obj[6].rot = vector_new(0,1,0);
-	main.obj[6].type = CONE;
-	main.obj[6].size = 1;
-	main.obj[6].color.s_rgb.r = 1.0;
-	main.obj[6].color.s_rgb.g = 0.1;
-	main.obj[6].color.s_rgb.b = 0.8;
-	main.obj_count = 7;
+	main.obj_count = 4;
 
 	initialize_camera(&main.cam, cam_transform);
 	create_threads(&main, 1);

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 16:52:53 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 21:39:53 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ double				quadratic(t_abc abc, double b2_4ac);
 
 t_vec3				vec3_ray_at(t_ray u, double x);
 
-double				get_shape_intersections(t_ray *ray, t_object *shape);
+int				get_shape_intersections(t_ray *ray, t_object *shape);
 
 t_tuple				get_cylinder_normal(t_main *main, t_hit_record *hit);
 t_tuple				get_sphere_normal(t_main *main, t_hit_record *hit);

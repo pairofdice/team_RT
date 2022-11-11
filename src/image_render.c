@@ -6,72 +6,74 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 17:14:30 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 22:10:07 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-double	get_shape_intersections(t_ray *ray, t_object *shape)
+int	get_shape_intersections(t_ray *ray, t_object *shape)
 {
-	double	ret;
+	int	ret;
 
+	ret = 0;
 	if (shape->type == SPHERE)
-		ret = intersects_sphere(ray, shape);
+		ret = intersect_sphere(ray, shape);
 	else if (shape->type == CYLINDER)
-		ret = intersects_cylinder(ray, shape);
+		ret = intersect_cylinder(ray, shape);
 	else if (shape->type == PLANE)
-		ret = intersects_plane(ray, shape);
+		ret = intersect_plane(ray, shape);
 	else if (shape->type == CONE)
-		ret = intersects_cone(ray, shape);
-	else
-		return (-1);
+		ret = intersect_cone(ray, shape);
+	
 	return (ret);
 }
 
-void	fill_hit_record(t_main *main, double clo_ret, int clo_shape)
+int	fill_hit_record(t_ray *ray)
 {
-	main->ray.hit.hit_dist = clo_ret;
-	main->ray.hit.clo_obj_id = clo_shape;
-	main->ray.hit.hit_loc = ray_position(main->ray, clo_ret);
-	if (main->obj[clo_shape].type == SPHERE)
-		main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
-	else if (main->obj[clo_shape].type == CYLINDER)
-		main->ray.hit.normal = get_cylinder_normal(main, &main->ray.hit);
-	else if (main->obj[clo_shape].type == PLANE)
-		main->ray.hit.normal = tuple_unit(main->obj[clo_shape].rot);
-	else if (main->obj[clo_shape].type == CONE)
-		main->ray.hit.normal = get_cone_normal(main, &main->ray.hit);
+	t_intersection closest_t;
+
+	closest_t = find_closest_intersection(&ray->xs);
+	if (!closest_t.t)
+		return (1);
+	ray->hit.hit_dist = closest_t.t;
+	ray->hit.clo_obj_id = (int)closest_t.i;
+	ray->hit.hit_loc = ray_position(*ray, ray->hit.hit_dist);
+	//if (main->obj[clo_shape].type == SPHERE)
+	//	main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
+	//else if (main->obj[clo_shape].type == CYLINDER)
+	//	main->ray.hit.normal = get_cylinder_normal(main, &main->ray.hit);
+	//else if (main->obj[clo_shape].type == PLANE)
+	//	main->ray.hit.normal = tuple_unit(main->obj[clo_shape].rot);
+	//else if (main->obj[clo_shape].type == CONE)
+	//	main->ray.hit.normal = get_cone_normal(main, &main->ray.hit);
+	return (0);
 }
 
 int	ray_shooter(t_ray *ray, t_main *main)
 {
-	double	ret;
 	int		count;
-	double	clo_ret;
-	int		clo_shape;
+	int		hit;
 
 	count = 0;
-	clo_ret = -1;
+	hit = 0;
 	while (count < main->obj_count)
 	{
-		ret = get_shape_intersections(ray, &main->obj[count]);
-		if (ret > 0.0)
-		{
-			if (clo_ret == -1 || ret < clo_ret)
-			{
-				clo_shape = count;
-				clo_ret = ret;
-			}
-		}
+		if (get_shape_intersections(ray, &main->obj[count]) == 1)
+			hit++;
 		count++;
 	}
-	if (clo_ret != -1.0)
-		fill_hit_record(main, clo_ret, clo_shape);
-	if (clo_ret < 0.0 || (check_shadow(main, ray) == 1))
-		return (0);
-	add_hit_color(main, &main->shadow);
-	return (1);
+	//printf ("hit count per pixel %d\n", hit);
+	if (hit > 0)
+	{
+		if (fill_hit_record(ray) == 1)
+			return (0);
+		//if (check_shadow(main, ray) == 1)
+		//	return (0);
+		add_hit_color(main, &main->ray);
+		return (1);
+	}
+	return (0);
 }
 
 int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
@@ -93,6 +95,7 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 			x = ((float)pixel_x + (offset / 2) + (offset * i));
 			initialize_ray(&main->ray, x, y, &main->cam);
 			ray_shooter(&main->ray, main);
+			vec_free(&main->ray.xs.vec);
 			i++;
 		}
 		j++;

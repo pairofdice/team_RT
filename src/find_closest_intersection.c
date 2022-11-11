@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tuple_print.c                                      :+:      :+:    :+:   */
+/*   find_closest_intersection.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/11 20:07:42 by jjuntune         ###   ########.fr       */
+/*   Created: 2022/11/11 18:16:21 by jjuntune          #+#    #+#             */
+/*   Updated: 2022/11/11 21:20:40 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tuple.h"
-#include <printf.h>
+#include "../include/rt.h"
 
-void	tuple_print(t_tuple t)
+t_intersection	find_closest_intersection(t_intersections *xs)
 {
-	printf("%5.5f %5.5f %5.5f %5.1f\n",
-		t.s_xyzw.x,
-		t.s_xyzw.y,
-		t.s_xyzw.z,
-		t.s_xyzw.w);
+	t_intersection	closest_t;
+	
+	size_t	i;
+	t_intersection	t;
+
+	i = 0;
+	closest_t.t = INFINITY;
+	while (i < xs->vec.len )
+	{
+		t = *(t_intersection *) vec_get(&xs->vec, i);
+		if (t.t < closest_t.t && t.t >= 0)
+		{
+			closest_t = t;
+			closest_t.i = (t.object->id);
+		}
+		i++;
+	}
+	return (closest_t);
 }

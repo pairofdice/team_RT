@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 20:43:11 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 20:17:07 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_ray
 typedef struct s_intersection
 {
 	double			t;
+	size_t			i;
 	t_object		*object;
 }					t_intersection;
 
@@ -88,7 +89,7 @@ typedef struct s_intersection
 t_object			object_new(int shape_type);
 double				calc_discriminant(double a, double b, double c);
 t_ray				ray_new(t_point origin, t_vector dir);
-t_ray			ray_new_malloc(t_point origin, t_vector dir);
+t_ray				ray_new_malloc(t_point origin, t_vector dir);
 t_ray				ray_new_no_malloc(t_point origin, t_vector dir);
 void				ray_free(t_ray *ray);
 t_point				ray_position(t_ray ray, double t);
@@ -98,11 +99,13 @@ void				intersection_record(
 						t_ray *ray,
 						double intersect,
 						t_object *s);
+void	intersection_record_test(t_ray *ray, double t1, double t2, t_object *s);
 int					intersect_sphere(t_ray *inc_ray, t_object *s);
 int					intersect_plane(t_ray *inc_ray, t_object *s);
 int					intersect_cylinder(t_ray *inc_ray, t_object *s);
 int					intersect_cone(t_ray *inc_ray, t_object *s);
 t_intersection		intersection_new(double time, t_object *o);
+t_intersection	find_closest_intersection(t_intersections *xs);
 void				set_transform(t_object *obj, t_matrix *transform);
 
 #endif
