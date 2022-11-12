@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 17:23:05 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:26:33 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/12 16:55:55 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ int	intersect_plane(t_ray *inc_ray, t_object *s)
 		return (0);
 	t = (-ray.orig.s_xyzw.y / ray.dir.s_xyzw.y);
 	intersection_record(inc_ray, t, s);
+	if (t <= 0)
+		return (0);
 	return (1);
 }

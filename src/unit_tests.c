@@ -142,6 +142,8 @@ void	tests(t_main *main)
 	printf("OK\n");
 
 	screen_loop(main);
+	if (main)
+	{}
 
 }
 
@@ -1505,50 +1507,32 @@ void	test_ray_plane_transforms()
 {
 	// RAY TRANSLATE
 	 t_ray	r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
-	// t_matrix m = matrix_translate(3, 4, 5);
-	// t_ray_m r2 = ray_transform(&r1, &m);
 
-	// assert(tuples_equal(r2.orig, point_new(4, 6, 8)));
-	// assert(tuples_equal(r2.dir, vector_new(0, 1, 0)));
-	// tuple_print(r2.orig);
-	// tuple_print(r2.dir);
-
-	// // ray_free(&r1);
-	// // RAY SCALE
-	// r1 = ray_new((t_point){.s_xyzw = {1, 2, 3, 1}}, (t_vector){.s_xyzw = {0, 1, 0, 0}});
-	// m = matrix_scale(2, 3, 4);
-	// r2 = ray_transform(&r1, &m);
-
-	// assert(tuples_equal(r2.orig, point_new(2, 6, 12)));
-	// assert(tuples_equal(r2.dir, vector_new(0, 3, 0)));
-	// tuple_print(r2.orig);
-	// tuple_print(r2.dir);
-
-	// SPHERE IDENTITY
-	t_object	sphere = object_new(PLANE);
+	// plane IDENTITY
+	t_object	plane = object_new(PLANE);
 	t_matrix	m_id = matrix_new_identity(4);
-	assert(matrix_equals(&sphere.transform, &m_id));
+	assert(matrix_equals(&plane.transform, &m_id));
 	
-	// SPHERE TRANSFORM
+	// plane TRANSFORM
 	// t_matrix	t_m	= matrix_new_identity);
 	t_matrix t_m = matrix_translate(2, 3, 4);
-	set_transform(&sphere, &t_m);
-	assert(matrix_equals(&sphere.transform, &t_m));
+	set_transform(&plane, &t_m);
+	assert(matrix_equals(&plane.transform, &t_m));
 
-	// Transformed ray-sphere intersection SCALE
+	// Transformed ray-plane intersection SCALE
 	t_point p = point_new(0, 0, -5);
 	t_vector v = vector_new(0, 0, 1);
 	r1 = ray_new(p, v);
 	
 	//new_intersections(&r1.xs.vec);
 
-	sphere = object_new(PLANE);
+	plane = object_new(PLANE);
 	t_m = matrix_scale(2, 2, 2);
-	set_transform(&sphere, &t_m);
-	matrix_print(&sphere.transform);
+	set_transform(&plane, &t_m);
+	matrix_print(&plane.transform);
 
 	//  int	does_intersect =  
-	intersect_plane(&r1, &sphere);
+	intersect_plane(&r1, &plane);
 	printf("%zu\n", r1.xs.vec.len);
 
 	size_t i = 0;
@@ -1561,20 +1545,15 @@ void	test_ray_plane_transforms()
 		i++;
 	}
 
-	// Transformed ray-sphere intersection translation
-	sphere = object_new(PLANE);
+	// Transformed ray-plane intersection translation
+	plane = object_new(PLANE);
 	p = point_new(0, 0, -5);
 	v = vector_new(0, 0, 1);
 	r1 = ray_new(p, v);
 	t_m = matrix_translate(5, 0, 0);
-	set_transform(&sphere, &t_m);
+	set_transform(&plane, &t_m);
  	
-// matrix_print(&sphere.transform);
-// 	set_transform(&sphere, &t_m);
-// 	matrix_print(&sphere.transform);
-// 	t_m = matrix_translate(5, 0, 0); 
-	
-	intersect_plane(&r1, &sphere);
+	intersect_plane(&r1, &plane);
 
 	printf("%zu\n", r1.xs.vec.len);
 	i = 0;
@@ -1585,14 +1564,14 @@ void	test_ray_plane_transforms()
 		i++;
 	}
 
-	sphere = object_new(PLANE);
+	plane = object_new(PLANE);
 	p = point_new(0, 1, 0);
 	v = vector_new(0, -1, 0);
 	v = tuple_unit(v);
 	r1 = ray_new(p, v);
- 	intersect_plane(&r1, &sphere);
+ 	intersect_plane(&r1, &plane);
 	//t_m = matrix_translate(5, 0, 0);
-	//set_transform(&sphere, &t_m);
+	//set_transform(&plane, &t_m);
 	i = 0;
 	while (i < r1.xs.vec.len )
 	{
@@ -1601,14 +1580,14 @@ void	test_ray_plane_transforms()
 		i++;
 	}
 
-	sphere = object_new(PLANE);
+	plane = object_new(PLANE);
 	p = point_new(0, -1, 0);
 	v = vector_new(1, 1, 0);
 	v = tuple_unit(v);
 	r1 = ray_new(p, v);
- 	intersect_plane(&r1, &sphere);
+ 	intersect_plane(&r1, &plane);
 	//t_m = matrix_translate(5, 0, 0);
-	//set_transform(&sphere, &t_m);
+	//set_transform(&plane, &t_m);
 	i = 0;
 	while (i < r1.xs.vec.len )
 	{
@@ -1616,6 +1595,95 @@ void	test_ray_plane_transforms()
 		printf("A ray intersecting a plane from below t%zu: %lf\n", i + 1, xs.t);
 		i++;
 	}
+
+	// The normal of a plane is constant everywhere
+	plane = object_new(PLANE);
+	t_vector n1 =  normal_at(&plane, point_new(0,0,0));
+	t_vector n2 =  normal_at(&plane, point_new(10,0,-10));
+	t_vector n3 =  normal_at(&plane, point_new(-5,0,150));
+	assert(tuples_equal(n1, vector_new(0,1,0)));
+	assert(tuples_equal(n2, vector_new(0,1,0)));
+	assert(tuples_equal(n3, vector_new(0,1,0)));
+
+
+	// Intersect with a ray parallel to the plane
+	plane = object_new(PLANE);
+
+	p = point_new(0, 10, 0);
+	v = vector_new(0,0,1);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+	int does_intersect = intersect_plane(&r1, &plane);
+
+	assert(does_intersect == 0);
+	assert(r1.xs.vec.len == 0);
+
+	// Intersect with a coplanar ray
+
+	plane = object_new(PLANE);
+
+	p = point_new(0, 0, 0);
+	v = vector_new(0,0,1);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+	does_intersect = intersect_plane(&r1, &plane);
+
+	assert(does_intersect == 0);
+	assert(r1.xs.vec.len == 0);
+
+	size_t id;
+	//A ray intersecting a plane from above
+	plane = object_new(PLANE);
+	id = plane.id;
+	p = point_new(0, 1, 0);
+	v = vector_new(0,-1,0);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+	does_intersect = intersect_plane(&r1, &plane);
+
+	assert(does_intersect == 1);
+	assert(r1.xs.vec.len == 1);
+	xs = *(t_intersection *) vec_get(&r1.xs.vec, 0);
+	assert(id == xs.object->id);
+
+	//A ray intersecting a plane from below
+	plane = object_new(PLANE);
+	id = plane.id;
+	p = point_new(0, -1, 0);
+	v = vector_new(0,1,0);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+	does_intersect = intersect_plane(&r1, &plane);
+
+	assert(does_intersect == 1);
+	assert(r1.xs.vec.len == 1);
+	xs = *(t_intersection *) vec_get(&r1.xs.vec, 0);
+	assert(id == xs.object->id);
+
+	//A ray going the other way intersecting a plane from above
+	plane = object_new(PLANE);
+	id = plane.id;
+	p = point_new(0, 1, 0);
+	v = vector_new(0,1,0);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+	does_intersect = intersect_plane(&r1, &plane);
+
+	assert(does_intersect == 0);
+	// assert(r1.xs.vec.len == 0);
+
+
+	//A ray ray going the other way intersecting a plane from below
+	plane = object_new(PLANE);
+	id = plane.id;
+	p = point_new(0, -1, 0);
+	v = vector_new(0,-1,0);
+	v = tuple_unit(v);
+	r1 = ray_new(p, v);
+	does_intersect = intersect_plane(&r1, &plane);
+
+	assert(does_intersect == 0);
+	// assert(r1.xs.vec.len == 0);
 
 }
 
@@ -2018,20 +2086,24 @@ void	screen_loop(t_main *main)
 	t_matrix	transform_t;
 	t_matrix	transform_shear;
 	t_matrix	transform;
+	t_matrix	transform_r;
 	
 	transform_t = matrix_translate(1.0,0.2,0.2);
 	transform_t = matrix_translate(0,0,0);
+	transform_r = matrix_rotate_z(-M_PI_4);
 	transform_scale = matrix_scale(0.6,0.2,0.2);
-	transform_scale = matrix_scale(0.51,0.51,0.51);
+	transform_scale = matrix_scale(0.3,0.51,0.3);
 	// transform_scale = matrix_scale(0.2,0.2,0.2);
 	// transform_shear = matrix_shear(1.0, 1.7, 1.2, 1.0, 1.1, 1.5);
 	transform_shear = matrix_shear(0,0,0,0,0,0);
 	transform = matrix_multiply(&transform_scale, &transform_shear);
 	transform = matrix_multiply(&transform, &transform_t);
+	transform = matrix_multiply(&transform, &transform_r);
 
-	shape = object_new(SPHERE);
 	shape = object_new(CYLINDER);
 	shape = object_new(CONE);
+	shape = object_new(SPHERE);
+	shape = object_new(PLANE);
 	shape.material = material_new();
 	shape.material.color = color_new(1, 0.2, 1);
 
@@ -2041,11 +2113,15 @@ void	screen_loop(t_main *main)
 	t_vector to_eye;
 	t_vector normal;
 
-
-	set_transform(&shape, &transform);
-	
+	double perlin_amount;
+	t_perlin perlin_data;
+	load_perlin_data(&perlin_data);
 	// red = color_new(1, 0, 0);
 
+	transform = matrix_scale(1,1,1);
+	transform_r = matrix_rotate_x(-M_PI_4);
+	transform = matrix_translate(-0.3, -0.3, -0.3);
+	set_transform(&shape, &transform);
 	xy.col = 0;
 	
 	while (xy.col < WIN_W)
@@ -2058,24 +2134,62 @@ void	screen_loop(t_main *main)
 			wall_position = point_new(world_x, world_y, wall_z);
 			v = tuple_unit(  tuple_sub(wall_position, p) );
 			ray = ray_new(p, v);
-			if (intersect_cone(&ray, &shape))
+				//set_transform(&shape, &transform);
+			// if (intersect_cone(&ray, &shape))
 			// if (intersect_cylinder(&ray, &shape))
+			if (intersect_plane(&ray, &shape))
 			// if (intersect_sphere(&ray, &shape))
 			{
 				t_point point = point_new(0,0,0);
 				if (ray.xs.vec.len > 0)
 					point = ray_position(ray, *(double *)vec_get(&ray.xs.vec, 0));
+				t_point point_perlin = point; 
+				point_perlin = tuple_scalar_mult(point_perlin, 35 );
+				point_perlin = color_multiply(point, color_new(1, 5, 1));
+				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
+				// transform = matrix_scale(  0.8 + perlin_amount/25.0 ,   0.8 + perlin_amount/25.0 ,  0.8 + perlin_amount/25.0);
+				// shape.transform = transform;
+
 				temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
 				// color.s_rgb.r = (vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1, 1, -1)))) ;
 				// color.s_rgb.g = 0 ;
 				// // color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
 				// color.s_rgb.b = 0 ;
+
 				normal = normal_at(&shape, point);
 
+				// ------------------
+/* 				
+				normal = normal_at(&shape, point);
 				shape.material.color.s_rgb.r = 0.2 + (vector_dot(normal, tuple_unit(vector_new(-1,0,-1.5)))) ;
 				shape.material.color.s_rgb.g = 0.2 +  vector_dot(normal, tuple_unit(vector_new(1,-1,-1.5))) ;
 				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
-				shape.material.color.s_rgb.b = 0.2 +  ( vector_dot(normal, tuple_unit(vector_new(1,1,-1.5)))) ;
+				shape.material.color.s_rgb.b = 0.2 +  ( vector_dot(normal, tuple_unit(vector_new(1,1,-1.5)))) ; */
+				// ------------------
+
+				shape.material.color.s_rgb.r =perlin_amount ;
+				point = tuple_add(point, point_new(0.007, 0.007, 0.007));
+						point = color_multiply(point, color_new(1, 3, 1));
+				 point_perlin = point; 
+				point_perlin = tuple_scalar_mult(point_perlin, 34 );
+				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
+				shape.material.color.s_rgb.g = perlin_amount;
+			point = tuple_add(point, point_new(0.007, 0.007, 0.007));
+
+				 point_perlin = point; 
+				point_perlin = tuple_scalar_mult(point_perlin, 33  );
+				// tuple_add(point_perlin, point_new(0.01, 0.01, 0.01));
+				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
+				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
+				shape.material.color.s_rgb.b = perlin_amount ;
+				shape.material.color = tuple_scalar_mult(shape.material.color, 0.02);
+
+				normal = tuple_add(shape.material.color, normal);
+				shape.material.specular = 0.5 + perlin_amount /3;
+				shape.material.shininess = 180 - perlin_amount *40;
+
+				shape.material.color.s_rgb.r =1 - perlin_amount/3 ;
+			shape.material.color = color_new(1,1,1);
 
 				to_eye = tuple_neg(ray.dir);
 				light_color = lighting(shape.material, light, point, to_eye, normal);

@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 21:41:22 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/11 22:37:47 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,15 +161,17 @@ int	main(void)
 	main.obj[6].color.s_rgb.b = 0.8;
 	main.obj_count = 7;
 
+/* 
 	initialize_camera(&main.cam, cam_transform);
-/* 	create_threads(&main, 1);
+	create_threads(&main, 1);
 	draw_frame(&main);
 	while (main.multi.threads_done < NUM_THREADS)
 		ft_putstr("");
 	edge_detection(&main.sdl.frame_buffer);
 	main.ant_al = A_A_DIV;
 	draw_frame(&main);
-	creat_filters(&main.sdl.frame_buffer); */
+	creat_filters(&main.sdl.frame_buffer); 
+	*/
 	
 	tests(&main);
 	draw_to_window(&main.sdl, main.sdl.frame_buffer.data);
