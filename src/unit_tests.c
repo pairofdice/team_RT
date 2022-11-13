@@ -2028,16 +2028,16 @@ t_matrix	matrix_new_inc_c(size_t size)
 	return (m);
 }
 
-void	img_pixel_put(t_frame_buffer *fb, unsigned int x,
-	unsigned int y, t_color color)
-{
-	int			*dst;
-	unsigned int	color_int;
+// void	img_pixel_put(t_frame_buffer *fb, unsigned int x,
+// 	unsigned int y, t_color color)
+// {
+// 	int			*dst;
+// 	unsigned int	color_int;
 
-	color_int = color_to_int(color);
-	dst = fb->data + (y * WIN_W + x);
-	*(unsigned int *)dst = color_int;
-}
+// 	color_int = color_to_int(color);
+// 	dst = fb->data + (y * WIN_W + x);
+// 	*(unsigned int *)dst = color_int;
+// }
 
 t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
 		double z_x, double z_y)
@@ -2054,15 +2054,35 @@ t_matrix	matrix_shear(double x_y, double x_z, double y_x, double y_z,
 	return (transform);
 }
 
+t_color multi_color_sphere(t_material *material, t_light light, t_point point, t_vector to_eye, t_vector normal)
+{
 
+
+	// ------------------
+	
+
+	material->color.s_rgb.r = 0.2 + (vector_dot(normal, tuple_unit(vector_new(-1,0,-1.5)))) ;
+	material->color.s_rgb.g = 0.2 +  vector_dot(normal, tuple_unit(vector_new(1,-1,-1.5))) ;
+	// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
+	material->color.s_rgb.b = 0.2 +  ( vector_dot(normal, tuple_unit(vector_new(1,1,-1.5)))) ; 
+	return(lighting(*material, light, point, to_eye, normal));
+
+}
+
+// float exposure = -1.00f;
+// blue = 1.0f - expf(blue * exposure);
+// red = 1.0f - expf(red * exposure);
+// green = 1.0f - expf(green * exposure);
 
 void	screen_loop(t_main *main)
 {
 	t_coords	xy;
 	t_color		color;
-	t_color		temp;
+	// t_color		temp;
 	// int			color_int;
 	t_object	shape;
+	// t_object	shape1;
+	// t_object	shape2;
 	t_ray		ray;
 	t_point		p;
 	t_vector	v;
@@ -2100,10 +2120,11 @@ void	screen_loop(t_main *main)
 	transform = matrix_multiply(&transform, &transform_t);
 	transform = matrix_multiply(&transform, &transform_r);
 
-	shape = object_new(CYLINDER);
-	shape = object_new(CONE);
+	// shape = object_new(CYLINDER);
+	// shape = object_new(CONE);
+	// shape = object_new(PLANE);
 	shape = object_new(SPHERE);
-	shape = object_new(PLANE);
+	// shape2 = object_new(SPHERE);
 	shape.material = material_new();
 	shape.material.color = color_new(1, 0.2, 1);
 
@@ -2121,6 +2142,7 @@ void	screen_loop(t_main *main)
 	transform = matrix_scale(1,1,1);
 	transform_r = matrix_rotate_x(-M_PI_4);
 	transform = matrix_translate(-0.3, -0.3, -0.3);
+	transform = matrix_new_identity(4);
 	set_transform(&shape, &transform);
 	xy.col = 0;
 	
@@ -2137,20 +2159,23 @@ void	screen_loop(t_main *main)
 				//set_transform(&shape, &transform);
 			// if (intersect_cone(&ray, &shape))
 			// if (intersect_cylinder(&ray, &shape))
-			if (intersect_plane(&ray, &shape))
-			// if (intersect_sphere(&ray, &shape))
-			{
+			// if (intersect_plane(&ray, &shape))
 				t_point point = point_new(0,0,0);
-				if (ray.xs.vec.len > 0)
+/* 				if (ray.xs.vec.len > 0)
 					point = ray_position(ray, *(double *)vec_get(&ray.xs.vec, 0));
-				t_point point_perlin = point; 
-				point_perlin = tuple_scalar_mult(point_perlin, 35 );
-				point_perlin = color_multiply(point, color_new(1, 5, 1));
+				= point;  */
+				t_point point_perlin ;
+				point_perlin = point_new(xy.col,xy.row, 0);
+				// point_perlin = color_multiply(point, color_new(1, 5, 1));
 				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
-				// transform = matrix_scale(  0.8 + perlin_amount/25.0 ,   0.8 + perlin_amount/25.0 ,  0.8 + perlin_amount/25.0);
-				// shape.transform = transform;
+				transform = matrix_scale(  0.9 - perlin_amount/25.0 ,   0.9 -perlin_amount/25.0 ,  0.9 - perlin_amount/25.0);
 
-				temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
+				shape.transform = transform;
+			if (intersect_sphere(&ray, &shape))
+			{
+				// shape.transform = matrix_scale(1, 1, 1);
+
+				// temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
 				// color.s_rgb.r = (vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1, 1, -1)))) ;
 				// color.s_rgb.g = 0 ;
 				// // color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
@@ -2158,41 +2183,53 @@ void	screen_loop(t_main *main)
 
 				normal = normal_at(&shape, point);
 
-				// ------------------
-/* 				
+/* 				// ------------------
+ 				
 				normal = normal_at(&shape, point);
 				shape.material.color.s_rgb.r = 0.2 + (vector_dot(normal, tuple_unit(vector_new(-1,0,-1.5)))) ;
 				shape.material.color.s_rgb.g = 0.2 +  vector_dot(normal, tuple_unit(vector_new(1,-1,-1.5))) ;
 				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
-				shape.material.color.s_rgb.b = 0.2 +  ( vector_dot(normal, tuple_unit(vector_new(1,1,-1.5)))) ; */
+				shape.material.color.s_rgb.b = 0.2 +  ( vector_dot(normal, tuple_unit(vector_new(1,1,-1.5)))) ;  */
+				
 				// ------------------
 
-				shape.material.color.s_rgb.r =perlin_amount ;
-				point = tuple_add(point, point_new(0.007, 0.007, 0.007));
-						point = color_multiply(point, color_new(1, 3, 1));
+
+// PNPNPNPNPNPNPNPNPNPNPNPN
+				t_color normal_bump;
+				normal_bump.s_rgb.r = perlin_amount ;
+				// point = tuple_add(point, point_new(0.007, 0.007, 0.007));
+				// point = color_multiply(point, color_new(1, 3, 1));
 				 point_perlin = point; 
 				point_perlin = tuple_scalar_mult(point_perlin, 34 );
 				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
-				shape.material.color.s_rgb.g = perlin_amount;
-			point = tuple_add(point, point_new(0.007, 0.007, 0.007));
+				normal_bump.s_rgb.g = perlin_amount;
+			    // point = tuple_add(point, point_new(0.007, 0.007, 0.007));
 
-				 point_perlin = point; 
+				point_perlin = point; 
 				point_perlin = tuple_scalar_mult(point_perlin, 33  );
 				// tuple_add(point_perlin, point_new(0.01, 0.01, 0.01));
 				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
 				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
-				shape.material.color.s_rgb.b = perlin_amount ;
-				shape.material.color = tuple_scalar_mult(shape.material.color, 0.02);
+				normal_bump.s_rgb.b = perlin_amount ;
+				// normal_bump = tuple_scalar_mult(shape.material.color, 0.5);
+				normal_bump = tuple_scalar_mult( normal_bump, 0.005);
+				shape.material.color = tuple_add( normal_bump, shape.material.color);
+				shape.material.color = tuple_add( normal_bump, shape.material.color);
+				shape.material.color = tuple_add( normal_bump, shape.material.color);
+				shape.material.color = tuple_add( normal_bump, shape.material.color);
 
-				normal = tuple_add(shape.material.color, normal);
-				shape.material.specular = 0.5 + perlin_amount /3;
-				shape.material.shininess = 180 - perlin_amount *40;
+				normal = tuple_add(normal_bump, normal);
+			// 	shape.material.specular = 0.5 + perlin_amount /3;
+			// 	shape.material.shininess = 180 - perlin_amount *40;
 
-				shape.material.color.s_rgb.r =1 - perlin_amount/3 ;
-			shape.material.color = color_new(1,1,1);
+			// 	shape.material.color.s_rgb.r =1 - perlin_amount/3 ;
+			// shape.material.color = color_new(1,1,1);
 
 				to_eye = tuple_neg(ray.dir);
-				light_color = lighting(shape.material, light, point, to_eye, normal);
+
+				light_color = multi_color_sphere(&shape.material, light, point, to_eye, normal);
+// PNPNPNPNPNPNPNPNPNPN
+
 				// temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
 				// color.s_rgb.r =  (1.0 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(-1,0,-1)))) * 0.45;
 				// color.s_rgb.g =  vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,-1,-1))) ;
