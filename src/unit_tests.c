@@ -37,6 +37,9 @@ void	test_ray_cone_transforms();
 void	test_sphere_normal();
 void	test_reflection();
 
+
+void screen_loop(t_main *main);
+
 void	tests(t_main *main)
 {
 	printf("Testing tuples\n");

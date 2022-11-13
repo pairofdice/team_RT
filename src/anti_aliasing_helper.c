@@ -15,8 +15,8 @@
 void	add_hit_color(t_main *main, t_ray *shadow)
 {
 	double	angle;
-	static t_perlin perlin_t;
-	double	perlin;
+	// static t_perlin perlin_t;
+	// double	perlin;
 
 	//if (load_perlin_data(&perlin_t) == 0)
 	//{
