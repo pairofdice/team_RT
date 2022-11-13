@@ -109,9 +109,9 @@ void	creat_screen_shot(int *image)
 {
 	char			*image_name;
 	t_screen_shot	s_s;
-	int				y;
+	// int				y;
 
-	y = 0;
+	// y = 0;
 	image_name = increment_image_name();
 	//malloc check
 	s_s.fp = fopen(image_name, "wr+");

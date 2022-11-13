@@ -620,9 +620,9 @@ void	test_matrix_submatrix()
 
 	// matrix_print(&m44);
 
-	t_matrix	m33_b = matrix_new_inc_a(3);
+	// t_matrix	m33_b = matrix_new_inc_a(3);
 
-	m33_b =matrix_submatrix(&m44, (t_coords){0, 1});
+	// m33_b =matrix_submatrix(&m44, (t_coords){0, 1});
 	// matrix_print(&m33_b);
 
  	// printf("m33 %2.0f %2.0f %2.0f\n", m33.rc[0][0], m33.rc[0][1],  m33.rc[0][2]);
@@ -1970,7 +1970,7 @@ void	screen_loop(t_main *main)
 {
 	t_coords	xy;
 	t_color		color;
-	t_color		temp;
+	// t_color		temp;
 	// int			color_int;
 	t_object	shape;
 	t_ray		ray;
@@ -2025,7 +2025,7 @@ void	screen_loop(t_main *main)
 				t_point point = point_new(0,0,0);
 				if (ray.xs.vec.len > 0)
 					point = ray_position(ray, *(double *)vec_get(&ray.xs.vec, 0));
-				temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
+				// temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
 				color.s_rgb.r = 0.2 + (vector_dot(normal_at(&shape, point), tuple_unit(vector_new(-1,0,-1.5)))) ;
 				color.s_rgb.g = 0.2 +  vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,-1,-1.5))) ;
 				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;

@@ -15,8 +15,8 @@
 void	add_hit_color(t_main *main, t_ray *shadow)
 {
 	double	angle;
-	//static t_perlin perlin_t;
-	//double	perlin;
+	static t_perlin perlin_t;
+	double	perlin;
 
 	//if (load_perlin_data(&perlin_t) == 0)
 	//{
@@ -29,17 +29,17 @@ void	add_hit_color(t_main *main, t_ray *shadow)
 	//	shadow->hit.normal = tuple_scalar_mult(shadow->hit.normal, -1.0);
 	angle = 1; //vector_dot(shadow->dir, shadow->hit.normal);
 	
+	if (vector_dot(main->ray.dir, shadow->hit.normal) > 0)
+		shadow->hit.normal = tuple_scalar_mult(shadow->hit.normal, -1.0);
+	angle = vector_dot(shadow->dir, shadow->hit.normal);
 	if (angle >= 0)
 	{
-		
 		main->ray.hit.color.s_rgb.r
 			+= (main->obj[shadow->hit.clo_obj_id].color.s_rgb.r * angle);
-		
 		main->ray.hit.color.s_rgb.g
 			+= (main->obj[shadow->hit.clo_obj_id].color.s_rgb.g * angle);
 		main->ray.hit.color.s_rgb.b
 			+= (main->obj[shadow->hit.clo_obj_id].color.s_rgb.b * angle);
-		
 	}
 }
 
