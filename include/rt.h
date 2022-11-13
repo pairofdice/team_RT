@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/13 15:28:37 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/13 20:12:06 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 1000
-# define WIN_H 1000
+# define WIN_W 100
+# define WIN_H 100
 # define A_A_DIV 1
 # define EPSILON 0.00006103515625
 
@@ -74,6 +74,12 @@ typedef struct s_screen_shot
 	int				fd;
 }					t_screen_shot;
 
+typedef struct s_scene
+{
+	t_vec			lights;
+	t_vec			objects;
+}					t_scene;
+
 typedef struct s_main
 {
 	t_sdl			sdl;
@@ -81,12 +87,12 @@ typedef struct s_main
 	t_multi			multi;
 	t_ray			ray;
 	t_ray			shadow;
-
 	t_light			light;
 	t_object		obj[500];
 	int				obj_count;
 	int				shape_count;
 	int				ant_al;
+	t_scene			scene;
 }					t_main;
 
 int					initialize_window(t_main *main);
@@ -144,7 +150,15 @@ t_material			material_new();
 
 
 t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal);
-void	img_pixel_put(t_frame_buffer *fb, unsigned int x,
-	unsigned int y, t_color color);
+void				img_pixel_put(
+						t_frame_buffer *fb, 
+						unsigned int x,
+						unsigned int y, t_color color);
+
+int					scene_new();
+int					default_scene();
+t_intersections		scene_intersect(t_scene *scene, t_ray *ray);
+
+
 
 #endif

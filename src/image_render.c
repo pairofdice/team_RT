@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   image_render.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 22:10:07 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/13 19:34:38 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-int	get_shape_intersections(t_ray *ray, t_object *shape)
+/* int	get_shape_intersections(t_ray *ray, t_object *shape)
 {
 	int	ret;
 
@@ -28,7 +28,7 @@ int	get_shape_intersections(t_ray *ray, t_object *shape)
 	
 	return (ret);
 }
-
+ */
 int	fill_hit_record(t_ray *ray)
 {
 	t_intersection closest_t;
@@ -39,6 +39,7 @@ int	fill_hit_record(t_ray *ray)
 	ray->hit.hit_dist = closest_t.t;
 	ray->hit.clo_obj_id = (int)closest_t.i;
 	ray->hit.hit_loc = ray_position(*ray, ray->hit.hit_dist);
+
 	//if (main->obj[clo_shape].type == SPHERE)
 	//	main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
 	//else if (main->obj[clo_shape].type == CYLINDER)
@@ -70,7 +71,11 @@ int	ray_shooter(t_ray *ray, t_main *main)
 			return (0);
 		//if (check_shadow(main, ray) == 1)
 		//	return (0);
-		add_hit_color(main, &main->ray);
+		
+		// add_hit_color(main, &main->ray);
+		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc);
+	
+		main->ray.hit.color = lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal);
 		return (1);
 	}
 	return (0);
@@ -118,9 +123,10 @@ void	render_image(t_main	*main, int task, int ant_al)
 		x = 0;
 		while (x < WIN_W)
 		{
-			copy.ray.hit.color.s_rgb.r = 0.0;
-			copy.ray.hit.color.s_rgb.g = 0.0;
-			copy.ray.hit.color.s_rgb.b = 0.0;
+			// copy.ray.hit.color.s_rgb.r = 0.0;
+			// copy.ray.hit.color.s_rgb.g = 0.0;
+			// copy.ray.hit.color.s_rgb.b = 0.0;
+			copy.ray.hit.color = color_new(0,0,0);
 			while (ant_al != 1 && x < WIN_W
 				&& main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
 				x++;

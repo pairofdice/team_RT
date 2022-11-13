@@ -6,7 +6,7 @@
 #    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/11 18:45:57 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/13 20:13:01 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,8 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								lighting.c\
 								find_closest_intersection.c\
 								img_pixel_put.c\
+								scene_new.c\
+								scene_intersect.c\
 								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))

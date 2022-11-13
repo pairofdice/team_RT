@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 22:14:29 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/13 17:43:28 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam)
 	ray->dir = tuple_add(ray->dir, tuple_scalar_mult(cam->v,
 				y * (cam->plane_h / WIN_H)));
 	ray->dir = tuple_sub(cam->pos, ray->dir);
+	ray->dir = tuple_unit(ray->dir);
 	*ray = ray_transform(ray, &cam->transform);
 	vec_new(&ray->xs.vec, 8, sizeof(t_intersection));
 }

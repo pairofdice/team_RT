@@ -38,11 +38,12 @@ void	test_reflection();
 void	test_shading();
 void	test_ray_cylinder_transforms();
 void	test_ray_cone_transforms();
+void	test_world();
 
 
 void screen_loop(t_main *main);
 
-void tests(t_main *main)
+void tests(t_main *main, int draw_debug)
 {
 	printf("Testing tuples\n");
 	test_tuples();
@@ -143,8 +144,12 @@ void tests(t_main *main)
 	test_shading();
 	printf("OK\n");
 
+	printf("Testing 🌎\n");
+	test_world();
+	printf("OK\n");
 
-	int draw_debug = 0;
+
+	
 	if (draw_debug)
 	{
 		screen_loop(main);
@@ -2138,9 +2143,9 @@ void	screen_loop(t_main *main)
 	t_vector to_eye;
 	t_vector normal;
 
-	double perlin_amount;
-	t_perlin perlin_data;
-	load_perlin_data(&perlin_data);
+	// double perlin_amount;
+	// t_perlin perlin_data;
+	// load_perlin_data(&perlin_data);
 	// red = color_new(1, 0, 0);
 
 	transform = matrix_scale(1,1,1);
@@ -2164,19 +2169,20 @@ void	screen_loop(t_main *main)
 			// if (intersect_cone(&ray, &shape))
 			// if (intersect_cylinder(&ray, &shape))
 			// if (intersect_plane(&ray, &shape))
-				t_point point = point_new(0,0,0);
-/* 				if (ray.xs.vec.len > 0)
-					point = ray_position(ray, *(double *)vec_get(&ray.xs.vec, 0));
-				= point;  */
-				t_point point_perlin ;
-				point_perlin = point_new(xy.col,xy.row, 0);
-				// point_perlin = color_multiply(point, color_new(1, 5, 1));
-				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
-				transform = matrix_scale(  0.9 - perlin_amount/25.0 ,   0.9 -perlin_amount/25.0 ,  0.9 - perlin_amount/25.0);
-
-				shape.transform = transform;
 			if (intersect_sphere(&ray, &shape))
 			{
+				t_point point;
+				point = ray_position(ray, *(double *)vec_get(&ray.xs.vec, 0));
+// 				t_point point = point_new(0,0,0);
+// /* 				if (ray.xs.vec.len > 0)
+// 				= point;  */
+// 				t_point point_perlin ;
+// 				point_perlin = point_new(xy.col,xy.row, 0);
+// 				// point_perlin = color_multiply(point, color_new(1, 5, 1));
+// 				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
+// 				transform = matrix_scale(  0.9 - perlin_amount/25.0 ,   0.9 -perlin_amount/25.0 ,  0.9 - perlin_amount/25.0);
+
+// 				shape.transform = transform;
 				// shape.transform = matrix_scale(1, 1, 1);
 
 				// temp = tuple_scalar_mult(color, vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,0))));
@@ -2199,34 +2205,34 @@ void	screen_loop(t_main *main)
 
 
 // PNPNPNPNPNPNPNPNPNPNPNPN
-				t_color normal_bump;
-				normal_bump.s_rgb.r = perlin_amount ;
-				// point = tuple_add(point, point_new(0.007, 0.007, 0.007));
-				// point = color_multiply(point, color_new(1, 3, 1));
-				 point_perlin = point; 
-				point_perlin = tuple_scalar_mult(point_perlin, 34 );
-				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
-				normal_bump.s_rgb.g = perlin_amount;
-			    // point = tuple_add(point, point_new(0.007, 0.007, 0.007));
+			// 	t_color normal_bump;
+			// 	normal_bump.s_rgb.r = perlin_amount ;
+			// 	// point = tuple_add(point, point_new(0.007, 0.007, 0.007));
+			// 	// point = color_multiply(point, color_new(1, 3, 1));
+			// 	 point_perlin = point; 
+			// 	point_perlin = tuple_scalar_mult(point_perlin, 34 );
+			// 	perlin_amount = perlin_noice(&point_perlin, &perlin_data);
+			// 	normal_bump.s_rgb.g = perlin_amount;
+			//     // point = tuple_add(point, point_new(0.007, 0.007, 0.007));
 
-				point_perlin = point; 
-				point_perlin = tuple_scalar_mult(point_perlin, 33  );
-				// tuple_add(point_perlin, point_new(0.01, 0.01, 0.01));
-				perlin_amount = perlin_noice(&point_perlin, &perlin_data);
-				// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
-				normal_bump.s_rgb.b = perlin_amount ;
-				// normal_bump = tuple_scalar_mult(shape.material.color, 0.5);
-				normal_bump = tuple_scalar_mult( normal_bump, 0.005);
-				shape.material.color = tuple_add( normal_bump, shape.material.color);
-				shape.material.color = tuple_add( normal_bump, shape.material.color);
-				shape.material.color = tuple_add( normal_bump, shape.material.color);
-				shape.material.color = tuple_add( normal_bump, shape.material.color);
+			// 	point_perlin = point; 
+			// 	point_perlin = tuple_scalar_mult(point_perlin, 33  );
+			// 	// tuple_add(point_perlin, point_new(0.01, 0.01, 0.01));
+			// 	perlin_amount = perlin_noice(&point_perlin, &perlin_data);
+			// 	// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
+			// 	normal_bump.s_rgb.b = perlin_amount ;
+			// 	// normal_bump = tuple_scalar_mult(shape.material.color, 0.5);
+			// 	normal_bump = tuple_scalar_mult( normal_bump, 0.005);
+			// 	// shape.material.color = tuple_add( normal_bump, shape.material.color);
+			// 	// shape.material.color = tuple_add( normal_bump, shape.material.color);
+			// 	// shape.material.color = tuple_add( normal_bump, shape.material.color);
+			// 	// shape.material.color = tuple_add( normal_bump, shape.material.color);
 
-				normal = tuple_add(normal_bump, normal);
-			// 	shape.material.specular = 0.5 + perlin_amount /3;
-			// 	shape.material.shininess = 180 - perlin_amount *40;
+			// 	normal = tuple_add(normal_bump, normal);
+			// // 	shape.material.specular = 0.5 + perlin_amount /3;
+			// // 	shape.material.shininess = 180 - perlin_amount *40;
 
-			// 	shape.material.color.s_rgb.r =1 - perlin_amount/3 ;
+			// // 	shape.material.color.s_rgb.r =1 - perlin_amount/3 ;
 			// shape.material.color = color_new(1,1,1);
 
 				to_eye = tuple_neg(ray.dir);
@@ -2423,5 +2429,62 @@ void	test_shading()
 	result = lighting(m, light, pos, to_eye, normal);
 	tuple_print(result);
 	assert(tuples_equal(result, color_new(0.1, 0.1, 0.1)));
+
+}
+
+void 	test_world()
+{
+	// The default world
+	t_scene scene;
+	default_scene(&scene);
+	// int i = 0;
+
+	printf("- Number of lights in the scene: %zu\n", scene.lights.len);
+	printf("- Number of objects in the scene: %zu\n", scene.objects.len);
+
+	t_light	light_1;
+	t_light	light_2;
+	t_object object_1;
+	t_object object_2;
+	// t_matrix transform;
+	
+	light_1 = point_light_new(point_new(-10, 10, -10), color_new(1, 1, 1));
+	light_2 = *(t_light *) vec_get(&scene.lights, 0);
+	assert(tuples_equal(light_1.intensity, light_2.intensity));
+	assert(tuples_equal(light_1.location, light_2.location));
+
+
+	object_1 = object_new(SPHERE);
+	object_1.material.color = color_new(0.8, 1.0, 0.6);
+	object_1.material.diffuse = 0.7;
+	object_1.material.specular = 0.2;
+	object_2 = *(t_object *) vec_get(&scene.objects, 0);
+	assert(tuples_equal(object_1.material.color, object_2.material.color));
+	assert(object_1.material.diffuse == object_2.material.diffuse);
+	assert(object_1.material.specular == object_2.material.specular);
+
+	object_1 = object_new(SPHERE);
+	object_1.transform = matrix_scale(0.5, 0.5, 0.5);
+	object_2 = *(t_object *) vec_get(&scene.objects, 1);
+	// printf("Object 1 transform");
+
+	// matrix_print(&object_1.transform );
+	// printf("Object 2 transform");
+	// matrix_print(&object_2.transform );
+	assert(matrix_equals(&object_1.transform, &object_2.transform));
+
+	//Intersect a world with a ray
+	t_ray ray = ray_new(point_new(0, 0, -5), vector_new(0, 0, 1));
+	t_intersections intersections = scene_intersect(&scene, &ray);
+	t_intersection is;
+	size_t i = 0;
+		printf("- Scene intersections : ");
+	while (i < intersections.vec.len)
+	{
+		is = *(t_intersection *) vec_get(&intersections.vec, i);
+		printf("%4.2f,  ", is.t);
+		i++;
+	}
+		printf("\n");
 
 }
