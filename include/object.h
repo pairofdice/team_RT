@@ -27,6 +27,20 @@ enum
 	CONE,
 };
 
+// For ambient, diffuse, and specular, the typical values are between 0 and 1. 
+// For shininess, values between 10 (very large highlight) 
+// and 200 (very small highlight) seem to work best, 
+// though there is no actual upper bound.
+typedef struct s_material
+{
+	t_color	color;
+	double	ambient;
+	double	diffuse;
+	double	specular;
+	double	shininess;
+	
+}	t_material;
+
 typedef struct s_object
 {
 	t_point			loc;
@@ -39,7 +53,7 @@ typedef struct s_object
 	size_t			id;
 	t_matrix		transform;
 	t_tuple			color;
-	// t_material		material;
+	t_material		material;
 }					t_object;
 
 typedef struct s_abc
@@ -86,6 +100,16 @@ typedef struct s_intersection
 	t_object		*object;
 }					t_intersection;
 
+typedef struct s_light
+{
+	t_point			location;
+	t_vector		direction;
+	t_color			intensity;
+	int				type;
+	t_point			pos;
+}					t_light;
+
+
 
 t_object			object_new(int shape_type);
 double				calc_discriminant(double a, double b, double c);
@@ -113,5 +137,7 @@ t_intersection		intersection_new(double time, t_object *o);
 t_intersection	find_closest_intersection(t_intersections *xs);
 void				set_transform(t_object *obj, t_matrix *transform);
 t_vector			normal_at(t_object *obj, t_point point);
+t_material			material_new();
+
 
 #endif

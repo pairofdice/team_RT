@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:23:15 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/13 13:58:43 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 500
-# define WIN_H 350
-# define A_A_DIV 2
+# define WIN_W 1000
+# define WIN_H 1000
+# define A_A_DIV 1
 # define EPSILON 0.00006103515625
 
 enum 
@@ -73,6 +73,7 @@ typedef struct s_cam
 	double			plane_h;
 	double			plane_w;
 }					t_cam;
+
 
 typedef struct s_light
 {
@@ -171,5 +172,9 @@ t_light				sun_light_new(t_point direction, t_color intensity);
 t_light				ambient_light_new(t_color intensity);
 t_material			material_new();
 
+
+t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal);
+void	img_pixel_put(t_frame_buffer *fb, unsigned int x,
+	unsigned int y, t_color color);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 22:19:40 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/13 14:57:21 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,10 @@ int	main(void)
 	draw_frame(&main);
 	creat_filters(&main.sdl.frame_buffer);
 	draw_to_window(&main.sdl, main.sdl.frame_buffer.data);
+
+	// tests(&main);
+
+
 	rt_loop_and_exit(&main.sdl);
 	SDL_Quit();
 	return (0);

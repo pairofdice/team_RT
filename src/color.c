@@ -57,5 +57,6 @@ t_color	color_new(double r, double g, double b)
 	color.s_rgb.r = r;
 	color.s_rgb.g = g;
 	color.s_rgb.b = b;
+	color.s_xyzw.w = 0;
 	return (color);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 20:22:17 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/07 17:07:42 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:54:28 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ double	intersects_plane(t_ray *ray, t_object *plane)
 	n = plane->rot;
 	intersection = vector_dot(ray->dir, n);
 	abc = tuple_sub(ray->orig, plane->loc);
-	abc.s_xyzw.x *= -1.0;
-	abc.s_xyzw.y *= -1.0;
-	abc.s_xyzw.z *= -1.0;
+	// abc.s_xyzw.x *= -1.0;
+	// abc.s_xyzw.y *= -1.0;
+	// abc.s_xyzw.z *= -1.0;
+	tuple_neg(abc);
 	t = (vector_dot(abc, n) / intersection);
 	if (intersection != 0 && t > 0)
 		return (t);

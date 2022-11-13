@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   material.c                                         :+:      :+:    :+:   */
+/*   img_pixel_put.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 16:32:00 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/11 13:56:13 by jsaarine         ###   ########.fr       */
+/*   Created: 2022/11/12 19:28:19 by jsaarine          #+#    #+#             */
+/*   Updated: 2022/11/12 19:28:51 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_material	material_new()
+void	img_pixel_put(t_frame_buffer *fb, unsigned int x,
+	unsigned int y, t_color color)
 {
-	t_material	m;
+	int			*dst;
+	unsigned int	color_int;
 
- 	m.ambient = 0.1;
- 	m.diffuse = 0.9;
- 	m.color = color_new(1, 1, 1);
-	m.shininess = 200.0;
- 	m.specular = 0.9;
-	return (m);
+	color_int = color_to_int(color);
+	dst = fb->data + (y * WIN_W + x);
+	*(unsigned int *)dst = color_int;
 }

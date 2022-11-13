@@ -91,8 +91,11 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								object_new.c\
 								normal_at.c\
 								light_new.c\
+								material.c\
+								lighting.c\
 								find_closest_intersection.c\
 								material.c\
+								img_pixel_put.c\
 								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))

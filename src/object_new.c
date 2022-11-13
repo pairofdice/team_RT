@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 17:35:17 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/09 19:35:13 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 14:01:30 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ t_object	object_new(int shape_type)
 	new_object.loc = (t_point){.s_xyzw = {0, 0, 0, 0}};
 	new_object.size = 1.0;
 	new_object.type = shape_type;
+	new_object.material = material_new();
 	return (new_object);
 }
