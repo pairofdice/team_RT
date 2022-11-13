@@ -25,6 +25,9 @@ enum
 	CYLINDER,
 	PLANE,
 	CONE,
+	SUN,
+	POINT,
+	AMBIENT,
 };
 
 // For ambient, diffuse, and specular, the typical values are between 0 and 1. 

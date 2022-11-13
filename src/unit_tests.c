@@ -41,6 +41,8 @@ void	test_ray_cone_transforms();
 
 
 void screen_loop(t_main *main);
+
+void tests(t_main *main)
 {
 	printf("Testing tuples\n");
 	test_tuples();
@@ -140,6 +142,13 @@ void screen_loop(t_main *main);
 	printf("Testing 😎\n");
 	test_shading();
 	printf("OK\n");
+
+
+	int draw_debug = 0;
+	if (draw_debug)
+	{
+		screen_loop(main);
+	}
 }
 
 void	test_tuples()

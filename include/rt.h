@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/13 13:58:43 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/13 15:28:37 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@
 # define A_A_DIV 1
 # define EPSILON 0.00006103515625
 
-enum 
-{
-	POINT,
-	SUN,
-	AMBIENT,	
-};
 
 typedef struct s_frame_buffer
 {
@@ -73,30 +67,6 @@ typedef struct s_cam
 	double			plane_h;
 	double			plane_w;
 }					t_cam;
-
-
-typedef struct s_light
-{
-	t_point			location;
-	t_vector		direction;
-	t_color			intensity;
-	int				type;
-	t_point			pos;
-}					t_light;
-
-// For ambient, diffuse, and specular, the typical values are between 0 and 1. 
-// For shininess, values between 10 (very large highlight) 
-// and 200 (very small highlight) seem to work best, 
-// though there is no actual upper bound.
-typedef struct s_material
-{
-	t_color	color;
-	double	ambient;
-	double	diffuse;
-	double	specular;
-	double	shininess;
-	
-}	t_material;
 
 typedef struct s_screen_shot
 {

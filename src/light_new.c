@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   light_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:54:58 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/10 16:22:19 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/13 15:30:30 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+// #include "rt.h"
+#include "object.h"
 
 t_light	point_light_new(t_point location, t_color intensity)
 {

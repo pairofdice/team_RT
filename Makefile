@@ -94,7 +94,6 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								material.c\
 								lighting.c\
 								find_closest_intersection.c\
-								material.c\
 								img_pixel_put.c\
 								unit_tests.c)
 
