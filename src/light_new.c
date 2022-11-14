@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:54:58 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/13 15:30:30 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:00:42 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_light	sun_light_new(t_point direction, t_color intensity)
 	return (light);
 }
 
-t_light	ambient_light_new(t_color intensity)
+/* t_light	ambient_light_new(t_color intensity)
 {
 	t_light	light;
 
@@ -42,3 +42,4 @@ t_light	ambient_light_new(t_color intensity)
 	light.intensity = intensity;
 	return (light);
 }
+ */

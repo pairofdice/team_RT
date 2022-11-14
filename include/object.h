@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 20:17:07 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/14 20:11:34 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ enum
 	CONE,
 	SUN,
 	POINT,
-	AMBIENT,
 };
 
 // For ambient, diffuse, and specular, the typical values are between 0 and 1. 
@@ -86,6 +85,9 @@ typedef struct s_hit_record
 	double			hit_dist;
 	int				clo_obj_id;
 	union u_tuple	color;
+	t_vector		to_eye;
+	t_object		*object;
+	int				inside;
 }					t_hit_record;
 
 typedef struct s_ray
@@ -141,6 +143,7 @@ t_intersection	find_closest_intersection(t_intersections *xs);
 void				set_transform(t_object *obj, t_matrix *transform);
 t_vector			normal_at(t_object *obj, t_point point);
 t_material			material_new();
+t_hit_record		precompute(t_intersection *intersection, t_ray *ray);
 
 
 #endif

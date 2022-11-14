@@ -6,7 +6,7 @@
 #    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/13 20:13:01 by jsaarine         ###   ########.fr        #
+#    Updated: 2022/11/14 19:21:50 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,6 +97,7 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								img_pixel_put.c\
 								scene_new.c\
 								scene_intersect.c\
+								precompute.c\
 								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
@@ -107,16 +108,17 @@ DEPENDENCY_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.dep))
 DEPENDENCY_FLAGS = -MT $(@) -MMD -MP -MF $(BUILD_DIR)$(*).dep
 
 LD = gcc
-LDFLAGS = -flto $(libsdl2_ldflags)
+LDFLAGS = $(libsdl2_ldflags) # -flto
 CC = gcc
-CFLAGS = -O3 -flto -c -Wall -Werror -Wextra $(addprefix -I, $(INCLUDE_DIR))\
+OPTFLAGS = -O3 -flto # PUT BACK IN
+CFLAGS = -g -c -Wall -Werror -Wextra $(addprefix -I, $(INCLUDE_DIR))\
 	$(libsdl2_cflags)
 CPPFLAGS = -D_REENTRANT
 
 all: $(NAME)
 
 $(NAME): $(FT_LIBRERY) $(SCREEN_SHOT_DIR) $(OBJCT_FILES) | $(BUILD_DIR) 
-	@ $(LD) $(FT_LIBRERY) $(OBJCT_FILES) $(LDFLAGS) -o $(NAME)
+	$(LD) -g $(FT_LIBRERY) $(OBJCT_FILES) $(LDFLAGS) -o $(NAME)
 
 $(OBJCT_FILES): $(libsdl2_lib)
 
@@ -128,7 +130,7 @@ $(SCREEN_SHOT_DIR):
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c | $(BUILD_DIR)%.dep
-	@ $(CC) $(CFLAGS) $(CPPFLAGS) $(DEPENDENCY_FLAGS) -o $(@) $(<)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEPENDENCY_FLAGS) -o $(@) $(<)
 
 $(DEPENDENCY_FILES):
 

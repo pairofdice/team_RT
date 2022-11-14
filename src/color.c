@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/10 12:50:57 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:00:17 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_color	int_to_color(unsigned int rgba)
 	color.s_rgb.b = (rgba >> 8) % 256;
 	color.s_rgb.g = (rgba >> 16) % 256;
 	color.s_rgb.r = (rgba >> 24) % 256;
+	color.s_xyzw.w = 0;
 	return (color);
 }
 

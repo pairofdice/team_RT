@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 17:57:35 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/13 20:16:48 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:46:06 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,20 @@ int	get_shape_intersections(t_ray *ray, t_object *shape)
 void	push_intersections(t_intersections *intersections, t_ray *ray)
 {
 	t_intersection	is;
-	size_t				i;
+	size_t			i;
 
-	i = 0;
+	i = intersections->vec.len;
 	while (i < ray->xs.vec.len)
 	{
 		is = *(t_intersection *) vec_get(&ray->xs.vec, i);
+		printf("pushing is %lf \n",is.t);
+		printf("pushing is %zu \n",is.object->id);
+		printf("pushing is%zu \n",is.i);
 		vec_push(&intersections->vec, &is);
 		i++;
 	}
 }
+
 
 
 t_intersections	scene_intersect(t_scene *scene, t_ray *ray)

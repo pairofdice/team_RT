@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/13 20:12:06 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/14 20:25:48 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 100
-# define WIN_H 100
+# define WIN_W 42
+# define WIN_H 42
 # define A_A_DIV 1
 # define EPSILON 0.00006103515625
 
@@ -145,7 +145,7 @@ t_point				ray_position(t_ray ray, double t);
 
 t_light				point_light_new(t_point position, t_color intensity);
 t_light				sun_light_new(t_point direction, t_color intensity);
-t_light				ambient_light_new(t_color intensity);
+/* t_light				ambient_light_new(t_color intensity); */
 t_material			material_new();
 
 
@@ -155,8 +155,8 @@ void				img_pixel_put(
 						unsigned int x,
 						unsigned int y, t_color color);
 
-int					scene_new();
-int					default_scene();
+int					scene_new(t_scene *scene);
+int					default_scene(t_scene *scene);
 t_intersections		scene_intersect(t_scene *scene, t_ray *ray);
 
 

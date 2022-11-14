@@ -39,6 +39,7 @@ void	test_shading();
 void	test_ray_cylinder_transforms();
 void	test_ray_cone_transforms();
 void	test_world();
+void	test_precompute();
 
 
 void screen_loop(t_main *main);
@@ -148,11 +149,16 @@ void tests(t_main *main, int draw_debug)
 	test_world();
 	printf("OK\n");
 
+	printf("Testing precompute\n");
+	test_precompute();
+	printf("OK\n");
 
 	
 	if (draw_debug)
 	{
-		screen_loop(main);
+		// sscreen_loop(main);
+		if (main)
+		{}
 	}
 }
 
@@ -282,6 +288,7 @@ void	test_tuples()
 
 	// tuple_print(cross);
 	// tuple_print(r);
+
 	assert(tuples_equal(cross, r));
 }
 
@@ -349,9 +356,8 @@ void	test_colors()
 
 // color_to_int
 	t_color clr;
-	clr.s_rgb.r = 1.0;
-	clr.s_rgb.g = 1.0;
-	clr.s_rgb.b = 1.0;
+	clr = color_new(1, 1, 1);
+
 	int color_ref = 0xFFFFFF00;
 	int color = color_to_int(clr);
 	assert(color == color_ref);
@@ -378,6 +384,9 @@ void	test_colors()
 	clr.s_rgb.b = 0.0;
 
 	t_color color_test = int_to_color(color);
+	tuple_print(clr);
+	tuple_print(color_test);
+	printf("Tuples equal: %d \n", tuples_equal(clr, color_test));
 	assert(tuples_equal(clr, color_test));
 
 }
@@ -2338,14 +2347,14 @@ void	test_reflection()
 
 void	test_shading()
 {
-	printf("1\n");
+	// printf("1\n");
   	t_color intensity = color_new(1, 1, 1);
 	t_point	location = point_new(0, 0, 0);
 
 	t_light light = point_light_new(location, intensity);
 	assert(tuples_equal(location, light.location));
 	assert(tuples_equal(intensity, light.intensity));
-	printf("2\n");
+	// printf("2\n");
 
 	// default material
 
@@ -2355,7 +2364,7 @@ void	test_shading()
 	assert(nearly_equal(m.diffuse, 0.9));
 	assert(nearly_equal(m.specular, 0.9));
 	assert(nearly_equal(m.shininess, 200.0));
-	printf("3\n");
+	// printf("3\n");
 
 	// A sphere has a default material
 	t_object shape = object_new(SPHERE);
@@ -2366,7 +2375,7 @@ void	test_shading()
 	assert(nearly_equal(shape.material.shininess, m.shininess));
 	assert(nearly_equal(shape.material.specular, m.diffuse));
 
-	printf("4\n");
+	// printf("4\n");
 	// A sphere may be assigned a material
 	shape = object_new(SPHERE);
 	m = material_new();
@@ -2387,9 +2396,9 @@ void	test_shading()
 	// tuple_print(light.pos);
 	result = lighting(m, light, pos, to_eye, normal);
 	tuple_print(result);
-	printf("6\n");
+	// printf("6\n");
 	assert(tuples_equal(result, color_new(1.9, 1.9, 1.9)));
-	printf("7\n");
+	// printf("7\n");
 
 
 	// Lighting with the eye between light and surface, eye offset 45°
@@ -2398,7 +2407,7 @@ void	test_shading()
 	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
 	result = lighting(m, light, pos, to_eye, normal);
 	assert(tuples_equal(result, color_new(1.0, 1.0, 1.0)));
-	printf("8\n");
+	// printf("8\n");
 
 
 // Lighting with eye opposite surface, light offset 45°
@@ -2430,6 +2439,24 @@ void	test_shading()
 	tuple_print(result);
 	assert(tuples_equal(result, color_new(0.1, 0.1, 0.1)));
 
+}
+
+int	intersection_compare(const void *d1, const void *d2)
+{
+	t_intersection left = *(const t_intersection *) d1;
+	t_intersection right = *(const t_intersection *) d2;
+
+	if (nearly_equal(left.t, right.t))
+		return (0);
+	return ((left.t > right.t) - (left.t < right.t));	
+}
+
+static int	int_compare(const void *p1, const void *p2)
+{
+	int left =	*(const	int *)p1;
+	int right = *(const int *)p2;
+
+	return ((left > right) - (left < right));
 }
 
 void 	test_world()
@@ -2478,13 +2505,75 @@ void 	test_world()
 	t_intersections intersections = scene_intersect(&scene, &ray);
 	t_intersection is;
 	size_t i = 0;
-		printf("- Scene intersections : ");
+
+	printf("- Intersection count: %zu\n", intersections.vec.len);
+	printf("- Scene intersections alloc size: %zu\n", intersections.vec.alloc_size / sizeof(t_intersection));
+	printf("- Scene intersections : ");
+
+	int ret = mergesort(intersections.vec.memory, intersections.vec.len, intersections.vec.elem_size, intersection_compare);
+	is = *(t_intersection *) vec_get(&intersections.vec, 0);
+	assert(nearly_equal(is.t, 4.0));
+	is = *(t_intersection *) vec_get(&intersections.vec, 1);
+	assert(nearly_equal(is.t, 4.5));
+	is = *(t_intersection *) vec_get(&intersections.vec, 2);
+	assert(nearly_equal(is.t, 5.5));
+	is = *(t_intersection *) vec_get(&intersections.vec, 3);
+	assert(nearly_equal(is.t, 6));
+
+	printf("- merge ret %d:\n", ret);
 	while (i < intersections.vec.len)
 	{
 		is = *(t_intersection *) vec_get(&intersections.vec, i);
 		printf("%4.2f,  ", is.t);
 		i++;
 	}
-		printf("\n");
+
+	printf("\n");
+	int int_array[] = { 4, 5, 9, 3, 0, 1, 7, 2, 8, 6 };
+	size_t array_size = sizeof(int_array) / sizeof(int_array[0]);
+	size_t k;
+
+	mergesort(&int_array, array_size, sizeof(int_array[0]), int_compare);
+	for (k = 0; k < array_size; k++)
+		printf(" %d", int_array[k]);
+	puts("");
+}
+
+void	test_precompute()
+{
+	t_ray ray = ray_new(point_new(0, 0, -5), vector_new(0, 0, 1));
+	t_object shape = object_new(SPHERE);
+	t_intersection intersection = intersection_new(4, &shape);
+	t_hit_record computations = precompute(&intersection, &ray);
+	assert(computations.object->id == shape.id);
+	assert(tuples_equal(computations.hit_loc, point_new(0,0,-1)));
+	assert(tuples_equal(computations.to_eye, vector_new(0,0,-1)));
+	assert(tuples_equal(computations.normal, vector_new(0,0,-1)));
+	assert(computations.inside == 0);
+
+
+	ray = ray_new(point_new(0, 0, 0), vector_new(0, 0, 1));
+	shape = object_new(SPHERE);
+	intersection = intersection_new(1, &shape);
+	computations = precompute(&intersection, &ray);
+	assert(computations.object->id == shape.id);
+	assert(tuples_equal(computations.hit_loc, point_new(0,0,1)));
+	assert(tuples_equal(computations.to_eye, vector_new(0,0,-1)));
+	assert(tuples_equal(computations.normal, vector_new(0,0,-1)));
+	assert(computations.inside == 1);
+
+
+
+	t_scene scene;
+	default_scene(&scene);
+	ray = ray_new(point_new(0, 0, -5), vector_new(0, 0, 1));
+	if (scene.objects.len > 0)
+		shape = *(t_object *) vec_get(&scene.objects, 0);
+	intersection = intersection_new(4, &shape);
+	computations = precompute(&intersection, &ray);
+	t_color color = shade_hit(&scene, &computations);
+
+
+
 
 }

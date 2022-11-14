@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/13 19:33:09 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/14 13:36:23 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int	main(void)
 
 	main.obj_count = 4;
 
-	int draw_debug = 1;
+	int draw_debug = 0;
 
 	if (!draw_debug)
 	{
