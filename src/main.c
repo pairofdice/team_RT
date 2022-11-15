@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 15:38:31 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/15 21:23:17 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	rt_loop_and_exit(t_sdl *sdl)
 	filter_type = SPHERE;
 	while (quit == 0)
 	{
-		if (SDL_WaitEvent(&sdl->event) != 0)
+		if (SDL_PollEvent(&sdl->event) != 0)
 			kay_hooks(sdl, &quit, &filter_type);
 		draw_filter(sdl, &filter_type, 0);
 	}
@@ -76,6 +76,7 @@ int	main(void)
 	t_matrix	cam_transform;
 	t_matrix	rotate;
 	t_matrix	cam_scale;
+	t_matrix	scale;
 
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -83,7 +84,8 @@ int	main(void)
 	if (initialize_window(&main) == 0)
 		return (1);
 	
-	cam_transform = matrix_translate(0.0, 2.5, -2.0);
+	
+	cam_transform = matrix_translate(0.0, 2.5, -20.0);
 	double						x_r = 0.0;
 	double						y_r = 0.0;
 	double						z_r = 0.0;
@@ -98,7 +100,7 @@ int	main(void)
 	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
 	
 
-	main.light = point_light_new(point_new(0.0, 2.5, -2.0), color_new(1,1,1));
+	main.light = point_light_new(point_new(0.0, 2.5, -20.0), color_new(1,1,1));
 	// main.light.pos = point_new(10, 0, 0);
 	
 	main.obj[0] = object_new(PLANE);
@@ -114,11 +116,11 @@ int	main(void)
 	rotate = matrix_rotate_z(z_r);
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
 	main.obj[0].material.color = color_new(0,1,1);
-
+	main.obj[0].material.pattern.pattern_id = NONE;
 
 	main.obj[1] = object_new(PLANE);
 	main.obj[1].transform = matrix_translate(0.0, 0.0, 10.0);
-											x_r = M_PI_2;
+											x_r = -M_PI_2;
 											y_r = 0.0;
 											z_r = 0.0;
 
@@ -129,7 +131,7 @@ int	main(void)
 	rotate = matrix_rotate_z(z_r);
 	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
 	main.obj[1].material.color = color_new(0,1,0);
-
+	main.obj[1].material.pattern.pattern_id = GRID;
 
 
 
@@ -145,8 +147,11 @@ int	main(void)
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
+	scale = matrix_scale(5,5,5);
+	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &scale);
 	// main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &scale_BIGG);
 	main.obj[2].material.color = color_new(1,0,0);
+	main.obj[2].material.pattern.pattern_id = GRID;
 
 
 
@@ -166,7 +171,7 @@ int	main(void)
 	cam_scale = matrix_scale(0.5,1,1);
 	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &cam_scale);
 	main.obj[3].material.color = color_new(1, 0.5,0);
-
+	main.obj[3].material.pattern.pattern_id = NONE;
 
 	main.obj[4] = object_new(CYLINDER);
 	main.obj[4].transform = matrix_translate(-3.0, -2.0, 5.0);
@@ -180,10 +185,10 @@ int	main(void)
 	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate);
-	cam_scale = matrix_scale(0.5,1,1);
+	cam_scale = matrix_scale(1,1,1);
 	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &cam_scale);
 	main.obj[4].material.color = color_new(1, 0.5,0);
-
+	main.obj[4].material.pattern.pattern_id = NONE;
 
 
 	main.obj_count = 5;
@@ -193,6 +198,8 @@ int	main(void)
 	if (!draw_debug)
 	{
 		initialize_camera(&main.cam, cam_transform);
+		
+		load_perlin_data(&main.perlin);
 		create_threads(&main, 1);
 		draw_frame(&main);
 		while (main.multi.threads_done < NUM_THREADS)
@@ -202,7 +209,7 @@ int	main(void)
 		draw_frame(&main);
 		creat_filters(&main.sdl.frame_buffer);
 	}
-
+	exit(1);
 	tests(&main, draw_debug);
 
 

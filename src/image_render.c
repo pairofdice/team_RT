@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_render.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 14:33:04 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/15 21:00:33 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	fill_hit_record(t_ray *ray)
 
 int	ray_shooter(t_ray *ray, t_main *main)
 {
+	t_color	hit_color;
 	int		count;
 	int		hit;
 
@@ -74,7 +75,12 @@ int	ray_shooter(t_ray *ray, t_main *main)
 		
 		// add_hit_color(main, &main->ray);
 		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc);
-		main->ray.hit.color = tuple_add(main->ray.hit.color,lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal) );
+		hit_color = lighting(main->obj[ray->hit.clo_obj_id].material,
+							main->light, ray->hit.hit_loc, tuple_neg(ray->dir),
+							ray->hit.normal);
+		if (main->obj[ray->hit.clo_obj_id].material.pattern.pattern_id != NONE)
+			pattern_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc, &hit_color, &main->perlin);
+		main->ray.hit.color = tuple_add(main->ray.hit.color, hit_color);
 		//main->ray.hit.color = lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal);
 		return (1);
 	}

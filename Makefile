@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/14 19:21:50 by jsaarine         ###   ########.fr        #
+#    Updated: 2022/11/15 18:12:56 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,7 +99,10 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								scene_intersect.c\
 								precompute.c\
 								shade_hit.c\
-								unit_tests.c)
+								unit_tests.c\
+								pattern_at.c\
+								pattern_striped.c\
+								pattern_grid.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

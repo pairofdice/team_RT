@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/14 20:11:34 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:54:45 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "matrix.h"
 # include "tuple.h"
 # include "vector.h"
+# include "patterns.h"
 # include <stdlib.h>
 
 enum
@@ -33,6 +34,7 @@ enum
 // For shininess, values between 10 (very large highlight) 
 // and 200 (very small highlight) seem to work best, 
 // though there is no actual upper bound.
+
 typedef struct s_material
 {
 	t_color	color;
@@ -40,7 +42,7 @@ typedef struct s_material
 	double	diffuse;
 	double	specular;
 	double	shininess;
-	
+	t_pattern	pattern;
 }	t_material;
 
 typedef struct s_object
@@ -80,7 +82,7 @@ typedef struct s_intersections
 
 typedef struct s_hit_record
 {
-	t_tuple			hit_loc;
+	t_point			hit_loc;
 	t_tuple			normal;
 	double			hit_dist;
 	int				clo_obj_id;
