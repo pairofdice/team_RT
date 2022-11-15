@@ -187,6 +187,7 @@ int	main(void)
 	}
 
 	tests(&main, draw_debug);
+	exit(1);
 
 	draw_to_window(&main.sdl, main.sdl.frame_buffer.data);
 	rt_loop_and_exit(&main.sdl);

@@ -98,6 +98,7 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								scene_new.c\
 								scene_intersect.c\
 								precompute.c\
+								shade_hit.c\
 								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))

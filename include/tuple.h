@@ -60,6 +60,6 @@ t_color			int_to_color(unsigned int rgba);
 unsigned int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
 t_color			color_multiply(t_color a, t_color b);
 t_vector		vector_reflect(t_vector v, t_vector n);
-
+t_color   shade_hit();
 
 #endif

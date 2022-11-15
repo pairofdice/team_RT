@@ -1,11 +1,12 @@
 // #define NDEBUG // disable asserts
 
 
-#include "object.h"
+// #include "object.h" 
+#include "../include/object.h"
 
 # include <assert.h>
-# include "rt.h"
-# include "matrix.h"
+# include "../include/rt.h"
+# include "../include/matrix.h"
 
 t_matrix	matrix_new_inc_a(size_t size);
 t_matrix	matrix_new_inc_b(size_t size);
@@ -156,7 +157,7 @@ void tests(t_main *main, int draw_debug)
 	
 	if (draw_debug)
 	{
-		// sscreen_loop(main);
+		screen_loop(main);
 		if (main)
 		{}
 	}
@@ -2541,10 +2542,11 @@ void 	test_world()
 
 void	test_precompute()
 {
+	// Precomputing the state of an intersection
 	t_ray ray = ray_new(point_new(0, 0, -5), vector_new(0, 0, 1));
 	t_object shape = object_new(SPHERE);
 	t_intersection intersection = intersection_new(4, &shape);
-	t_hit_record computations = precompute(&intersection, &ray);
+		t_hit_record computations = precompute(&intersection, &ray);
 	assert(computations.object->id == shape.id);
 	assert(tuples_equal(computations.hit_loc, point_new(0,0,-1)));
 	assert(tuples_equal(computations.to_eye, vector_new(0,0,-1)));
@@ -2552,6 +2554,7 @@ void	test_precompute()
 	assert(computations.inside == 0);
 
 
+	// The hit, when an intersection occurs on the inside
 	ray = ray_new(point_new(0, 0, 0), vector_new(0, 0, 1));
 	shape = object_new(SPHERE);
 	intersection = intersection_new(1, &shape);
@@ -2563,7 +2566,7 @@ void	test_precompute()
 	assert(computations.inside == 1);
 
 
-
+// Shading an intersections
 	t_scene scene;
 	default_scene(&scene);
 	ray = ray_new(point_new(0, 0, -5), vector_new(0, 0, 1));
@@ -2572,8 +2575,16 @@ void	test_precompute()
 	intersection = intersection_new(4, &shape);
 	computations = precompute(&intersection, &ray);
 	t_color color = shade_hit(&scene, &computations);
+	assert(tuples_equal(color, color_new(0.38066, 0.47583, 0.2855)));
 
 
 
-
+	 
+// Given w ← default_world()
+// And r ← ray(point(0, 0, -5), vector(0, 0, 1)) 
+// And shape ← the first object in w
+// And i ← intersection(4, shape)
+// When comps ← prepare_computations(i, r) 
+// And c ← shade_hit(w, comps)
+// Then c = color(0.38066, 0.47583, 0.2855)
 }
