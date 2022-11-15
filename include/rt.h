@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 14:29:46 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:01:26 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 1000
-# define WIN_H 1000
-# define A_A_DIV 6
+# define WIN_W 500
+# define WIN_H 350
+# define A_A_DIV 2
 # define EPSILON 0.00006103515625
 
 

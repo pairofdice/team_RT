@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_resize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 20:03:27 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/14 19:54:30 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:52:52 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	vec_resize(t_vec *src, size_t target_size)
 		return (-1);
 	ft_memcpy(resized.memory, src->memory, src->len * src->elem_size);
 	resized.len = src->len;
-	resized.alloc_size = src->len * src->elem_size;
 	vec_free(src);
 	*src = resized;
 	return (1);

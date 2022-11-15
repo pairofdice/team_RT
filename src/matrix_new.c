@@ -6,11 +6,10 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/11 22:15:00 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/11 22:24:51 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
 #include "rt.h"
 
 t_matrix	matrix_new(size_t size)

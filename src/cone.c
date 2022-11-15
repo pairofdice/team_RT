@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 20:36:35 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 21:58:34 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:52:18 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	intersect_cone(t_ray *inc_ray, t_object *s)
 {
 	static t_abcd	abcd;
-	//t_vector		cylinder_to_ray;
+	t_point			test_x;
+	t_point			test_y;
 	double			t1;
 	double			t2;
 	t_matrix		inverse_transform;
@@ -40,7 +41,9 @@ int	intersect_cone(t_ray *inc_ray, t_object *s)
 		return (0);
 	t1 = (-(abcd.b) - sqrt(abcd.d)) / (2 * abcd.a);
 	t2 = (-(abcd.b) + sqrt(abcd.d)) / (2 * abcd.a);
-	intersection_record_test(inc_ray, t1, t2, s);
-	//intersection_record(inc_ray, t2, s);
+	test_x = ray_position(ray, t1);
+	test_y = ray_position(ray, t2);
+	intersection_record(inc_ray, t1, s);
+	intersection_record(inc_ray, t2, s);
 	return (1);
 }

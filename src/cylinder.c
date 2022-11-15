@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:44:22 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 21:42:20 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:51:15 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	intersect_cylinder(t_ray *inc_ray, t_object *s)
 {
 	static t_abcd	abcd;
-	//t_vector		cylinder_to_ray;
+	t_point			test_x;
+	t_point			test_y;
 	double			t1;
 	double			t2;
 	t_matrix		inverse_transform;
@@ -24,7 +25,6 @@ int	intersect_cylinder(t_ray *inc_ray, t_object *s)
 	ray = ray_new_no_malloc(inc_ray->orig, inc_ray->dir);
 	inverse_transform = matrix_inverse(&s->transform);
 	ray = ray_transform(inc_ray, &inverse_transform);
-	//cylinder_to_ray = tuple_sub(ray.orig, point_new(0, 0, 0));
 	
 	abcd.a = ((ray.dir.s_xyzw.x * ray.dir.s_xyzw.x))
 			 + ((ray.dir.s_xyzw.z * ray.dir.s_xyzw.z));
@@ -39,7 +39,11 @@ int	intersect_cylinder(t_ray *inc_ray, t_object *s)
 		return (0);
 	t1 = (-(abcd.b) - sqrt(abcd.d)) / (2 * abcd.a);
 	t2 = (-(abcd.b) + sqrt(abcd.d)) / (2 * abcd.a);
+	test_x = ray_position(ray, t1);
+	test_y = ray_position(ray, t2);
 	intersection_record_test(inc_ray, t1,t2, s);
 	intersection_record(inc_ray, t2, s);
 	return (1);
+	
+	return (0);
 }
