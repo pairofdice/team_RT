@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/14 13:36:23 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:41:30 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	main(void)
 	t_matrix	cam_transform;
 	t_matrix	rotate;
 	t_matrix	cam_scale;
-	// t_matrix	scale_BIGG= matrix_scale(4, 4, 4);
 
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -180,14 +179,14 @@ int	main(void)
 		draw_frame(&main);
 		while (main.multi.threads_done < NUM_THREADS)
 			ft_putstr("");
-		// edge_detection(&main.sdl.frame_buffer);
+		edge_detection(&main.sdl.frame_buffer);
 		main.ant_al = A_A_DIV;
 		draw_frame(&main);
-		// creat_filters(&main.sdl.frame_buffer);
+		creat_filters(&main.sdl.frame_buffer);
 	}
 
 	tests(&main, draw_debug);
-	exit(1);
+
 
 	draw_to_window(&main.sdl, main.sdl.frame_buffer.data);
 	rt_loop_and_exit(&main.sdl);

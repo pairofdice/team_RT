@@ -153,13 +153,11 @@ void tests(t_main *main, int draw_debug)
 	printf("Testing precompute\n");
 	test_precompute();
 	printf("OK\n");
-
 	
-	if (draw_debug)
+
+ 	if (draw_debug)
 	{
 		screen_loop(main);
-		if (main)
-		{}
 	}
 }
 
@@ -298,6 +296,8 @@ void	test_colors()
 	t_color c1 = color_new(0.9, 0.6, 0.75);
 	t_color c2 = color_new(0.7, 0.1, 0.25);
 	t_color c1c2 = tuple_add(c1, c2);
+	printf("c1c2\n");
+	tuple_print(c1c2);
 	t_color should_be = color_new(1.6, 0.7, 1.0);
 	assert(nearly_equal(c1c2.s_rgb.r, should_be.s_rgb.r));
 	assert(nearly_equal(c1c2.s_rgb.g, should_be.s_rgb.g));
@@ -2575,11 +2575,10 @@ void	test_precompute()
 	intersection = intersection_new(4, &shape);
 	computations = precompute(&intersection, &ray);
 	t_color color = shade_hit(&scene, &computations);
+	tuple_print(color);
 	assert(tuples_equal(color, color_new(0.38066, 0.47583, 0.2855)));
 
 
-
-	 
 // Given w ← default_world()
 // And r ← ray(point(0, 0, -5), vector(0, 0, 1)) 
 // And shape ← the first object in w

@@ -16,8 +16,11 @@
   {
     light = *(t_light *)vec_get(&scene->lights, i);
     temp = lighting(hit->object->material, light, hit->hit_loc, hit->to_eye, hit->normal);
-    tuple_add(result, temp);
+    result = tuple_add(result, temp);
+	i++;
   }
+
+
 
   return (result);
 }
