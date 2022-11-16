@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 21:00:33 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/16 20:26:36 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	ray_shooter(t_ray *ray, t_main *main)
 	return (0);
 }
 
+
 int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 {
 	double	x;
@@ -94,24 +95,39 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 	double	offset;
 	int		i;
 	int		j;
+	int		sup_pixels;
 
 	j = 0;
 	offset = (1.0 / ant_al);
-	while (j < ant_al)
+	sup_pixels = 0;
+	if (ant_al == 1)
 	{
-		i = 0;
-		y = ((float)pixel_y + (offset / 2) + (offset * j));
-		while (i < ant_al)
-		{
-			x = ((float)pixel_x + (offset / 2) + (offset * i));
-			initialize_ray(&main->ray, x, y, &main->cam);
-			ray_shooter(&main->ray, main);
-			vec_free(&main->ray.xs.vec);
-			i++;
-		}
-		j++;
+		initialize_ray(&main->ray, (double)pixel_x + 0.5, (double)pixel_y + 0.5, &main->cam);
+		ray_shooter(&main->ray, main);
+		vec_free(&main->ray.xs.vec);
 	}
-	fix_aliasing_color(main, (ant_al * ant_al));
+	else
+	{
+		while (j < ant_al)
+		{
+			i = 0;
+			y = ((float)pixel_y + (offset / 2) + (offset * j));
+			while (i < ant_al)
+			{
+				if (((j % 2 == 0) && (i % 2 == 1)) || ((j % 2 == 1) && (i % 2 == 0)))
+				{
+					x = ((float)pixel_x + (offset / 2) + (offset * i));
+					initialize_ray(&main->ray, x, y, &main->cam);
+					ray_shooter(&main->ray, main);
+					sup_pixels++;
+					vec_free(&main->ray.xs.vec);
+				}
+				i++;
+			}
+			j++;
+		}
+		fix_aliasing_color(main, sup_pixels);
+	}
 	return (color_to_int(main->ray.hit.color));
 }
 
@@ -129,9 +145,6 @@ void	render_image(t_main	*main, int task, int ant_al)
 		x = 0;
 		while (x < WIN_W)
 		{
-			// copy.ray.hit.color.s_rgb.r = 0.0;
-			// copy.ray.hit.color.s_rgb.g = 0.0;
-			// copy.ray.hit.color.s_rgb.b = 0.0;
 			copy.ray.hit.color = color_new(0,0,0);
 			while (ant_al != 1 && x < WIN_W
 				&& main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
