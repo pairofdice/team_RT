@@ -21,4 +21,4 @@ libsdl2/sdl2-config
 libsdl2/sdl2-config-version.cmake
 libsdl2/sdl2-config.cmake
 libsdl2/sdl2.pc
-
+libsdl2/include/SDL_revision.h

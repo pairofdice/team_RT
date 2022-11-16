@@ -41,6 +41,7 @@ void	test_ray_cylinder_transforms();
 void	test_ray_cone_transforms();
 void	test_world();
 void	test_precompute();
+void	test_scene();
 
 
 void screen_loop(t_main *main);
@@ -154,6 +155,9 @@ void tests(t_main *main, int draw_debug)
 	test_precompute();
 	printf("OK\n");
 	
+	printf("Testing precompute\n");
+	test_scene();
+	printf("OK\n");
 
  	if (draw_debug)
 	{
@@ -2586,4 +2590,10 @@ void	test_precompute()
 // When comps ← prepare_computations(i, r) 
 // And c ← shade_hit(w, comps)
 // Then c = color(0.38066, 0.47583, 0.2855)
+}
+
+
+void	test_scene()
+{
+
 }

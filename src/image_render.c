@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 14:33:04 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/16 19:15:56 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,11 @@ int	ray_shooter(t_ray *ray, t_main *main)
 		
 		// add_hit_color(main, &main->ray);
 		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc);
-		main->ray.hit.color = tuple_add(main->ray.hit.color,lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal) );
+		main->ray.hit.color = tuple_add(main->ray.hit.color,
+								lighting(main->obj[ray->hit.clo_obj_id].material, 
+									main->light, ray->hit.hit_loc, 
+									tuple_neg(ray->dir), 
+										ray->hit.normal) );
 		//main->ray.hit.color = lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal);
 		return (1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 15:01:26 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/16 19:23:13 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void				img_pixel_put(
 int					scene_new(t_scene *scene);
 int					default_scene(t_scene *scene);
 t_intersections		scene_intersect(t_scene *scene, t_ray *ray);
+t_color				shade_hit(t_scene *scene, t_hit_record *hit);
 
 
 
