@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 17:54:45 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/16 19:08:48 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 enum
 {
+	FALSE,
+	TRUE,
 	SPHERE,
 	CYLINDER,
 	PLANE,

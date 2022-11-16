@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 21:09:26 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/16 19:22:33 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,19 @@
 # include "patterns.h"
 # include <stdio.h>
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 500
+# define WIN_H 350
 # define A_A_DIV 6
 # define EPSILON 0.00006103515625
 
+enum
+{
+	NORMAL,
+	BLACK_AND_WHITE,
+	CARTOON,
+	B_W_CARTOON,
+	EDGE,
+};
 
 typedef struct s_frame_buffer
 {
