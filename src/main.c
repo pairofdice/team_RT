@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/16 20:35:47 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/16 21:50:00 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	main(void)
 	main.obj[0].material.pattern.pattern_perlin = FALSE;
 
 	main.obj[1] = object_new(PLANE);
-	main.obj[1].transform = matrix_translate(0.0, 0.0, 10.0);
+	main.obj[1].transform = matrix_translate(0.0, 0.0, 9.9999);
 											x_r = -M_PI_2;
 											y_r = 0.0;
 											z_r = 0.0;
