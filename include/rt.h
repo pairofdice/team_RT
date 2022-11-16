@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 15:01:26 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/16 19:22:33 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,22 @@
 # include "object.h"
 # include "multi_thread.h"
 # include "perlin_noice.h"
+# include "patterns.h"
 # include <stdio.h>
 
 # define WIN_W 500
 # define WIN_H 350
-# define A_A_DIV 2
+# define A_A_DIV 6
 # define EPSILON 0.00006103515625
 
+enum
+{
+	NORMAL,
+	BLACK_AND_WHITE,
+	CARTOON,
+	B_W_CARTOON,
+	EDGE,
+};
 
 typedef struct s_frame_buffer
 {
@@ -88,6 +97,7 @@ typedef struct s_main
 	t_ray			ray;
 	t_ray			shadow;
 	t_light			light;
+	t_perlin		perlin;
 	t_object		obj[500];
 	int				obj_count;
 	int				shape_count;
@@ -160,5 +170,6 @@ int					default_scene(t_scene *scene);
 t_intersections		scene_intersect(t_scene *scene, t_ray *ray);
 
 
+void	pattern_at(t_object *obj,t_point hit_loc, t_color *hit_color, t_perlin *perlin);
 
 #endif

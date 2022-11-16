@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:08:01 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/15 15:33:05 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:39:00 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_vector	normal_at(t_object *obj, t_point point)
 		obj_normal = tuple_sub(obj_point,  point_new(0, 0, 0));
  	if (obj->type == CYLINDER)
 	{
-	/* 	point.s_xyzw.y = 0 */
 		obj_normal = obj_point;
 		obj_normal.s_xyzw.y = 0; 
 	}
