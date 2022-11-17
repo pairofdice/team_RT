@@ -6,7 +6,7 @@
 #    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/14 19:21:50 by jsaarine         ###   ########.fr        #
+#    Updated: 2022/11/16 20:05:17 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,6 +99,7 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								scene_intersect.c\
 								precompute.c\
 								shade_hit.c\
+								color_at.c\
 								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))

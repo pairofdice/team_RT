@@ -12,16 +12,15 @@
 
   i = 0;
   result = color_new(0,0,0);
+
+    printf("IN 😎 9\n");
   while (i < scene->lights.len)
   {
     light = *(t_light *)vec_get(&scene->lights, i);
-    temp = lighting(hit->object->material, light, hit->hit_loc, hit->to_eye, hit->normal);
+    temp = lighting(&hit->object->material, light, hit->hit_loc, hit->to_eye, hit->normal);
     result = tuple_add(result, temp);
 	i++;
   }
-
-
-
   return (result);
 }
 

@@ -155,7 +155,7 @@ void tests(t_main *main, int draw_debug)
 	test_precompute();
 	printf("OK\n");
 	
-	printf("Testing precompute\n");
+	printf("Testing 🌎2: ELECTRIC BOOGALOO\n");
 	test_scene();
 	printf("OK\n");
 
@@ -2088,7 +2088,7 @@ t_color multi_color_sphere(t_material *material, t_light light, t_point point, t
 	material->color.s_rgb.g = 0.2 +  vector_dot(normal, tuple_unit(vector_new(1,-1,-1.5))) ;
 	// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
 	material->color.s_rgb.b = 0.2 +  ( vector_dot(normal, tuple_unit(vector_new(1,1,-1.5)))) ; 
-	return(lighting(*material, light, point, to_eye, normal));
+	return(lighting(material, light, point, to_eye, normal));
 
 }
 
@@ -2399,7 +2399,7 @@ void	test_shading()
 	t_vector normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
 	// tuple_print(light.pos);
-	result = lighting(m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal);
 	tuple_print(result);
 	// printf("6\n");
 	assert(tuples_equal(result, color_new(1.9, 1.9, 1.9)));
@@ -2410,7 +2410,7 @@ void	test_shading()
 	to_eye = vector_new(0, sqrt(2)/2, -sqrt(2)/2);
 	normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
-	result = lighting(m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal);
 	assert(tuples_equal(result, color_new(1.0, 1.0, 1.0)));
 	// printf("8\n");
 
@@ -2420,7 +2420,7 @@ void	test_shading()
 	to_eye = vector_new(0,0, -1);
 	normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 10, -10), color_new(1, 1, 1));
-	result = lighting(m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal);
 	assert(tuples_equal(result, color_new(0.7364, 0.7364, 0.7364)));
 
 
@@ -2430,7 +2430,7 @@ void	test_shading()
 	to_eye = vector_new(0, -sqrt(2)/2, -sqrt(2)/2);
 	normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 10, -10), color_new(1, 1, 1));
-	result = lighting(m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal);
 	assert(tuples_equal(result, color_new(1.6364, 1.6364, 1.6364)));
 
 	// Lighting with eye opposite surface, light offset 45°
@@ -2440,21 +2440,12 @@ void	test_shading()
 	normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
 	light = point_light_new(point_new(0, 0, 10), color_new(1, 1, 1));
-	result = lighting(m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal);
 	tuple_print(result);
 	assert(tuples_equal(result, color_new(0.1, 0.1, 0.1)));
 
 }
 
-int	intersection_compare(const void *d1, const void *d2)
-{
-	t_intersection left = *(const t_intersection *) d1;
-	t_intersection right = *(const t_intersection *) d2;
-
-	if (nearly_equal(left.t, right.t))
-		return (0);
-	return ((left.t > right.t) - (left.t < right.t));	
-}
 
 static int	int_compare(const void *p1, const void *p2)
 {
@@ -2550,7 +2541,7 @@ void	test_precompute()
 	t_ray ray = ray_new(point_new(0, 0, -5), vector_new(0, 0, 1));
 	t_object shape = object_new(SPHERE);
 	t_intersection intersection = intersection_new(4, &shape);
-		t_hit_record computations = precompute(&intersection, &ray);
+		t_hit_record computations = precompute(intersection, &ray);
 	assert(computations.object->id == shape.id);
 	assert(tuples_equal(computations.hit_loc, point_new(0,0,-1)));
 	assert(tuples_equal(computations.to_eye, vector_new(0,0,-1)));
@@ -2562,7 +2553,7 @@ void	test_precompute()
 	ray = ray_new(point_new(0, 0, 0), vector_new(0, 0, 1));
 	shape = object_new(SPHERE);
 	intersection = intersection_new(1, &shape);
-	computations = precompute(&intersection, &ray);
+	computations = precompute(intersection, &ray);
 	assert(computations.object->id == shape.id);
 	assert(tuples_equal(computations.hit_loc, point_new(0,0,1)));
 	assert(tuples_equal(computations.to_eye, vector_new(0,0,-1)));
@@ -2577,7 +2568,7 @@ void	test_precompute()
 	if (scene.objects.len > 0)
 		shape = *(t_object *) vec_get(&scene.objects, 0);
 	intersection = intersection_new(4, &shape);
-	computations = precompute(&intersection, &ray);
+	computations = precompute(intersection, &ray);
 	t_color color = shade_hit(&scene, &computations);
 	tuple_print(color);
 	assert(tuples_equal(color, color_new(0.38066, 0.47583, 0.2855)));
@@ -2595,5 +2586,26 @@ void	test_precompute()
 
 void	test_scene()
 {
+ 	t_scene scene;
+	default_scene(&scene);
+	t_ray ray = ray_new(point_new(0,0,-5), vector_new(0, 1, 0));
+	t_color color = color_at(&scene, &ray);
+	assert(tuples_equal(color, color_new(0,0,0)));
 
+
+	// t_scene scene;
+
+	t_scene scene2;
+	default_scene(&scene2);
+	 ray = ray_new(point_new(0,0,-5), vector_new(0, 0, 1));
+	printf("IN TEST SCENE 7\n");
+	 color = color_at(&scene2, &ray);
+	printf("IN TEST SCENE 8\n");
+	t_object pallo1 = *(t_object *) vec_get(&scene.objects, 0);
+	t_object pallo2 = *(t_object *) vec_get(&scene.objects, 1);
+	printf("%zu %s\n", pallo1.id, pallo1.debug);
+	printf("%zu %s\n", pallo2.id, pallo2.debug);
+	tuple_print(color);
+	assert(tuples_equal(color, color_new(0.38066, 0.47583, 0.2855)));
+	printf("IN TEST SCENE 9\n");
 }

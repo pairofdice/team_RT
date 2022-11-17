@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 14:12:38 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/13 17:25:13 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/16 20:21:44 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // light source
 // the eye 
 // normal_v vector from the Phong reflection model
-t_color	lighting(t_material mat, t_light light, t_point point, t_vector to_eye, t_vector normal_v)
+t_color	lighting(t_material *mat, t_light light, t_point point, t_vector to_eye, t_vector normal_v)
 {
 	t_color		result;
 	t_color		effective_color;
@@ -36,12 +36,12 @@ t_color	lighting(t_material mat, t_light light, t_point point, t_vector to_eye, 
 	result = color_new(0,0,0);
 	result.s_xyzw.w = 1;
 	// # combine the surface color with the light's color/intensity
-	effective_color = color_multiply(mat.color, light.intensity);
+	effective_color = color_multiply(mat->color, light.intensity);
 
 	// find the direction to the light source
 	to_light_v = tuple_unit(tuple_sub(light.location, point)); 
 
-	ambient = tuple_scalar_mult(effective_color, mat.ambient);
+	ambient = tuple_scalar_mult(effective_color, mat->ambient);
 
 	// light_dot_normal_v represents the cosine of the angle between the 
 	// light vector and the normal_v vector. A negative number means the 
@@ -56,7 +56,7 @@ t_color	lighting(t_material mat, t_light light, t_point point, t_vector to_eye, 
 	else
 	{
 		// compute the diffuse contribution
-		diffuse = tuple_scalar_mult(effective_color, mat.diffuse * light_dot_normal);
+		diffuse = tuple_scalar_mult(effective_color, mat->diffuse * light_dot_normal);
 
 		// reflect_dot_eye represents the cosine of the angle between the
 		// reflection vector and the eye vector. A negative number means the 
@@ -69,8 +69,8 @@ t_color	lighting(t_material mat, t_light light, t_point point, t_vector to_eye, 
 		{
 			// compute the specular contribution
 
-			factor = pow(reflection_dot_eye, mat.shininess);
-			specular = tuple_scalar_mult(light.intensity, mat.specular * factor);
+			factor = pow(reflection_dot_eye, mat->shininess);
+			specular = tuple_scalar_mult(light.intensity, mat->specular * factor);
 		}
 	}
 	result = tuple_add(diffuse, specular);

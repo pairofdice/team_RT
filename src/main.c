@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 15:38:31 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/17 18:24:21 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	main(void)
 	cam_scale = matrix_scale(1,1,1);
 	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
 	
-
 	main.light = point_light_new(point_new(0.0, 2.5, -2.0), color_new(1,1,1));
 	// main.light.pos = point_new(10, 0, 0);
 	
@@ -118,7 +117,7 @@ int	main(void)
 
 	main.obj[1] = object_new(PLANE);
 	main.obj[1].transform = matrix_translate(0.0, 0.0, 10.0);
-											x_r = M_PI_2;
+											x_r = -M_PI_2;
 											y_r = 0.0;
 											z_r = 0.0;
 
@@ -188,7 +187,7 @@ int	main(void)
 
 	main.obj_count = 5;
 
-	int draw_debug = 0;
+	int draw_debug = 1;
 
 	if (!draw_debug)
 	{

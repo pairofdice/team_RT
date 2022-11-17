@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/14 20:11:34 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/17 19:38:37 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_object
 	t_matrix		transform;
 	t_tuple			color;
 	t_material		material;
+	char 			*debug;
 }					t_object;
 
 typedef struct s_abc
@@ -143,7 +144,7 @@ t_intersection	find_closest_intersection(t_intersections *xs);
 void				set_transform(t_object *obj, t_matrix *transform);
 t_vector			normal_at(t_object *obj, t_point point);
 t_material			material_new();
-t_hit_record		precompute(t_intersection *intersection, t_ray *ray);
+t_hit_record		precompute(t_intersection intersection, t_ray *ray);
 
 
 #endif
