@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/17 21:35:17 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:10:32 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void				img_pixel_put(
 
 int					scene_new(t_scene *scene);
 int					default_scene(t_scene *scene);
-void			scene_intersect(t_scene *scene, t_ray *ray, t_intersections *is);
+void				scene_intersect(t_scene *scene, t_ray *ray);
 t_color				shade_hit(t_scene *scene, t_hit_record *hit);
 t_color				color_at(t_scene *scene, t_ray *ray);
 int					intersection_compare(const void *d1, const void *d2);

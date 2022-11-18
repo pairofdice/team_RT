@@ -2498,15 +2498,15 @@ void 	test_world()
 
 	//Intersect a world with a ray
 	t_ray ray = ray_new(point_new(0, 0, -5), vector_new(0, 0, 1));
-	t_intersections intersections = scene_intersect(&scene, &ray);
+	scene_intersect(&scene, &ray);
 	t_intersection is;
 	size_t i = 0;
 
-	printf("- Intersection count: %zu\n", intersections.vec.len);
-	printf("- Scene intersections alloc size: %zu\n", intersections.vec.alloc_size / sizeof(t_intersection));
+	printf("- Intersection count: %zu\n", ray.xs.vec.len);
+	printf("- Scene intersections alloc size: %zu\n", ray.xs.vec.alloc_size / sizeof(t_intersection));
 	printf("- Scene intersections : ");
 
-	int ret = mergesort(intersections.vec.memory, intersections.vec.len, intersections.vec.elem_size, intersection_compare);
+	int ret = mergesort(ray.xs.vec.memory, ray.xs.vec.len, ray.xs.vec.elem_size, intersection_compare);
 /* 	is = *(t_intersection *) vec_get(&intersections.vec, 0);
 	assert(nearly_equal(is.t, 4.0));
 	is = *(t_intersection *) vec_get(&intersections.vec, 1);
@@ -2517,9 +2517,9 @@ void 	test_world()
 	assert(nearly_equal(is.t, 6)); */
 
 	printf("- merge ret %d:\n", ret);
-	while (i < intersections.vec.len)
+	while (i < ray.xs.vec.len)
 	{
-		is = *(t_intersection *) vec_get(&intersections.vec, i);
+		is = *(t_intersection *) vec_get(&ray.xs.vec, i);
 		printf("%4.2f,  ", is.t);
 		i++;
 	}
@@ -2597,9 +2597,9 @@ void	test_scene()
 
 	t_scene scene2;
 	default_scene(&scene2);
-	 ray = ray_new(point_new(0,0,-5), vector_new(0, 0, 1));
+	ray = ray_new(point_new(0,0,-5), vector_new(0, 0, 1));
 	printf("IN TEST SCENE 7\n");
-	 color = color_at(&scene2, &ray);
+	color = color_at(&scene2, &ray);
 	printf("IN TEST SCENE 8\n");
 	t_object pallo1 = *(t_object *) vec_get(&scene.objects, 0);
 	t_object pallo2 = *(t_object *) vec_get(&scene.objects, 1);
