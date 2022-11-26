@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/18 15:10:32 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/26 19:28:45 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 42
-# define WIN_H 42
+# define WIN_W 333
+# define WIN_H 333
 # define A_A_DIV 1
 # define EPSILON 0.00006103515625
 

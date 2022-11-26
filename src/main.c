@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/26 18:59:34 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/26 20:02:12 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,18 @@ int	main(void)
 	t_object	obj;
 
 	scene_new(&scene);
+	/* default_scene(&scene); */
 
-	light = point_light_new(point_new(0, 3, 0), color_new(1, 1,0 ));
+	light = point_light_new(point_new(0, 3, 0), color_new(1, 1,1 ));
 	vec_push(&scene.lights, &light);
-	light = point_light_new(point_new(-2, 3, 0), color_new(1, 0, 1));
+	light = point_light_new(point_new(-2, 3, 0), color_new(1, 1, 1));
 	vec_push(&scene.lights, &light);
-	light = point_light_new(point_new(2, 3, 0), color_new(0, 1, 1));
+	light = point_light_new(point_new(2, 3, 0), color_new(1, 1, 1));
 	vec_push(&scene.lights, &light);
 	obj = object_new(SPHERE);
 	vec_push(&scene.objects, &obj);
+
+	main.scene = scene;
 
 	t_matrix	cam_transform;
 	

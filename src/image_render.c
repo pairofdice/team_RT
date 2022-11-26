@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/16 20:03:59 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/26 20:02:32 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,18 @@
  */
 int	fill_hit_record(t_ray *ray)
 {
-	t_intersection closest_t;
+	/* t_intersection closest_t;
 
 	closest_t = find_closest_intersection(&ray->xs);
 	if (!closest_t.t)
 		return (1);
 	ray->hit.hit_dist = closest_t.t;
 	ray->hit.clo_obj_id = (int)closest_t.i;
-	ray->hit.hit_loc = ray_position(*ray, ray->hit.hit_dist);
+	ray->hit.hit_loc = ray_position(*ray, ray->hit.hit_dist); UNCOMMENT THIS*/
+	if (ray->xs.vec.len == 0)
+	{
+		
+	}
 
 	//if (main->obj[clo_shape].type == SPHERE)
 	//	main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
@@ -51,41 +55,47 @@ int	fill_hit_record(t_ray *ray)
 	return (0);
 }
 
+/* int	ray_shooter(t_ray *ray, t_main *main) */
+/* { */
+/* 	int		count; */
+/* 	int		hit; */
+
+/* 	count = 0; */
+/* 	hit = 0; */
+/* 	while (count < main->obj_count) */
+/* 	{ */
+/* 		if (get_shape_intersections(ray, &main->obj[count]) == 1) */
+/* 			hit++; */
+/* 		count++; */
+/* 	} */
+/* 	//printf ("hit count per pixel %d\n", hit); */
+/* 	if (hit > 0) */
+/* 	{ */
+/* 		if (fill_hit_record(ray) == 1) */
+/* 			return (0); */
+/* 		//if (check_shadow(main, ray) == 1) */
+/* 		//	return (0); */
+		
+/* 		// add_hit_color(main, &main->ray); */
+/* 		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc); */
+/* 		main->ray.hit.color = tuple_add(main->ray.hit.color, */
+/* 								lighting(&main->obj[ray->hit.clo_obj_id].material, */ 
+/* 									main->light, ray->hit.hit_loc, */ 
+/* 									tuple_neg(ray->dir), */ 
+/* 										ray->hit.normal) ); */
+/* 		//main->ray.hit.color = lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal); */
+/* 		return (1); */
+/* 	} */
+/* 	return (0); */
+/* } */
 int	ray_shooter(t_ray *ray, t_main *main)
 {
-	int		count;
-	int		hit;
+	main->ray.hit.color = color_at(&main->scene, ray);
+	return (1);
 
-	count = 0;
-	hit = 0;
-	while (count < main->obj_count)
-	{
-		if (get_shape_intersections(ray, &main->obj[count]) == 1)
-			hit++;
-		count++;
-	}
-	//printf ("hit count per pixel %d\n", hit);
-	if (hit > 0)
-	{
-		if (fill_hit_record(ray) == 1)
-			return (0);
-		//if (check_shadow(main, ray) == 1)
-		//	return (0);
-		
-		// add_hit_color(main, &main->ray);
-		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc);
-		main->ray.hit.color = tuple_add(main->ray.hit.color,
-								lighting(&main->obj[ray->hit.clo_obj_id].material, 
-									main->light, ray->hit.hit_loc, 
-									tuple_neg(ray->dir), 
-										ray->hit.normal) );
-		//main->ray.hit.color = lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal);
-		return (1);
-	}
-	return (0);
 }
 
-int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
+t_color	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 {
 	double	x;
 	double	y;
@@ -103,14 +113,14 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 		{
 			x = ((float)pixel_x + (offset / 2) + (offset * i));
 			initialize_ray(&main->ray, x, y, &main->cam);
-			ray_shooter(&main->ray, main);
+			/* ray_shooter(&main->ray, main); */
 			vec_free(&main->ray.xs.vec);
 			i++;
 		}
 		j++;
 	}
 	fix_aliasing_color(main, (ant_al * ant_al));
-	return (color_to_int(main->ray.hit.color));
+	return (color_at(&main->scene, &main->ray));
 }
 
 void	render_image(t_main	*main, int task, int ant_al)
@@ -118,7 +128,8 @@ void	render_image(t_main	*main, int task, int ant_al)
 	t_main	copy;
 	int		y;
 	int		x;
-	int		color;
+	/* int		color; */
+	t_color color;
 
 	y = task;
 	copy = *main;
@@ -137,7 +148,7 @@ void	render_image(t_main	*main, int task, int ant_al)
 			if (x == WIN_W)
 				break ;
 			color = anti_aliasing(&copy, x, y, ant_al);
-			main->sdl.frame_buffer.data[((y * WIN_W) + x++)] = color;
+			main->sdl.frame_buffer.data[((y * WIN_W) + x++)] =color_to_int(color);
 		}
 		y += NUM_TASKS;
 	}
