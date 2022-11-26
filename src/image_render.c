@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/16 20:26:36 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/17 15:22:11 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 	return (ret);
 }
  */
-int	fill_hit_record(t_ray *ray)
+int	fill_hit_record(t_ray *ray, t_object *obj)
 {
 	t_intersection closest_t;
 
@@ -39,7 +39,7 @@ int	fill_hit_record(t_ray *ray)
 	ray->hit.hit_dist = closest_t.t;
 	ray->hit.clo_obj_id = (int)closest_t.i;
 	ray->hit.hit_loc = ray_position(*ray, ray->hit.hit_dist);
-
+	ray->hit.object = obj;
 	//if (main->obj[clo_shape].type == SPHERE)
 	//	main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
 	//else if (main->obj[clo_shape].type == CYLINDER)
@@ -68,7 +68,7 @@ int	ray_shooter(t_ray *ray, t_main *main)
 	//printf ("hit count per pixel %d\n", hit);
 	if (hit > 0)
 	{
-		if (fill_hit_record(ray) == 1)
+		if (fill_hit_record(ray, &main->obj[ray->hit.clo_obj_id]) == 1)
 			return (0);
 		//if (check_shadow(main, ray) == 1)
 		//	return (0);
@@ -79,7 +79,7 @@ int	ray_shooter(t_ray *ray, t_main *main)
 							main->light, ray->hit.hit_loc, tuple_neg(ray->dir),
 							ray->hit.normal);
 		if (main->obj[ray->hit.clo_obj_id].material.pattern.pattern_id != NONE)
-			pattern_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc, &hit_color, &main->perlin);
+			pattern_at(ray->hit, ray->hit.hit_loc, &hit_color, &main->perlin);
 		main->ray.hit.color = tuple_add(main->ray.hit.color, hit_color);
 		//main->ray.hit.color = lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal);
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 21:00:20 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/21 15:29:28 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ static int	initialize_buffers(t_frame_buffer *fb)
 	fb->b_w = (int *)malloc(sizeof(int) * fb->data_len);
 	fb->b_w_cartoon = (int *)malloc(sizeof(int) * fb->data_len);
 	fb->edge_map = (int *)malloc(sizeof(int) * fb->data_len);
+	fb->sepia = (int *)malloc(sizeof(int) * fb->data_len);
+	fb->stereocopy = (int *)malloc(sizeof(int) * fb->data_len);
 	fb->mask = (char *)malloc(sizeof(char) * fb->data_len);
 	if (fb->data == NULL || fb->cartoon == NULL || fb->b_w == NULL
 		||fb->b_w_cartoon == NULL || fb->edge_map == NULL
-		|| fb->mask == NULL)
+		|| fb->stereocopy == NULL || fb->mask == NULL)
 		return (0);
 	return (1);
 }
@@ -62,7 +64,7 @@ void	initialize_camera(t_cam *cam, t_matrix transform)
 			tuple_scalar_mult(cam->u, (cam->plane_w / 2.0)));
 	cam->l = tuple_sub(cam->l,
 			tuple_scalar_mult(cam->v, cam->plane_h / 2.0));
-	cam->transform = transform;
+	cam->transform = coi_transform(cam, transform);
 }
 
 void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam)
