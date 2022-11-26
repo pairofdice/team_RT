@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/17 18:24:21 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/26 18:59:34 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,23 @@ void	tests(t_main *main, int draw_debug); // unit tests
 int	main(void)
 {
 	t_main		main;
+	t_scene		scene;
+	t_light		light;
+	t_object	obj;
+
+	scene_new(&scene);
+
+	light = point_light_new(point_new(0, 3, 0), color_new(1, 1,0 ));
+	vec_push(&scene.lights, &light);
+	light = point_light_new(point_new(-2, 3, 0), color_new(1, 0, 1));
+	vec_push(&scene.lights, &light);
+	light = point_light_new(point_new(2, 3, 0), color_new(0, 1, 1));
+	vec_push(&scene.lights, &light);
+	obj = object_new(SPHERE);
+	vec_push(&scene.objects, &obj);
+
 	t_matrix	cam_transform;
+	
 	t_matrix	rotate;
 	t_matrix	cam_scale;
 
@@ -97,97 +113,97 @@ int	main(void)
 	cam_scale = matrix_scale(1,1,1);
 	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
 	
-	main.light = point_light_new(point_new(0.0, 2.5, -2.0), color_new(1,1,1));
-	// main.light.pos = point_new(10, 0, 0);
+	/* main.light = point_light_new(point_new(0.0, 2.5, -2.0), color_new(1,1,1)); */
+	/* // main.light.pos = point_new(10, 0, 0); */
 	
-	main.obj[0] = object_new(PLANE);
-	main.obj[0].transform = matrix_translate(0.0, 0.0, 10.0);
-											x_r = 0.0;
-											y_r = 0.0;
-											z_r = 0.0;
+	/* main.obj[0] = object_new(PLANE); */
+	/* main.obj[0].transform = matrix_translate(0.0, 0.0, 10.0); */
+	/* 										x_r = 0.0; */
+	/* 										y_r = 0.0; */
+	/* 										z_r = 0.0; */
 
-	rotate = matrix_rotate_x(x_r);
-	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
-	rotate = matrix_rotate_y(y_r);
-	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
-	rotate = matrix_rotate_z(z_r);
-	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
-	main.obj[0].material.color = color_new(0,1,1);
-
-
-	main.obj[1] = object_new(PLANE);
-	main.obj[1].transform = matrix_translate(0.0, 0.0, 10.0);
-											x_r = -M_PI_2;
-											y_r = 0.0;
-											z_r = 0.0;
-
-	rotate = matrix_rotate_x(x_r);
-	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
-	rotate = matrix_rotate_y(y_r);
-	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
-	rotate = matrix_rotate_z(z_r);
-	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
-	main.obj[1].material.color = color_new(0,1,0);
+	/* rotate = matrix_rotate_x(x_r); */
+	/* main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate); */
+	/* rotate = matrix_rotate_y(y_r); */
+	/* main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate); */
+	/* rotate = matrix_rotate_z(z_r); */
+	/* main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate); */
+	/* main.obj[0].material.color = color_new(0,1,1); */
 
 
+	/* main.obj[1] = object_new(PLANE); */
+	/* main.obj[1].transform = matrix_translate(0.0, 0.0, 10.0); */
+	/* 										x_r = -M_PI_2; */
+	/* 										y_r = 0.0; */
+	/* 										z_r = 0.0; */
 
-
-	main.obj[2] = object_new(SPHERE);
-	main.obj[2].transform = matrix_translate(0.0, 0.0, 2.0);
-											x_r = 0.0;
-											y_r = 0.0;
-											z_r = 0.0;
-
-	rotate = matrix_rotate_x(x_r);
-	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
-	rotate = matrix_rotate_y(y_r);
-	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
-	rotate = matrix_rotate_z(z_r);
-	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
-	// main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &scale_BIGG);
-	main.obj[2].material.color = color_new(1,0,0);
+	/* rotate = matrix_rotate_x(x_r); */
+	/* main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate); */
+	/* rotate = matrix_rotate_y(y_r); */
+	/* main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate); */
+	/* rotate = matrix_rotate_z(z_r); */
+	/* main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate); */
+	/* main.obj[1].material.color = color_new(0,1,0); */
 
 
 
 
-	main.obj[3] = object_new(CONE);
-	main.obj[3].transform = matrix_translate(3.0, 2.0, 5.0);
-											x_r = 0.0;
-											y_r = 0.0;
-											z_r = 0.0;
+	/* main.obj[2] = object_new(SPHERE); */
+	/* main.obj[2].transform = matrix_translate(0.0, 0.0, 2.0); */
+	/* 										x_r = 0.0; */
+	/* 										y_r = 0.0; */
+	/* 										z_r = 0.0; */
 
-	rotate = matrix_rotate_x(x_r);
-	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate);
-	rotate = matrix_rotate_y(y_r);
-	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate);
-	rotate = matrix_rotate_z(z_r);
-	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate);
-	cam_scale = matrix_scale(0.5,1,1);
-	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &cam_scale);
-	main.obj[3].material.color = color_new(1, 0.5,0);
-
-
-	main.obj[4] = object_new(CYLINDER);
-	main.obj[4].transform = matrix_translate(-3.0, -2.0, 5.0);
-											x_r = 0.0;
-											y_r = 0.0;
-											z_r = 0.0;
-
-	rotate = matrix_rotate_x(x_r);
-	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate);
-	rotate = matrix_rotate_y(y_r);
-	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate);
-	rotate = matrix_rotate_z(z_r);
-	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate);
-	cam_scale = matrix_scale(0.5,1,1);
-	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &cam_scale);
-	main.obj[4].material.color = color_new(1, 0.5,0);
+	/* rotate = matrix_rotate_x(x_r); */
+	/* main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate); */
+	/* rotate = matrix_rotate_y(y_r); */
+	/* main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate); */
+	/* rotate = matrix_rotate_z(z_r); */
+	/* main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate); */
+	/* // main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &scale_BIGG); */
+	/* main.obj[2].material.color = color_new(1,0,0); */
 
 
 
-	main.obj_count = 5;
 
-	int draw_debug = 1;
+	/* main.obj[3] = object_new(CONE); */
+	/* main.obj[3].transform = matrix_translate(3.0, 2.0, 5.0); */
+	/* 										x_r = 0.0; */
+	/* 										y_r = 0.0; */
+	/* 										z_r = 0.0; */
+
+	/* rotate = matrix_rotate_x(x_r); */
+	/* main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate); */
+	/* rotate = matrix_rotate_y(y_r); */
+	/* main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate); */
+	/* rotate = matrix_rotate_z(z_r); */
+	/* main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate); */
+	/* cam_scale = matrix_scale(0.5,1,1); */
+	/* main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &cam_scale); */
+	/* main.obj[3].material.color = color_new(1, 0.5,0); */
+
+
+	/* main.obj[4] = object_new(CYLINDER); */
+	/* main.obj[4].transform = matrix_translate(-3.0, -2.0, 5.0); */
+	/* 										x_r = 0.0; */
+	/* 										y_r = 0.0; */
+	/* 										z_r = 0.0; */
+
+	/* rotate = matrix_rotate_x(x_r); */
+	/* main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate); */
+	/* rotate = matrix_rotate_y(y_r); */
+	/* main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate); */
+	/* rotate = matrix_rotate_z(z_r); */
+	/* main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate); */
+	/* cam_scale = matrix_scale(0.5,1,1); */
+	/* main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &cam_scale); */
+	/* main.obj[4].material.color = color_new(1, 0.5,0); */
+
+
+
+	/* main.obj_count = 5; */
+
+	int draw_debug = 0;
 
 	if (!draw_debug)
 	{

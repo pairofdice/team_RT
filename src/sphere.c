@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:41:16 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/18 17:09:11 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/26 16:54:00 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	intersect_sphere(t_ray *inc_ray, t_object *s)
 	t_matrix		inverse_transform;
 	t_ray			ray;
 
-	printf("IN 🏀 1\n");
+	// printf("IN 🏀 1\n");
 
 	ray = ray_new_no_malloc(inc_ray->orig, inc_ray->dir);
 	inverse_transform = matrix_inverse(&s->transform);
@@ -35,10 +35,10 @@ int	intersect_sphere(t_ray *inc_ray, t_object *s)
 	abcd.b = 2 * vector_dot(ray.dir, sphere_to_ray);
 	abcd.c = vector_dot(sphere_to_ray, sphere_to_ray) - 1;
 	abcd.d = calc_discriminant(abcd.a, abcd.b, abcd.c);
-	printf("IN 🏀🏀 2\n");
+	// printf("IN 🏀🏀 2\n");
 	if (abcd.d < 0)
 		return (0);
-	printf("IN 🏀🏀🏀 3\n");
+	// printf("IN 🏀🏀🏀 3\n");
 	t1 = (-(abcd.b) - sqrt(abcd.d)) / (2 * abcd.a);
 	t2 = (-(abcd.b) + sqrt(abcd.d)) / (2 * abcd.a);
 	//printf("%f %f\n", t1, t2);
@@ -46,6 +46,6 @@ int	intersect_sphere(t_ray *inc_ray, t_object *s)
 	// printf("o xs: %f %f\n", t1, t2);
 	intersection_record(inc_ray, t1, s);
 	intersection_record(inc_ray, t2, s);
-	printf("IN i🏀🏀🏀🏀 3\n");
+	// printf("IN i🏀🏀🏀🏀 3\n");
 	return (1);
 }

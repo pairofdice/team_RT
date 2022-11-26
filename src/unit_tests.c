@@ -2573,7 +2573,19 @@ void	test_precompute()
 	tuple_print(color);
 	assert(tuples_equal(color, color_new(0.38066, 0.47583, 0.2855)));
 
-
+	// Shading an intersection from the inside
+	t_light *light_p = (t_light *)vec_get(&scene.lights, 0);
+	light_p->intensity = color_new(1, 1, 1);
+	light_p->location = point_new(0, 0.25, 0);
+	ray = ray_new(point_new(0, 0, 0), vector_new(0, 0, 1));
+	shape = *(t_object *) vec_get(&scene.objects, 1);
+	printf("PRINTING LIGHT\n");
+	tuple_print((*(t_light *)vec_get(&scene.lights, 0)).intensity);;
+	intersection = intersection_new(0.5, &shape);
+	computations = precompute(intersection, &ray);
+	color = shade_hit(&scene, &computations);
+	printf("should be: 0.90498, 0.90498, 0.90498\n");
+	tuple_print(color);
 // Given w ← default_world()
 // And r ← ray(point(0, 0, -5), vector(0, 0, 1)) 
 // And shape ← the first object in w
@@ -2586,6 +2598,7 @@ void	test_precompute()
 
 void	test_scene()
 {
+	// The color when a ray misses
  	t_scene scene;
 	default_scene(&scene);
 	t_ray ray = ray_new(point_new(0,0,-5), vector_new(0, 1, 0));
@@ -2594,7 +2607,7 @@ void	test_scene()
 
 
 	// t_scene scene;
-
+	// The color when a ray hits
 	t_scene scene2;
 	default_scene(&scene2);
 	ray = ray_new(point_new(0,0,-5), vector_new(0, 0, 1));
@@ -2605,7 +2618,28 @@ void	test_scene()
 	t_object pallo2 = *(t_object *) vec_get(&scene.objects, 1);
 	printf("%zu %s\n", pallo1.id, pallo1.debug);
 	printf("%zu %s\n", pallo2.id, pallo2.debug);
+	printf("HELLO\n");
 	tuple_print(color);
 	assert(tuples_equal(color, color_new(0.38066, 0.47583, 0.2855)));
 	printf("IN TEST SCENE 9\n");
+
+	// The color with an intersection behind the ray
+	t_scene scene3;
+	default_scene(&scene3);
+	t_object *obj1 = (t_object *)vec_get(&scene3.objects, 0);
+	t_object *obj2 = (t_object *)vec_get(&scene3.objects, 1);
+	obj1->material.ambient = 0.5;
+	obj2->material.ambient = 1;
+	t_color inner_color = obj2->material.color;
+	t_color outer_color = obj1->material.color;
+	ray = ray_new(point_new(0,0,0.75), vector_new(0, 0, -1));
+	printf("inner color");
+	tuple_print(inner_color);
+	printf("outer color");
+	tuple_print(outer_color);
+	color =	color_at(&scene3, &ray);
+	printf("color_at color");
+	tuple_print(color);
+	assert(tuples_equal(inner_color, color));
+
 }
