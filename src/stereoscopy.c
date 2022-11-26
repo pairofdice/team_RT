@@ -6,20 +6,19 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 16:32:13 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/26 15:20:51 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/26 15:43:19 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-void create_red_blue_stereoscopy(t_frame_buffer *fb)
+void	create_red_blue_stereoscopy(t_frame_buffer *fb)
 {
 	int		i;
 	int		j;
 	int		color;
 	t_color	left_rgb;
 	t_color	right_rgb;
-	t_color	final_rgb;
 
 	j = 0;
 	while (j < WIN_H)
@@ -29,10 +28,10 @@ void create_red_blue_stereoscopy(t_frame_buffer *fb)
 		{
 			left_rgb = int_to_color(fb->stereocopy[(j * WIN_W) + i]);
 			right_rgb = int_to_color(fb->data[(j * WIN_W) + i]);
-			final_rgb.s_rgb.r = left_rgb.s_rgb.r / 255;
-			final_rgb.s_rgb.g = right_rgb.s_rgb.g / 255;
-			final_rgb.s_rgb.b = right_rgb.s_rgb.b / 255;
-			color = color_to_int(final_rgb);
+			right_rgb.s_rgb.r = left_rgb.s_rgb.r / 255;
+			right_rgb.s_rgb.g /= 255;
+			right_rgb.s_rgb.b /= 255;
+			color = color_to_int(right_rgb);
 			fb->stereocopy[(j * WIN_W) + i] = color;
 			i++;
 		}
@@ -40,10 +39,13 @@ void create_red_blue_stereoscopy(t_frame_buffer *fb)
 	}
 }
 
-void	create_stereoscope(t_main *main, t_matrix cam_scale, t_matrix cam_transform)
+void	create_stereoscope(t_main *main, t_matrix cam_scale,
+							t_matrix cam_transform)
 {
-	
-	main->sdl.frame_buffer.stereocopy = ft_memcpy((void *)main->sdl.frame_buffer.stereocopy, (void *)main->sdl.frame_buffer.data , main->sdl.frame_buffer.data_len * sizeof(int));
+	main->sdl.frame_buffer.stereocopy
+		= ft_memcpy((void *)main->sdl.frame_buffer.stereocopy,
+			(void *)main->sdl.frame_buffer.data,
+			main->sdl.frame_buffer.data_len * sizeof(int));
 	cam_scale = matrix_translate((-main->sdl.stereocopy * 1.5), 0, 0.0);
 	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
 	initialize_camera(&main->cam, cam_transform);
