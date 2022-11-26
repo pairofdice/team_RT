@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/16 21:50:00 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/26 20:41:04 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(void)
 		return (1);
 	
 	
-	cam_transform = matrix_translate(0.0, 2.5, -20.0);
+	cam_transform = matrix_translate(3.0, 2.5, -20.0);
 	double						x_r = 0.0;
 	double						y_r = 0.0;
 	double						z_r = 0.0;
@@ -100,12 +100,12 @@ int	main(void)
 	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
 	
 
-	main.light = point_light_new(point_new(0.0, 2.5, -20.0), color_new(1,1,1));
+	main.light = point_light_new(point_new(0.0, 10.0, -20.0), color_new(1,1,1));
 	// main.light.pos = point_new(10, 0, 0);
 	
-	main.obj[0] = object_new(PLANE);
-	main.obj[0].transform = matrix_translate(0.0, 0.0, 10.0);
-											x_r = 0.0;
+	main.obj[0] = object_new(CYLINDER);
+	main.obj[0].transform = matrix_translate(0.0, 0.0, 2.0);
+											x_r = M_PI_2;
 											y_r = 0.0;
 											z_r = 0.0;
 
@@ -115,9 +115,12 @@ int	main(void)
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
+	scale = matrix_scale(3,3,3);
+	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &scale);
 	main.obj[0].material.color = color_new(0,1,1);
-	main.obj[0].material.pattern.pattern_id = STRIPED;
+	main.obj[0].material.pattern.pattern_id = NONE;
 	main.obj[0].material.pattern.pattern_perlin = FALSE;
+	main.obj[0].negative = TRUE;
 
 	main.obj[1] = object_new(PLANE);
 	main.obj[1].transform = matrix_translate(0.0, 0.0, 9.9999);
@@ -132,7 +135,7 @@ int	main(void)
 	rotate = matrix_rotate_z(z_r);
 	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
 	main.obj[1].material.color = color_new(0,1,0);
-	main.obj[1].material.pattern.pattern_id = GRID;
+	main.obj[1].material.pattern.pattern_id = NONE;
 	main.obj[1].material.pattern.pattern_perlin = FALSE;
 
 
@@ -152,8 +155,8 @@ int	main(void)
 	scale = matrix_scale(5,5,5);
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &scale);
 	main.obj[2].material.color = color_new(1,0,0);
-	main.obj[2].material.pattern.pattern_id = GRID;
-	main.obj[2].material.pattern.pattern_perlin = TRUE;
+	main.obj[2].material.pattern.pattern_id = NONE;
+	main.obj[2].material.pattern.pattern_perlin = FALSE;
 
 
 
@@ -195,7 +198,7 @@ int	main(void)
 	main.obj[4].material.pattern.pattern_perlin = FALSE;
 
 
-	main.obj_count = 5;
+	main.obj_count = 3;
 
 	int draw_debug = 0;
 

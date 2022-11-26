@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/15 18:12:56 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/26 19:52:35 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,8 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								unit_tests.c\
 								pattern_at.c\
 								pattern_striped.c\
-								pattern_grid.c)
+								pattern_grid.c\
+								negative_shape.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 
@@ -115,7 +116,7 @@ LD = gcc
 LDFLAGS = $(libsdl2_ldflags) # -flto
 CC = gcc
 OPTFLAGS = -O3 -flto # PUT BACK IN
-CFLAGS = -g -c -Wall -Werror -Wextra $(addprefix -I, $(INCLUDE_DIR))\
+CFLAGS = -g -c -Wall -Werror -Wextra  $(addprefix -I, $(INCLUDE_DIR))\
 	$(libsdl2_cflags)
 CPPFLAGS = -D_REENTRANT
 
