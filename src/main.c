@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/16 21:50:00 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:54:34 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int	main(void)
 		return (1);
 	
 	
-	cam_transform = matrix_translate(0.0, 2.5, -20.0);
+	cam_transform = matrix_translate(20.0, 0.0, 0.0);
 	double						x_r = 0.0;
-	double						y_r = 0.0;
+	double						y_r = -M_PI_2;
 	double						z_r = 0.0;
 
 	rotate = matrix_rotate_x(x_r);
@@ -100,11 +100,11 @@ int	main(void)
 	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
 	
 
-	main.light = point_light_new(point_new(0.0, 2.5, -20.0), color_new(1,1,1));
+	main.light = point_light_new(point_new(0.0, 0.0, 0.0), color_new(1,1,1));
 	// main.light.pos = point_new(10, 0, 0);
 	
-	main.obj[0] = object_new(PLANE);
-	main.obj[0].transform = matrix_translate(0.0, 0.0, 10.0);
+	main.obj[0] = object_new(SPHERE);
+	main.obj[0].transform = matrix_translate(0.0, 0.0, 0.0);
 											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
@@ -115,13 +115,16 @@ int	main(void)
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
+	scale = matrix_scale(5,5,5);
+	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &scale);
 	main.obj[0].material.color = color_new(0,1,1);
-	main.obj[0].material.pattern.pattern_id = STRIPED;
-	main.obj[0].material.pattern.pattern_perlin = FALSE;
+	main.obj[0].material.pattern.pattern_id = GRID;
+	main.obj[0].material.pattern.pattern_perlin = TRUE;
+	main.obj[0].negative = FALSE;
 
-	main.obj[1] = object_new(PLANE);
-	main.obj[1].transform = matrix_translate(0.0, 0.0, 9.9999);
-											x_r = -M_PI_2;
+	main.obj[1] = object_new(SPHERE);
+	main.obj[1].transform = matrix_translate(-2.0, 0.0, 0.0);
+											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
 
@@ -131,14 +134,17 @@ int	main(void)
 	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
+	scale = matrix_scale(4,4,4);
+	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &scale);
 	main.obj[1].material.color = color_new(0,1,0);
-	main.obj[1].material.pattern.pattern_id = GRID;
+	main.obj[1].material.pattern.pattern_id = NONE;
 	main.obj[1].material.pattern.pattern_perlin = FALSE;
+	main.obj[1].negative = FALSE;
 
 
 
 	main.obj[2] = object_new(SPHERE);
-	main.obj[2].transform = matrix_translate(0.0, 0.0, 2.0);
+	main.obj[2].transform = matrix_translate(2.0, 0.0, 0.0);
 											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
@@ -149,17 +155,17 @@ int	main(void)
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
-	scale = matrix_scale(5,5,5);
+	scale = matrix_scale(4,4,4);
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &scale);
 	main.obj[2].material.color = color_new(1,0,0);
-	main.obj[2].material.pattern.pattern_id = GRID;
-	main.obj[2].material.pattern.pattern_perlin = TRUE;
+	main.obj[2].material.pattern.pattern_id = NONE;
+	main.obj[2].material.pattern.pattern_perlin = FALSE;
+	main.obj[2].negative = TRUE;
 
 
 
-
-	main.obj[3] = object_new(CONE);
-	main.obj[3].transform = matrix_translate(3.0, 2.0, 5.0);
+	main.obj[3] = object_new(SPHERE);
+	main.obj[3].transform = matrix_translate(0.0, -2.0, 0.0);
 											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
@@ -170,14 +176,15 @@ int	main(void)
 	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &rotate);
-	cam_scale = matrix_scale(0.5,1,1);
-	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &cam_scale);
-	main.obj[3].material.color = color_new(1, 0.5,0);
+	scale = matrix_scale(4,4,4);
+	main.obj[3].transform = matrix_multiply(&main.obj[3].transform, &scale);
+	main.obj[3].material.color = color_new(1,0,0);
 	main.obj[3].material.pattern.pattern_id = NONE;
 	main.obj[3].material.pattern.pattern_perlin = FALSE;
+	main.obj[3].negative = TRUE;
 
-	main.obj[4] = object_new(CYLINDER);
-	main.obj[4].transform = matrix_translate(-3.0, -2.0, 5.0);
+	main.obj[4] = object_new(SPHERE);
+	main.obj[4].transform = matrix_translate(0.0, 2.0, 0.0);
 											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
@@ -188,13 +195,51 @@ int	main(void)
 	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &rotate);
-	cam_scale = matrix_scale(1,1,1);
-	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &cam_scale);
-	main.obj[4].material.color = color_new(1, 0.5,0);
+	scale = matrix_scale(4,4,4);
+	main.obj[4].transform = matrix_multiply(&main.obj[4].transform, &scale);
+	main.obj[4].material.color = color_new(1,0,0);
 	main.obj[4].material.pattern.pattern_id = NONE;
 	main.obj[4].material.pattern.pattern_perlin = FALSE;
+	main.obj[4].negative = TRUE;
 
+	main.obj[5] = object_new(SPHERE);
+	main.obj[5].transform = matrix_translate(0.0, 0.0, -5.0);
+											x_r = 0.0;
+											y_r = 0.0;
+											z_r = 0.0;
 
+	rotate = matrix_rotate_x(x_r);
+	main.obj[5].transform = matrix_multiply(&main.obj[5].transform, &rotate);
+	rotate = matrix_rotate_y(y_r);
+	main.obj[5].transform = matrix_multiply(&main.obj[5].transform, &rotate);
+	rotate = matrix_rotate_z(z_r);
+	main.obj[5].transform = matrix_multiply(&main.obj[5].transform, &rotate);
+	scale = matrix_scale(5,5,5);
+	main.obj[5].transform = matrix_multiply(&main.obj[5].transform, &scale);
+	main.obj[5].material.color = color_new(1,0,0);
+	main.obj[5].material.pattern.pattern_id = NONE;
+	main.obj[5].material.pattern.pattern_perlin = FALSE;
+	main.obj[5].negative = TRUE;
+	
+	main.obj[6] = object_new(SPHERE);
+	main.obj[6].transform = matrix_translate(0.0, 0.0, -10.0);
+											x_r = 0.0;
+											y_r = 0.0;
+											z_r = 0.0;
+
+	rotate = matrix_rotate_x(x_r);
+	main.obj[6].transform = matrix_multiply(&main.obj[6].transform, &rotate);
+	rotate = matrix_rotate_y(y_r);
+	main.obj[6].transform = matrix_multiply(&main.obj[6].transform, &rotate);
+	rotate = matrix_rotate_z(z_r);
+	main.obj[6].transform = matrix_multiply(&main.obj[6].transform, &rotate);
+	scale = matrix_scale(5,5,5);
+	main.obj[6].transform = matrix_multiply(&main.obj[6].transform, &scale);
+	main.obj[6].material.color = color_new(1,0,0);
+	main.obj[6].material.pattern.pattern_id = NONE;
+	main.obj[6].material.pattern.pattern_perlin = FALSE;
+	main.obj[6].negative = TRUE;
+	
 	main.obj_count = 5;
 
 	int draw_debug = 0;

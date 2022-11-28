@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/16 20:26:36 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:41:25 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,26 @@
 	return (ret);
 }
  */
-int	fill_hit_record(t_ray *ray)
+int	fill_hit_record(t_main *main, t_ray *ray)
 {
-	t_intersection closest_t;
+	t_intersection	closest_t;
 
 	closest_t = find_closest_intersection(&ray->xs);
-	if (!closest_t.t)
+	if (closest_t.t == INFINITY)
 		return (1);
-	ray->hit.hit_dist = closest_t.t;
-	ray->hit.clo_obj_id = (int)closest_t.i;
-	ray->hit.hit_loc = ray_position(*ray, ray->hit.hit_dist);
-
-	//if (main->obj[clo_shape].type == SPHERE)
-	//	main->ray.hit.normal = get_sphere_normal(main, &main->ray.hit);
-	//else if (main->obj[clo_shape].type == CYLINDER)
-	//	main->ray.hit.normal = get_cylinder_normal(main, &main->ray.hit);
-	//else if (main->obj[clo_shape].type == PLANE)
-	//	main->ray.hit.normal = tuple_unit(main->obj[clo_shape].rot);
-	//else if (main->obj[clo_shape].type == CONE)
-	//	main->ray.hit.normal = get_cone_normal(main, &main->ray.hit);
+	if (main->obj[closest_t.i].negative == TRUE)
+	{
+		closest_t = find_negative_object_intersect(ray, closest_t.i, main->obj);
+		if (closest_t.t == INFINITY)
+			return (1);
+	}
+	else
+	{
+		ray->hit.hit_dist = closest_t.t;
+		ray->hit.clo_obj_id = (int)closest_t.i;
+		ray->hit.hit_loc = ray_position(*ray, ray->hit.hit_dist);
+		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc);
+	}
 	return (0);
 }
 
@@ -65,23 +66,16 @@ int	ray_shooter(t_ray *ray, t_main *main)
 			hit++;
 		count++;
 	}
-	//printf ("hit count per pixel %d\n", hit);
 	if (hit > 0)
 	{
-		if (fill_hit_record(ray) == 1)
+		if (fill_hit_record(main, ray) == 1)
 			return (0);
-		//if (check_shadow(main, ray) == 1)
-		//	return (0);
-		
-		// add_hit_color(main, &main->ray);
-		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc);
 		hit_color = lighting(main->obj[ray->hit.clo_obj_id].material,
 							main->light, ray->hit.hit_loc, tuple_neg(ray->dir),
 							ray->hit.normal);
 		if (main->obj[ray->hit.clo_obj_id].material.pattern.pattern_id != NONE)
 			pattern_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc, &hit_color, &main->perlin);
 		main->ray.hit.color = tuple_add(main->ray.hit.color, hit_color);
-		//main->ray.hit.color = lighting(main->obj[ray->hit.clo_obj_id].material, main->light, ray->hit.hit_loc, tuple_neg(ray->dir), ray->hit.normal);
 		return (1);
 	}
 	return (0);
