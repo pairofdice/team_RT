@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/26 19:16:43 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:06:12 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ t_vector			normal_at(t_object *obj, t_point point);
 t_material			material_new();
 t_hit_record		precompute(t_intersection *intersection, t_ray *ray);
 
-t_intersection	find_negative_object_intersect(t_ray *ray, int neg_obj_id, int *found, t_object *obj);
+t_intersection	find_negative_object_intersect(t_ray *ray, int neg_obj_id, t_object *obj);
 
 
 #endif

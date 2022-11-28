@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/26 20:24:54 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:41:25 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,14 @@
 int	fill_hit_record(t_main *main, t_ray *ray)
 {
 	t_intersection	closest_t;
-	int				negative;
 
-	negative = FALSE;
 	closest_t = find_closest_intersection(&ray->xs);
-	if (!closest_t.t)
+	if (closest_t.t == INFINITY)
 		return (1);
-
-		
 	if (main->obj[closest_t.i].negative == TRUE)
 	{
-		closest_t = find_negative_object_intersect(ray, closest_t.i, &negative, main->obj);
-		if (negative == FALSE)
+		closest_t = find_negative_object_intersect(ray, closest_t.i, main->obj);
+		if (closest_t.t == INFINITY)
 			return (1);
 	}
 	else

@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 13:01:51 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/26 19:50:30 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/28 15:48:04 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ $(NAME): $(OFILES)
 	ar -rc $(NAME) $(OFILES)
 
 $(OFILES):
-	gcc -g -Wall -Wextra -Werror -c $(CFILES) -I libft.h -g
+	gcc -g -Wall -Wextra -Werror  -c $(CFILES) -I libft.h -g
 
 clean:
 	rm -f $(OFILES)
