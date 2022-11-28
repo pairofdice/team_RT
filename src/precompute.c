@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 19:04:17 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/26 18:09:06 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:44:45 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 t_hit_record	precompute(t_intersection intersection, t_ray *ray)
 {
 	t_hit_record	hit;
+	t_intersection closest_t;
 
+	closest_t = find_closest_intersection(&ray->xs);
 	hit.hit_dist = intersection.t;
 	hit.object = intersection.object;
 	hit.hit_loc = ray_position(*ray, hit.hit_dist);

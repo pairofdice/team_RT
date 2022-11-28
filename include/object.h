@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/17 19:38:37 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:32:16 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_point				ray_position(t_ray ray, double t);
 int					phere_intersect(t_ray *ray, t_object *s);
 t_ray				ray_transform(t_ray *source, t_matrix *transform);
 void				intersection_record(
-						t_ray *ray,
+						t_vec *ray_intersections,
 						double time,
 						t_object *s);
 void				intersection_record_test(

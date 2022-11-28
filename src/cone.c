@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 20:36:35 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/15 14:52:18 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:33:48 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	intersect_cone(t_ray *inc_ray, t_object *s)
 	t2 = (-(abcd.b) + sqrt(abcd.d)) / (2 * abcd.a);
 	test_x = ray_position(ray, t1);
 	test_y = ray_position(ray, t2);
-	intersection_record(inc_ray, t1, s);
-	intersection_record(inc_ray, t2, s);
+	intersection_record(&inc_ray->xs.vec, t1, s);
+	intersection_record(&inc_ray->xs.vec, t2, s);
 	return (1);
 }

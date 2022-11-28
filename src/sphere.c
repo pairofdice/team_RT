@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:41:16 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/26 16:54:00 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:32:51 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	intersect_sphere(t_ray *inc_ray, t_object *s)
 	//printf("%f %f\n", t1, t2);
 	// intersection_record_test(inc_ray, t1, t2, s);
 	// printf("o xs: %f %f\n", t1, t2);
-	intersection_record(inc_ray, t1, s);
-	intersection_record(inc_ray, t2, s);
+	intersection_record(&inc_ray->xs.vec, t1, s);
+	intersection_record(&inc_ray->xs.vec, t2, s);
 	// printf("IN i🏀🏀🏀🏀 3\n");
 	return (1);
 }

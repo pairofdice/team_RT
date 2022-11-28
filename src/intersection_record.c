@@ -6,19 +6,19 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/26 16:50:24 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:39:05 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object.h"
 #include "stdio.h"
 
-void	intersection_record(t_ray *ray, double intersect, t_object *s)
+void	intersection_record(t_vec *vec, double intersect, t_object *s)
 {
 	t_intersection	xs;
 	
 	xs = intersection_new(intersect, s);
-	vec_push(&ray->xs.vec, &xs);
+	vec_push(vec, &xs);
 
 }
 

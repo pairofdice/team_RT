@@ -1,23 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersection_new.c                                 :+:      :+:    :+:   */
+/*   is_shadowed.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/27 18:28:40 by jsaarine         ###   ########.fr       */
+/*   Created: 2022/11/27 17:43:31 by jsaarine          #+#    #+#             */
+/*   Updated: 2022/11/27 17:43:32 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "object.h"
-
-t_intersection	intersection_new(double time, t_object *o)
-{
-	t_intersection	xs;
-
-	xs.t = time;
-	xs.object = o;
-	return (xs);
-}
 

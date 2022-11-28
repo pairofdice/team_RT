@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/26 19:28:45 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/27 16:52:38 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 333
-# define WIN_H 333
+# define WIN_W 700
+# define WIN_H 700
 # define A_A_DIV 1
 # define EPSILON 0.00006103515625
 
@@ -88,9 +88,9 @@ typedef struct s_main
 	t_multi			multi;
 	t_ray			ray;
 	t_ray			shadow;
-	t_light			light;
-	t_object		obj[500];
-	int				obj_count;
+	// t_light			light;
+	// t_object		obj[500];
+	// int				obj_count;
 	int				shape_count;
 	int				ant_al;
 	t_scene			scene;

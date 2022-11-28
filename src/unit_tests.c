@@ -1348,72 +1348,56 @@ void	test_sphere_intersect()
 	t_vector v = vector_new(0, 0, 1);
 	t_ray	ray = ray_new(p, v);
 
-	
-	// t_object_mt sphere = object_new(SPHERE);
-	//new_intersections(&ray.xs.vec);
-	int	does_intersect = intersect_sphere(&ray, &sphere);
-	if (does_intersect)
-	{}
-
+	// A ray intersects a sphere at two points
+	intersect_sphere(&ray, &sphere);
 	assert(ray.xs.vec.len == 2);
-	// double  temp = *(double *) vec_get(&ray.xs.vec, 0);
 	t_intersection xs = *(t_intersection *) vec_get(&ray.xs.vec, 0);
-	// assert(temp == 4.0);
 	assert(xs.t == 4.0);
-	// temp = *(double *) vec_get(&ray.xs.vec, 1);
 	xs = *(t_intersection *) vec_get(&ray.xs.vec, 1);
-
-	// assert(temp == 6.0);
 	assert(xs.t == 6.0);
-	// RESET
 	ray.xs.vec.len = 0;
+	// RESET
 
+	// A ray intersects a sphere at a tangent
 	p = point_new(0, 1, -5);
-	// ray = ray_new(p, v);
 	ray.dir = v;
 	ray.orig = p;
-	does_intersect = intersect_sphere( &ray, &sphere);
+	intersect_sphere( &ray, &sphere);
 	assert(ray.xs.vec.len == 2);
-	// temp = *(double *) vec_get(&ray.xs.vec, 0);
-	// assert(temp == 5.0);
-	// temp = *(double *) vec_get(&ray.xs.vec, 1);
-	// assert(temp == 5.0);
 	xs = *(t_intersection *) vec_get(&ray.xs.vec, 0);
 	assert(xs.t == 5.0);
 	xs = *(t_intersection *) vec_get(&ray.xs.vec, 1);
 	assert(xs.t == 5.0);
+	ray.xs.vec.len = 0;
 	// RESET
 
-	ray.xs.vec.len = 0;
+	// A ray misses a sphere
 	p = point_new(0, 2, -5);
 	ray.dir = v;
 	ray.orig = p;
-	does_intersect = intersect_sphere(&ray, &sphere);
+	intersect_sphere(&ray, &sphere);
 	assert(ray.xs.vec.len == 0);
-
-	// RESET
 	ray.xs.vec.len = 0;
+	// RESET
+
+	// A ray originates inside a sphere
 	p = point_new(0, 0, 0);
 	ray.dir = v;
 	ray.orig = p;
-	does_intersect = intersect_sphere(&ray, &sphere);
+	intersect_sphere(&ray, &sphere);
 	assert(ray.xs.vec.len == 2);
-	// temp = *(double *) vec_get(&ray.xs.vec, 0);
-	// assert(temp == -1.0);
-	// temp = *(double *) vec_get(&ray.xs.vec, 1);
-	// assert(temp == 1.0);
 	xs = *(t_intersection *) vec_get(&ray.xs.vec, 0);
 	assert(xs.t == -1.0);
 	xs = *(t_intersection *) vec_get(&ray.xs.vec, 1);
 	assert(xs.t == 1.0);
-
-	// RESET
 	ray.xs.vec.len = 0;
+	// RESET
 
+	// A sphere is behind a ray
 	p = point_new(0, 0, 5);
 	ray.dir = v;
 	ray.orig = p;
-	does_intersect = intersect_sphere(&ray, &sphere);
+	intersect_sphere(&ray, &sphere);
 	assert(ray.xs.vec.len == 2);
 	// temp = *(double *) vec_get(&ray.xs.vec, 0);
 	// assert(temp == -6.0);
@@ -1429,11 +1413,25 @@ void	test_sphere_intersect()
 
 void	test_intersection()
 {
+	// An intersection encapsulates t and object
 	t_object	s = object_new(SPHERE);
 	t_intersection	i = intersection_new(3.5, &s);
 
 	assert(nearly_equal(i.t, 3.5));
 	assert(i.object->id == s.id);
+
+	// Aggregating intersections
+	s = object_new(SPHERE);
+	// t_intersection	i1 = intersection_new(1, &s);
+	// t_intersection	i2 = intersection_new(2, &s);
+	t_vec vec;
+	vec_new(&vec, 2, sizeof(t_intersection));
+	intersection_record(&vec, 1, &s );
+	intersection_record(&vec, 2, &s );
+	i = *(t_intersection *) vec_get(&vec, 0);
+	assert(nearly_equal(i.t, 1));
+	i = *(t_intersection *) vec_get(&vec, 1);
+	assert(nearly_equal(i.t, 2));
 }
 
 

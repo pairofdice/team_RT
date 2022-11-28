@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/26 20:02:12 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:38:51 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,28 +73,76 @@ void	tests(t_main *main, int draw_debug); // unit tests
 int	main(void)
 {
 	t_main		main;
-	t_scene		scene;
 	t_light		light;
 	t_object	obj;
 
-	scene_new(&scene);
-	/* default_scene(&scene); */
+	// default_scene(&main.scene);
+	scene_new(&main.scene);
 
-	light = point_light_new(point_new(0, 3, 0), color_new(1, 1,1 ));
-	vec_push(&scene.lights, &light);
-	light = point_light_new(point_new(-2, 3, 0), color_new(1, 1, 1));
-	vec_push(&scene.lights, &light);
-	light = point_light_new(point_new(2, 3, 0), color_new(1, 1, 1));
-	vec_push(&scene.lights, &light);
-	obj = object_new(SPHERE);
-	vec_push(&scene.objects, &obj);
+	light = point_light_new(point_new(0, 3, -3.0), color_new(0.7, 0.,0 ));
+	vec_push(&main.scene.lights, &light);
+	light = point_light_new(point_new(-2, 1, -3.0), color_new(0, 0, 0.7));
+	vec_push(&main.scene.lights, &light);
+	light = point_light_new(point_new(2, 1, -3.0), color_new(0, 0.7, 0.0));
+	vec_push(&main.scene.lights, &light);
 
-	main.scene = scene;
-
-	t_matrix	cam_transform;
 	
+
+	tuple_print(light.intensity);
+	obj = object_new(SPHERE);
+	vec_push(&main.scene.objects, &obj);
+	// obj.color = color_new(1, 0, 0);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	// obj.transform = translate = matrix_translate(0.2,0.2,-1);
+
+	// obj = object_new(SPHERE);
+	// obj.color = color_new(0, 0, 1);
+ 
+	t_matrix	scale;
+	t_matrix	translate;
+	obj = object_new(SPHERE);
+	scale = matrix_scale(0.2, 0.2, 0.2);
+	translate = matrix_translate(0,0,-1);
+	obj.transform = matrix_multiply(&obj.transform, &translate);
+	obj.transform = matrix_multiply(&obj.transform, &scale);
+	vec_push(&main.scene.objects, &obj);
+
+	
+	obj = object_new(SPHERE);
+	translate = matrix_translate(1,0,0);
+	obj.transform = matrix_multiply(&obj.transform, &translate);
+	obj.transform = matrix_multiply(&obj.transform, &scale);
+	vec_push(&main.scene.objects, &obj);
+	
+	obj = object_new(SPHERE);
+	translate = matrix_translate(-1,0,0);
+	obj.transform = matrix_multiply(&obj.transform, &translate);
+	obj.transform = matrix_multiply(&obj.transform, &scale);
+	vec_push(&main.scene.objects, &obj);
+	
+	obj = object_new(SPHERE);
+	translate = matrix_translate(0,1,0);
+	obj.transform = matrix_multiply(&obj.transform, &translate);
+	obj.transform = matrix_multiply(&obj.transform, &scale);
+	vec_push(&main.scene.objects, &obj);
+	
+	obj = object_new(SPHERE);
+	translate = matrix_translate(0,-1,0);
+	obj.transform = matrix_multiply(&obj.transform, &translate);
+	obj.transform = matrix_multiply(&obj.transform, &scale);
+	vec_push(&main.scene.objects, &obj);
+
+	obj = object_new(SPHERE);
+	translate = matrix_translate(0,0,2);
+	scale = matrix_scale(200.0, 200.0, 0.01);
+	obj.transform = matrix_multiply(&obj.transform, &translate);
+	obj.transform = matrix_multiply(&obj.transform, &scale);
+	vec_push(&main.scene.objects, &obj);
+	
+	t_matrix	cam_transform;
 	t_matrix	rotate;
 	t_matrix	cam_scale;
+	
 
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -102,7 +150,7 @@ int	main(void)
 	if (initialize_window(&main) == 0)
 		return (1);
 	
-	cam_transform = matrix_translate(0.0, 2.5, -2.0);
+	cam_transform = matrix_translate(0.0, 0.0, -3.0);
 	double						x_r = 0.0;
 	double						y_r = 0.0;
 	double						z_r = 0.0;
@@ -206,9 +254,9 @@ int	main(void)
 
 	/* main.obj_count = 5; */
 
-	int draw_debug = 0;
+	int debug = 0;
 
-	if (!draw_debug)
+	if (!debug)
 	{
 		initialize_camera(&main.cam, cam_transform);
 		create_threads(&main, 1);
@@ -221,8 +269,10 @@ int	main(void)
 		creat_filters(&main.sdl.frame_buffer);
 	}
 
-	tests(&main, draw_debug);
-
+	else
+	{
+		tests(&main, debug);
+	}
 
 	draw_to_window(&main.sdl, main.sdl.frame_buffer.data);
 	rt_loop_and_exit(&main.sdl);

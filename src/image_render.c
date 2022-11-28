@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/26 20:02:32 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/27 17:02:36 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_color	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 	double	offset;
 	int		i;
 	int		j;
-
+	t_color color;
 	j = 0;
 	offset = (1.0 / ant_al);
 	while (j < ant_al)
@@ -114,13 +114,18 @@ t_color	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 			x = ((float)pixel_x + (offset / 2) + (offset * i));
 			initialize_ray(&main->ray, x, y, &main->cam);
 			/* ray_shooter(&main->ray, main); */
+
+
+
+			color = color_at(&main->scene, &main->ray);
+			// tuple_print(color);
 			vec_free(&main->ray.xs.vec);
 			i++;
 		}
 		j++;
 	}
 	fix_aliasing_color(main, (ant_al * ant_al));
-	return (color_at(&main->scene, &main->ray));
+	return (color);
 }
 
 void	render_image(t_main	*main, int task, int ant_al)
@@ -141,7 +146,7 @@ void	render_image(t_main	*main, int task, int ant_al)
 			// copy.ray.hit.color.s_rgb.r = 0.0;
 			// copy.ray.hit.color.s_rgb.g = 0.0;
 			// copy.ray.hit.color.s_rgb.b = 0.0;
-			copy.ray.hit.color = color_new(0,0,0);
+			// copy.ray.hit.color = color_new(0,0,0);
 			while (ant_al != 1 && x < WIN_W
 				&& main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
 				x++;
