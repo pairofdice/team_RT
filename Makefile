@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/28 15:48:00 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/11/28 17:04:27 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								shadow.c\
 								edge_detection.c\
 								filters.c\
+								filter_sepia.c\
 								multi_thread.c\
 								key_hooks.c\
 								create_screen_shot.c\
@@ -103,7 +104,9 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								pattern_at.c\
 								pattern_striped.c\
 								pattern_grid.c\
-								negative_shape.c)
+								negative_shape.c\
+								camera_coi_transform.c\
+								stereoscopy.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 
