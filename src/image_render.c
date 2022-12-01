@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/27 17:02:36 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/11/29 17:49:28 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ int	fill_hit_record(t_ray *ray)
 /* 	} */
 /* 	return (0); */
 /* } */
-int	ray_shooter(t_ray *ray, t_main *main)
-{
-	main->ray.hit.color = color_at(&main->scene, ray);
-	return (1);
+// int	ray_shooter(t_ray *ray, t_main *main)
+// {
+// 	main->ray.hit.color = color_at(&main->scene, ray);
+// 	return (1);
 
-}
+// }
 
 t_color	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 {
@@ -115,9 +115,7 @@ t_color	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 			initialize_ray(&main->ray, x, y, &main->cam);
 			/* ray_shooter(&main->ray, main); */
 
-
-
-			color = color_at(&main->scene, &main->ray);
+			color = color_at(&main->scene, &main->ray, pixel_y);
 			// tuple_print(color);
 			vec_free(&main->ray.xs.vec);
 			i++;
@@ -153,7 +151,7 @@ void	render_image(t_main	*main, int task, int ant_al)
 			if (x == WIN_W)
 				break ;
 			color = anti_aliasing(&copy, x, y, ant_al);
-			main->sdl.frame_buffer.data[((y * WIN_W) + x++)] =color_to_int(color);
+			main->sdl.frame_buffer.data[((y * WIN_W) + x++)] = color_to_int(color);
 		}
 		y += NUM_TASKS;
 	}

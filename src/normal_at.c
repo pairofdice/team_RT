@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   normal_at.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:08:01 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/15 15:33:05 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:56:14 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_vector	normal_at(t_object *obj, t_point point)
 		obj_normal = tuple_sub(obj_point,  point_new(0, 0, 0));
  	if (obj->type == CYLINDER)
 	{
-	/* 	point.s_xyzw.y = 0 */
 		obj_normal = obj_point;
 		obj_normal.s_xyzw.y = 0; 
 	}
@@ -41,7 +40,6 @@ t_vector	normal_at(t_object *obj, t_point point)
 									obj_point.s_xyzw.z * obj_point.s_xyzw.z);
 		if (obj_point.s_xyzw.y > 0)
 			obj_normal.s_xyzw.y = -obj_normal.s_xyzw.y;
-		/* obj_normal = tuple_neg(obj_normal); */
 	}
 	
 	matrix_transpose(&inverse);

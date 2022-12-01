@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/28 14:38:51 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:16:25 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(void)
 	// obj = object_new(SPHERE);
 	// obj.color = color_new(0, 0, 1);
  
-	t_matrix	scale;
+/* 	t_matrix	scale;
 	t_matrix	translate;
 	obj = object_new(SPHERE);
 	scale = matrix_scale(0.2, 0.2, 0.2);
@@ -137,7 +137,7 @@ int	main(void)
 	scale = matrix_scale(200.0, 200.0, 0.01);
 	obj.transform = matrix_multiply(&obj.transform, &translate);
 	obj.transform = matrix_multiply(&obj.transform, &scale);
-	vec_push(&main.scene.objects, &obj);
+	vec_push(&main.scene.objects, &obj); */
 	
 	t_matrix	cam_transform;
 	t_matrix	rotate;
@@ -254,7 +254,7 @@ int	main(void)
 
 	/* main.obj_count = 5; */
 
-	int debug = 0;
+	int debug = 1;
 
 	if (!debug)
 	{
@@ -268,7 +268,6 @@ int	main(void)
 		draw_frame(&main);
 		creat_filters(&main.sdl.frame_buffer);
 	}
-
 	else
 	{
 		tests(&main, debug);
