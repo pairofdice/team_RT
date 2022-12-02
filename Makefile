@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/11/28 17:04:27 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/12/02 11:31:12 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,10 +28,6 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								vector_functions2.c\
 								vector_functions3.c\
 								quadratic.c\
-								obj_cone.c\
-								obj_cylinder.c\
-								obj_plane.c\
-								obj_sphere.c\
 								image_render.c\
 								anti_aliasing_helper.c\
 								shadow.c\
