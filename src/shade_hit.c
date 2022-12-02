@@ -17,8 +17,7 @@ t_color	shade_hit(t_scene *scene, t_hit_record *hit)
 		light = *(t_light *)vec_get(&scene->lights, i);
 		// printf("light color: ");
 		// tuple_print(light.intensity);
-		temp_color = lighting(&hit->object->material, light, hit->hit_loc,
-				hit->to_eye, hit->normal);
+		temp_color = lighting(&hit->object->material, light, hit->hit_loc, hit->to_eye, hit->normal, 1);
 		// printf("result color: ");
 		// tuple_print(temp_color);
 		result = tuple_add(result, temp_color);

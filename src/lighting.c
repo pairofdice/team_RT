@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 14:12:38 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/01 20:31:54 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/02 19:06:51 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // light source
 // the eye 
 // normal_v vector from the Phong reflection model
-t_color	lighting(t_material *mat, t_light light, t_point point, t_vector to_eye, t_vector normal_v)
+t_color	lighting(t_material *mat, t_light light, t_point point, t_vector to_eye, t_vector normal_v, int in_shadow)
 {
 	t_color		result;
 	t_color		effective_color;
@@ -48,7 +48,7 @@ t_color	lighting(t_material *mat, t_light light, t_point point, t_vector to_eye,
 	// light is on the other side of the surface.
 	light_dot_normal = vector_dot(to_light_v, normal_v);
 
-	if (light_dot_normal < 0)
+	if (light_dot_normal < 0 || in_shadow)
 	{
 		diffuse = color_new(0, 0, 0);
 		specular = color_new(0, 0, 0);

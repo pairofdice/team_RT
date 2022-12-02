@@ -2086,7 +2086,7 @@ t_color multi_color_sphere(t_material *material, t_light light, t_point point, t
 	material->color.s_rgb.g = 0.2 +  vector_dot(normal, tuple_unit(vector_new(1,-1,-1.5))) ;
 	// color.s_rgb.g =  (1.6 + vector_dot(normal_at(&shape, point), tuple_unit(vector_new(1,1,-1)))) * 0.3;
 	material->color.s_rgb.b = 0.2 +  ( vector_dot(normal, tuple_unit(vector_new(1,1,-1.5)))) ; 
-	return(lighting(material, light, point, to_eye, normal));
+	return(lighting(material, light, point, to_eye, normal, 0));
 
 }
 
@@ -2397,7 +2397,7 @@ void	test_shading()
 	t_vector normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
 	// tuple_print(light.pos);
-	result = lighting(&m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal, 0);
 	tuple_print(result);
 	// printf("6\n");
 	assert(tuples_equal(result, color_new(1.9, 1.9, 1.9)));
@@ -2408,7 +2408,7 @@ void	test_shading()
 	to_eye = vector_new(0, sqrt(2)/2, -sqrt(2)/2);
 	normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
-	result = lighting(&m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal, 0);
 	assert(tuples_equal(result, color_new(1.0, 1.0, 1.0)));
 	// printf("8\n");
 
@@ -2418,7 +2418,7 @@ void	test_shading()
 	to_eye = vector_new(0,0, -1);
 	normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 10, -10), color_new(1, 1, 1));
-	result = lighting(&m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal, 0);
 	assert(tuples_equal(result, color_new(0.7364, 0.7364, 0.7364)));
 
 
@@ -2428,7 +2428,7 @@ void	test_shading()
 	to_eye = vector_new(0, -sqrt(2)/2, -sqrt(2)/2);
 	normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 10, -10), color_new(1, 1, 1));
-	result = lighting(&m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal, 0);
 	assert(tuples_equal(result, color_new(1.6364, 1.6364, 1.6364)));
 
 	// Lighting with eye opposite surface, light offset 45°
@@ -2438,7 +2438,7 @@ void	test_shading()
 	normal = vector_new(0, 0, -1);
 	light = point_light_new(point_new(0, 0, -10), color_new(1, 1, 1));
 	light = point_light_new(point_new(0, 0, 10), color_new(1, 1, 1));
-	result = lighting(&m, light, pos, to_eye, normal);
+	result = lighting(&m, light, pos, to_eye, normal, 0);
 	tuple_print(result);
 	assert(tuples_equal(result, color_new(0.1, 0.1, 0.1)));
 
@@ -2650,7 +2650,24 @@ void	test_scene()
 	printf("color_at color");
 	tuple_print(color);
 	printf("🚥 7\n");
+	// UNCOMMENT THIS ASSERT
 	// assert(tuples_equal(inner_color, color));
 	printf("🚥 8\n");
 
+}
+
+void test_shadows()
+{
+
+	t_vector to_eye_v = vector_new(0, 0, -1);
+	t_vector normal_v = vector_new(0, 0, -1);
+	t_point origo = point_new(0, 0, 0);
+	t_light	light = point_light_new(point_new(0,0,-10), color_new(1, 1, 1));
+	int	in_shadow = 1;
+	t_material m  = material_new();
+	t_color result = lighting(&m, light, origo, to_eye_v, normal_v, in_shadow);
+	t_color reference = color_new(0.1,0.1,0.1);
+	assert(tuples_equal(result, reference));
+
+	
 }

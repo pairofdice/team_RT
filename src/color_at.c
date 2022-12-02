@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 19:49:39 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/29 16:26:30 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/02 16:37:40 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ t_color	color_at(t_scene *scene, t_ray *ray, int pixel)
 	t_color color = shade_hit(scene, &hit);
 	if (pixel == 4)
 	{
-		printf("__hit dst %lf color: ", hit.hit_dist);
-		tuple_print(color);
+		// printf("__hit dst %lf color: ", hit.hit_dist);
+		// tuple_print(color);
 		// printf("__\n");
 		// tuple_print(main->ray.xs.vec.len);
 		

@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/01 16:15:17 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/02 18:49:17 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 700
-# define WIN_H 700
+# define WIN_W 42
+# define WIN_H 42
 # define A_A_DIV 1
 # define EPSILON 0.00006103515625
 
@@ -151,7 +151,7 @@ t_material			material_new();
 
 
 // t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal);
-t_color				lighting(t_material *mat, t_light light, t_point point, t_vector to_eye, t_vector normal_v);
+t_color				lighting(t_material *mat, t_light light, t_point point, t_vector to_eye, t_vector normal_v, int in_shadoww);
 
 void				img_pixel_put(
 						t_frame_buffer *fb, 
