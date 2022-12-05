@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/28 17:06:34 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/05 18:02:46 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "multi_thread.h"
 # include "perlin_noice.h"
 # include "patterns.h"
+# include "motion.h"
 # include <stdio.h>
 
 # define WIN_W 500
@@ -47,13 +48,10 @@ enum
 typedef struct s_frame_buffer
 {
 	int				*data;
-	int				*cartoon;
-	int				*b_w;
-	int				*b_w_cartoon;
-	int				*edge_map;
-	int				*sepia;
+	int				*filter;
 	int				*stereocopy;
 	char			*mask;
+	t_color			*motion_calc;
 	int				data_len;
 }					t_frame_buffer;
 
@@ -80,6 +78,7 @@ typedef struct s_cam
 	t_matrix 		transform;
 	double			plane_h;
 	double			plane_w;
+	t_motion_blur	motion;
 }					t_cam;
 
 typedef struct s_screen_shot
@@ -136,7 +135,7 @@ void				add_hit_color(t_main *main, t_ray *shadow);
 unsigned int		color_to_int(t_color color);
 void				fix_aliasing_color(t_main *main, int sub_pixel_count);
 int					check_shadow(t_main *main, t_ray *ray);
-void				creat_filters(t_frame_buffer *fb);
+void				creat_filters(t_frame_buffer *fb, int filter_type);
 void				create_sepia(t_frame_buffer *fb);
 void				create_stereoscope(t_main *main, t_matrix cam_scale, t_matrix cam_transform);
 
@@ -181,4 +180,6 @@ t_intersections		scene_intersect(t_scene *scene, t_ray *ray);
 
 void	pattern_at(t_hit_record hit,t_point hit_loc, t_color *hit_color, t_perlin *perlin);
 
+int		motion_set_all(t_main *main);
+void	create_motion_blur(t_main *main);
 #endif

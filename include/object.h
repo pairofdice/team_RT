@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/28 15:06:12 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/05 16:01:52 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "tuple.h"
 # include "vector.h"
 # include "patterns.h"
+# include "motion.h"
 # include <stdlib.h>
 
 enum
@@ -61,6 +62,7 @@ typedef struct s_object
 	t_matrix		transform;
 	t_tuple			color;
 	t_material		material;
+	t_motion_blur	motion;
 }					t_object;
 
 typedef struct s_abc
@@ -123,9 +125,6 @@ typedef struct s_negative
 	double			t[2];
 }				t_negative;
 
-
-
-
 t_object			object_new(int shape_type);
 double				calc_discriminant(double a, double b, double c);
 t_ray				ray_new(t_point origin, t_vector dir);
@@ -156,6 +155,5 @@ t_material			material_new();
 t_hit_record		precompute(t_intersection *intersection, t_ray *ray);
 
 t_intersection	find_negative_object_intersect(t_ray *ray, int neg_obj_id, t_object *obj);
-
 
 #endif

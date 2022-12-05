@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_thread.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:03:04 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/13 19:33:11 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/05 19:18:57 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	worker_task(int *task_n, t_main *ctx)
 
 static void	worker_broadcast(t_main *ctx)
 {
-	ctx->multi.threads_done++;
 	pthread_mutex_unlock(&ctx->multi.tasks_done_mutex);
 	pthread_mutex_lock(&ctx->multi.frame_end_mutex);
 	pthread_cond_broadcast(&ctx->multi.frame_end_cv);
@@ -76,14 +75,13 @@ void	taskhandler(void *main)
 	ctx = (t_main *) main;
 	while (1)
 	{
-		
 		pthread_mutex_lock(&ctx->multi.tasks_taken_mutex);
 		if (ctx->multi.tasks_taken >= NUM_TASKS)
 			worker_wait(ctx);
 		else
 		{
 			worker_task(&task_n, ctx);
-			if (ctx->multi.tasks_done >= NUM_TASKS)
+			if (ctx->multi.tasks_done == NUM_TASKS)
 			{
 				worker_broadcast(ctx);
 				break ;

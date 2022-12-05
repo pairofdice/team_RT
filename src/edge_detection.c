@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:02:06 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/11 22:16:49 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/05 17:09:49 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	great_mask(t_frame_buffer *fb)
 		i = 1;
 		while (i < (WIN_W -1))
 		{
-			color = test_pixel(fb->b_w, i, j);
+			color = test_pixel(fb->filter, i, j);
 			if (color > scale || color < -scale)
 				fb->mask[(j * WIN_W) + i++] = 1;
 			else
@@ -85,7 +85,7 @@ void	edge_detection(t_frame_buffer *fb)
 		{
 			int_to_rgb(fb->data[((j * WIN_W) + i)], &rgb);
 			color = rgb_to_white(&rgb);
-			fb->b_w[((j * WIN_W) + i++)] = color;
+			fb->filter[((j * WIN_W) + i++)] = color;
 		}
 		j++;
 	}
