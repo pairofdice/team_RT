@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 14:12:38 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/02 19:06:51 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/05 13:35:44 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ t_color	lighting(t_material *mat, t_light light, t_point point, t_vector to_eye,
 	// light is on the other side of the surface.
 	light_dot_normal = vector_dot(to_light_v, normal_v);
 
-	if (light_dot_normal < 0 || in_shadow)
+	if (in_shadow)
+	{}
+	
+	if (light_dot_normal < 0 /* || in_shadow */)
 	{
 		diffuse = color_new(0, 0, 0);
 		specular = color_new(0, 0, 0);

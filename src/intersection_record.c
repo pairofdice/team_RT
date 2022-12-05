@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/27 18:39:05 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/05 15:30:15 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	intersection_record(t_vec *vec, double intersect, t_object *s)
 
 }
 
-void	intersection_record_test(t_ray *ray, double t1, double t2, t_object *s)
+/* void	intersection_record_test(t_ray *ray, double t1, double t2, t_object *s)
 {
 	t_intersection	xs;
 
@@ -41,3 +41,4 @@ void	intersection_record_test(t_ray *ray, double t1, double t2, t_object *s)
 		vec_push(&ray->xs.vec, &xs);
 	} 
 }
+ */

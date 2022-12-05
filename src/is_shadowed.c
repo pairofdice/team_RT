@@ -6,7 +6,13 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:43:31 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/27 17:43:32 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/05 15:57:50 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "rt.h"
+
+int	is_shadowed(t_scene *scene, t_light light, t_point point)
+{
+	
+}

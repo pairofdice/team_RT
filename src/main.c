@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/02 18:44:52 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/05 15:55:09 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ int	main(void)
 	
 
 	tuple_print(light.intensity);
-	obj = object_new(SPHERE);
-	vec_push(&main.scene.objects, &obj);
 	// obj.color = color_new(1, 0, 0);
 	// obj.transform = matrix_multiply(&obj.transform, &scale);
 	// obj.transform = translate = matrix_translate(0.2,0.2,-1);
@@ -100,13 +98,16 @@ int	main(void)
  
 	t_matrix	scale;
 	t_matrix	translate;
+
+	obj = object_new(SPHERE);
+	vec_push(&main.scene.objects, &obj);
+	
 	obj = object_new(SPHERE);
 	scale = matrix_scale(0.2, 0.2, 0.2);
 	translate = matrix_translate(0,0,-1);
 	obj.transform = matrix_multiply(&obj.transform, &translate);
 	obj.transform = matrix_multiply(&obj.transform, &scale);
 	vec_push(&main.scene.objects, &obj);
-
 	
 	obj = object_new(SPHERE);
 	translate = matrix_translate(1,0,0);
@@ -134,7 +135,7 @@ int	main(void)
 
 	obj = object_new(SPHERE);
 	translate = matrix_translate(0,0,2);
-	scale = matrix_scale(200.0, 200.0, 0.01);
+	scale = matrix_scale(20.0, 20.0, 0.1);
 	obj.transform = matrix_multiply(&obj.transform, &translate);
 	obj.transform = matrix_multiply(&obj.transform, &scale);
 	vec_push(&main.scene.objects, &obj); 
@@ -150,9 +151,9 @@ int	main(void)
 	if (initialize_window(&main) == 0)
 		return (1);
 	
-	cam_transform = matrix_translate(0.0, 0.0, -3.0);
-	double						x_r = 0.0;
-	double						y_r = 0.0;
+	cam_transform = matrix_translate(0.0, 0.001, -3.0);
+	double						x_r = 0.001;
+	double						y_r = 0.01;
 	double						z_r = 0.0;
 
 	rotate = matrix_rotate_x(x_r);
@@ -254,7 +255,7 @@ int	main(void)
 
 	/* main.obj_count = 5; */
 
-	int debug = 1;
+	int debug = 0;
 
 	if (!debug)
 	{
@@ -265,7 +266,7 @@ int	main(void)
 			ft_putstr("");
 		edge_detection(&main.sdl.frame_buffer);
 		main.ant_al = A_A_DIV;
-		draw_frame(&main);
+		// draw_frame(&main);
 		creat_filters(&main.sdl.frame_buffer);
 	}
 	else

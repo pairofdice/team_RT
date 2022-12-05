@@ -161,7 +161,7 @@ void tests(t_main *main, int draw_debug)
 
  	if (draw_debug)
 	{
-		screen_loop(main);
+		screen_loop(main); // Test scene
 	}
 }
 
