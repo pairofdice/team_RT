@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 18:06:50 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/21 17:27:18 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/05 17:11:52 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	create_sepia(t_frame_buffer *fb)
 			sepia_rgb.s_rgb.b = (((0.272 * rgb.s_rgb.r) + (0.534 * rgb.s_rgb.g) + (0.131 * rgb.s_rgb.b)));
 			sepian_color_ower_flow(&sepia_rgb);
 			color = rgb_to_int(sepia_rgb.s_rgb.r, sepia_rgb.s_rgb.g, sepia_rgb.s_rgb.b);
-			fb->sepia[((j * WIN_W) + i)] = color;
+			fb->filter[((j * WIN_W) + i)] = color;
 			i++;
 		}
 		j++;

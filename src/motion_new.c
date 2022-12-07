@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   anti_aliasing_helper.c                             :+:      :+:    :+:   */
+/*   motion_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 16:49:21 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/07 11:40:06 by jjuntune         ###   ########.fr       */
+/*   Created: 2022/12/05 15:21:08 by jjuntune          #+#    #+#             */
+/*   Updated: 2022/12/07 11:35:29 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-void	fix_aliasing_color(t_main *main, int sub_pixel_count)
+t_motion_blur	motion_new(int true_false, double speed, t_tuple dir)
 {
-	main->ray.hit.color.s_rgb.r /= sub_pixel_count;
-	main->ray.hit.color.s_rgb.g /= sub_pixel_count;
-	main->ray.hit.color.s_rgb.b /= sub_pixel_count;
+	t_motion_blur	new;
+
+	new.on_off = true_false;
+	new.speed = speed;
+	new.speed_iteration = 0.0;
+	new.dir = dir;
+	return (new);
 }

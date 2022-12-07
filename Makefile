@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/12/02 11:31:12 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/12/05 16:45:35 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,11 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								pattern_grid.c\
 								negative_shape.c\
 								camera_coi_transform.c\
-								stereoscopy.c)
+								stereoscopy.c\
+								motion_new.c\
+								motion_move.c\
+								motion_set_all.c\
+								motion_blur.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

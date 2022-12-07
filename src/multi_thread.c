@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_thread.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:03:04 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/13 19:33:11 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/07 10:08:33 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_pthread(t_main *main)
 	main->multi.frame_end_cv = (pthread_cond_t)PTHREAD_COND_INITIALIZER;
 	main->multi.tasks_done = 0;
 	main->multi.tasks_taken = 0;
+	main->multi.threads_done = NUM_THREADS;
 }
 
 void	create_threads(t_main *main, int ant_al)
@@ -51,7 +52,6 @@ static void	worker_wait(t_main *ctx)
 static void	worker_task(int *task_n, t_main *ctx)
 {
 	*task_n = ctx->multi.tasks_taken;
-	
 	ctx->multi.tasks_taken++;
 	pthread_mutex_unlock(&ctx->multi.tasks_taken_mutex);
 	render_image(ctx, *task_n, ctx->ant_al);
@@ -61,9 +61,11 @@ static void	worker_task(int *task_n, t_main *ctx)
 
 static void	worker_broadcast(t_main *ctx)
 {
-	ctx->multi.threads_done++;
+	ctx->multi.tasks_taken++;
 	pthread_mutex_unlock(&ctx->multi.tasks_done_mutex);
 	pthread_mutex_lock(&ctx->multi.frame_end_mutex);
+	while (ctx->multi.threads_done < (NUM_THREADS - 1))
+		ft_putstr("");
 	pthread_cond_broadcast(&ctx->multi.frame_end_cv);
 	pthread_mutex_unlock(&ctx->multi.frame_end_mutex);
 }
@@ -76,18 +78,14 @@ void	taskhandler(void *main)
 	ctx = (t_main *) main;
 	while (1)
 	{
-		
 		pthread_mutex_lock(&ctx->multi.tasks_taken_mutex);
 		if (ctx->multi.tasks_taken >= NUM_TASKS)
 			worker_wait(ctx);
 		else
 		{
 			worker_task(&task_n, ctx);
-			if (ctx->multi.tasks_done >= NUM_TASKS)
-			{
+			if (ctx->multi.tasks_done == NUM_TASKS)
 				worker_broadcast(ctx);
-				break ;
-			}
 			else
 				pthread_mutex_unlock(&ctx->multi.tasks_done_mutex);
 		}
@@ -97,11 +95,12 @@ void	taskhandler(void *main)
 int	draw_frame(t_main *main)
 {
 	main->multi.frame_n++;
+
 	main->multi.threads_done = 0;
-	pthread_mutex_lock(&main->multi.tasks_done_mutex);
-	pthread_mutex_lock(&main->multi.tasks_taken_mutex);
 	main->multi.tasks_taken = 0;
 	main->multi.tasks_done = 0;
+	pthread_mutex_lock(&main->multi.tasks_done_mutex);
+	pthread_mutex_lock(&main->multi.tasks_taken_mutex);
 	pthread_mutex_unlock(&main->multi.tasks_taken_mutex);
 	pthread_mutex_unlock(&main->multi.tasks_done_mutex);
 	pthread_mutex_lock(&main->multi.frame_start_mutex);
