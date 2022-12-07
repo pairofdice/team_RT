@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 19:04:50 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:39:53 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	tests(t_main *main, int draw_debug); // unit tests
 int	main(void)
 {
 	t_main		main;
-	t_matrix	cam_transform;
 	t_matrix	rotate;
 	t_matrix	cam_scale;
 	t_matrix	scale;
@@ -92,18 +91,20 @@ int	main(void)
 	
 	main.sdl.stereocopy = FALSE;
 	
-	cam_transform = matrix_translate(0.0, 0.0, -10.0);
-			main.cam.coi = point_new(0.0, 0.0, 0.0);
+	main.cam.transform = matrix_translate(0, 0.0, -10.0);
+	main.cam.coi_transform = matrix_translate(0, 0.0, 10.0);
 
 	cam_scale = matrix_scale(1,1,1);
-	cam_transform = matrix_multiply(&cam_transform, &cam_scale);
+	main.cam.transform = matrix_multiply(&main.cam.transform, &cam_scale);
+	main.cam.motion = motion_new(FALSE, 5.0, tuple_unit(vector_new(1,0,0)));
+	main.cam.coi_motion = motion_new(FALSE, 5.0, tuple_unit(vector_new(1,0,0)));
 
-	main.light = point_light_new(point_new(0.0, 0, -100.0), color_new(1,1,1));
+	main.light = point_light_new(point_new(0.0, 10, -10.0), color_new(1,1,1));
 	// main.light.pos = point_new(10, 0, 0);
 	
 	main.obj[0] = object_new(SPHERE);
 	
-	main.obj[0].transform = matrix_translate(0.0, 0.0, 0.0);
+	main.obj[0].transform = matrix_translate(0.0, 0.0, 10.0);
 											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
@@ -115,10 +116,9 @@ int	main(void)
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
 	scale = matrix_scale(1,1,1);
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &scale);
-	
 	main.obj[0].material.color = color_new(1,0,0);
-	main.obj[0].motion = motion_new(TRUE, 10.0, tuple_unit(vector_new(2,2,0)));
-	main.obj[0].material.pattern.pattern_id = GRID;
+	main.obj[0].motion = motion_new(FALSE, 5.0, tuple_unit(vector_new(1,0,0)));
+	main.obj[0].material.pattern.pattern_id = NONE;
 	main.obj[0].material.pattern.pattern_perlin = TRUE;
 	main.obj[0].negative = FALSE;
 	
@@ -134,7 +134,7 @@ int	main(void)
 	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[1].transform = matrix_multiply(&main.obj[1].transform, &rotate);
-	main.obj[1].material.color = color_new(0.1, 0.0, 0.9);
+	main.obj[1].material.color = color_new(1.0, 1.0, 1.0);
 	main.obj[1].material.pattern.pattern_id = NONE;
 	main.obj[1].material.pattern.pattern_perlin = TRUE;
 	main.obj[1].negative = FALSE;
@@ -142,7 +142,7 @@ int	main(void)
 
 	main.obj[2] = object_new(PLANE);
 	main.obj[2].transform = matrix_translate(2.5, -1.0, 15.0);
-											x_r = 0.0;
+											x_r = -M_PI_2;
 											y_r = 0.0;
 											z_r = 0.0;
 
@@ -152,7 +152,7 @@ int	main(void)
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
-	main.obj[2].material.color = color_new(0.9,1,0.5);
+	main.obj[2].material.color = color_new(1.0,1.0,1.0);
 	main.obj[2].material.pattern.pattern_id = NONE;
 	main.obj[2].material.pattern.pattern_perlin = TRUE;
 	main.obj[2].negative = FALSE;
@@ -216,13 +216,13 @@ int	main(void)
 	main.obj[5].material.pattern.pattern_perlin = TRUE;
 	main.obj[5].negative = FALSE;
 
-	main.obj_count = 1;
+	main.obj_count = 3;
 	
 	int draw_debug = 0;
 
 	if (!draw_debug)
 	{
-		initialize_camera(&main.cam, cam_transform);
+		initialize_camera(&main.cam, main.cam.transform);
 		load_perlin_data(&main.perlin);
 		create_threads(&main, 1);
 		draw_frame(&main);
@@ -230,7 +230,7 @@ int	main(void)
 		main.ant_al = A_A_DIV;
 		draw_frame(&main);
 		if (main.sdl.stereocopy == TRUE)
-			create_stereoscope(&main, cam_scale, cam_transform);
+			create_stereoscope(&main, cam_scale, main.cam.transform);
 		create_motion_blur(&main);
 	}
 	/* tests(&main, draw_debug); */

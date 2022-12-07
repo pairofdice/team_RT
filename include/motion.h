@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:53:25 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 16:02:07 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 10:54:04 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ typedef struct s_motion_blur
 
 
 
-void	motion_move(t_matrix *orig, t_motion_blur *motion);
+t_matrix	motion_move(t_matrix orig, t_motion_blur *motion);
 t_motion_blur motion_new(int true_false, double speed, t_tuple dir);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 18:02:46 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:06:27 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,11 @@ typedef struct s_cam
 	t_tuple			c;
 	t_tuple			l;
 	t_matrix 		transform;
+	t_matrix 		coi_transform;
 	double			plane_h;
 	double			plane_w;
 	t_motion_blur	motion;
+	t_motion_blur	coi_motion;
 }					t_cam;
 
 typedef struct s_screen_shot

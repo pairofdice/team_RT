@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 19:28:28 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/02 12:30:32 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:30:03 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ t_matrix	coi_transform(t_cam *cam, t_matrix transform)
 	double		rot;
 
 	result = matrix_inverse(&transform);
-	b = matrix_tuple_multiply(&result, &cam->coi);
+	b = matrix_tuple_multiply(&cam->coi_transform, &cam->coi);
+	b = matrix_tuple_multiply(&result, &b);
 	b.s_xyzw.w = 0;
 	temp = ray_new_no_malloc(cam->pos, cam->n);
 	result = transform;

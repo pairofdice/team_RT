@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:03:36 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 19:07:09 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:34:54 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,15 @@ static void	color_to_data(t_frame_buffer *fb)
 {
 	int	y;
 	int	x;
-	y = 0;
 
+	y = 0;
 	while (y < WIN_H)
 	{
 		x = 0;
 		while (x < WIN_W)
 		{
-			fb->data[y * WIN_W + x] = color_to_int(fb->motion_calc[y * WIN_W + x]);
+			fb->data[y * WIN_W + x]
+				= color_to_int(fb->motion_calc[y * WIN_W + x]);
 			x++;
 		}
 		y++;
@@ -53,8 +54,9 @@ static void	color_to_data(t_frame_buffer *fb)
 static void	add_to_color_buffer(t_frame_buffer *fb)
 {
 	t_color	color;
-	int	y;
-	int	x;
+	int		y;
+	int		x;
+
 	y = 0;
 	while (y < WIN_H)
 	{
@@ -73,18 +75,26 @@ static void	add_to_color_buffer(t_frame_buffer *fb)
 
 void	create_motion_blur(t_main *main)
 {
-	int	frame_count;
+	int		frame_count;
 
-	frame_count = 1;
-	main->ant_al = 1;
+	frame_count = 0;
 	add_to_color_buffer(&main->sdl.frame_buffer);
 	while (motion_set_all(main) > 0)
 	{
+		main->cam.coi_transform
+			= coi_transform(&main->cam, main->cam.transform);
+		main->ant_al = 1;
+		draw_frame(main);
+		edge_detection(&main->sdl.frame_buffer);
+		main->ant_al = A_A_DIV;
 		draw_frame(main);
 		add_to_color_buffer(&main->sdl.frame_buffer);
 		frame_count++;
 	}
-	normalise_color(&main->sdl.frame_buffer, frame_count);
-	color_to_data(&main->sdl.frame_buffer);
-	edge_detection(&main->sdl.frame_buffer);
+	if (frame_count > 0)
+	{
+		normalise_color(&main->sdl.frame_buffer, frame_count);
+		color_to_data(&main->sdl.frame_buffer);
+		edge_detection(&main->sdl.frame_buffer);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 17:18:31 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 11:21:43 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	initialize_window(t_main *main)
 void	initialize_camera(t_cam *cam, t_matrix transform)
 {
 	cam->pos = point_new(0.0, 0.0, 0.0);
+	cam->coi = point_new(0.0, 0.0, 0.0);
 	cam->v_up = vector_new(0.0, 1.0, 0.0);
 	cam->n = vector_new(0.0, 0.0, 1.0);
 	cam->u = vector_new(-1.0, 0.0, 0.0);
