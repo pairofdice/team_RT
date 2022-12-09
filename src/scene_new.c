@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 17:57:35 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/18 15:07:44 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/05 19:19:28 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int	default_scene(t_scene *scene)
 	light = point_light_new(point_new(-10, 10, -10), color_new(1, 1, 1));
 	vec_push(&scene->lights, &light);
 	object = object_new(SPHERE);
-	printf("PALLO 1 id: %zu\n", object.id);
+	// printf("PALLO 1 id: %zu\n", object.id);
 	object.material.color = color_new(0.8, 1.0, 0.6);
 	object.material.diffuse = 0.7;
 	object.material.specular = 0.2;
 	object.debug = "PALLO 1";
 	vec_push(&scene->objects, &object);
 	object = object_new(SPHERE);
-	printf("PALLO 2 id: %zu\n", object.id);
+	// printf("PALLO 2 id: %zu\n", object.id);
 	object.transform = matrix_scale(0.5, 0.5, 0.5);
 	object.debug = "PALLO 2";
 	vec_push(&scene->objects, &object);

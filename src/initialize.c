@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/29 17:46:55 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/09 18:05:05 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	initialize_camera(t_cam *cam, t_matrix transform)
 
 void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam)
 {
+	ray->depth = 0;
+	ray->depth_max = 4;
 	ray->orig = point_new(0, 0, 0);
 	ray->dir = tuple_add(cam->l, tuple_scalar_mult(cam->u,
 				x * (cam->plane_w / WIN_W)));

@@ -42,6 +42,8 @@ void	test_ray_cone_transforms();
 void	test_world();
 void	test_precompute();
 void	test_scene();
+void	test_shadows();
+void	test_reflections();
 
 
 void screen_loop(t_main *main);
@@ -158,6 +160,15 @@ void tests(t_main *main, int draw_debug)
 	printf("Testing 🌎2: ELECTRIC BOOGALOO\n");
 	test_scene();
 	printf("OK\n");
+
+	printf("Testing Shadows\n");
+	test_shadows();
+	printf("OK\n");
+
+	printf("Testing reflections\n");
+	test_reflections();
+	printf("OK\n");
+
 
  	if (draw_debug)
 	{
@@ -2505,14 +2516,14 @@ void 	test_world()
 	printf("- Scene intersections : ");
 
 	int ret = mergesort(ray.xs.vec.memory, ray.xs.vec.len, ray.xs.vec.elem_size, intersection_compare);
-/* 	is = *(t_intersection *) vec_get(&intersections.vec, 0);
+/*  	is = *(t_intersection *) vec_get(&intersections.vec, 0);
 	assert(nearly_equal(is.t, 4.0));
 	is = *(t_intersection *) vec_get(&intersections.vec, 1);
 	assert(nearly_equal(is.t, 4.5));
 	is = *(t_intersection *) vec_get(&intersections.vec, 2);
 	assert(nearly_equal(is.t, 5.5));
 	is = *(t_intersection *) vec_get(&intersections.vec, 3);
-	assert(nearly_equal(is.t, 6)); */
+	assert(nearly_equal(is.t, 6));  */
 
 	printf("- merge ret %d:\n", ret);
 	while (i < ray.xs.vec.len)
@@ -2535,18 +2546,16 @@ void 	test_world()
 
 void	test_precompute()
 {
-	printf(" ☢️  1 \n");
 	// Precomputing the state of an intersection
 	t_ray ray = ray_new(point_new(0, 0, -5), vector_new(0, 0, 1));
-	printf(" ☢️  2\n");
 	t_object shape = object_new(SPHERE);
-	printf(" ☢️  3\n");
 	t_intersection intersection = intersection_new(4, &shape); 
-	printf(" ☢️  4\n");
 	vec_push(&ray.xs.vec, &intersection);
-	t_hit_record computations = precompute(intersection, &ray);
-	printf(" ☢️  5\n");
+	precompute(/* intersection,  */&ray);
+	t_hit_record computations = ray.hit;
 	assert(computations.object->id == shape.id);
+	printf("computations.hit_loc: \n");
+	tuple_print(computations.hit_loc);
 	assert(tuples_equal(computations.hit_loc, point_new(0,0,-1)));
 	assert(tuples_equal(computations.to_eye, vector_new(0,0,-1)));
 	assert(tuples_equal(computations.normal, vector_new(0,0,-1)));
@@ -2558,7 +2567,8 @@ void	test_precompute()
 	shape = object_new(SPHERE);
 	intersection = intersection_new(1, &shape);
 	vec_push(&ray.xs.vec, &intersection);
-	computations = precompute(intersection, &ray);
+	precompute(/* intersection, */ &ray);
+	computations = ray.hit;
 	assert(computations.object->id == shape.id);
 	assert(tuples_equal(computations.hit_loc, point_new(0,0,1)));
 	assert(tuples_equal(computations.to_eye, vector_new(0,0,-1)));
@@ -2574,8 +2584,9 @@ void	test_precompute()
 		shape = *(t_object *) vec_get(&scene.objects, 0);
 	intersection = intersection_new(4, &shape);
 	vec_push(&ray.xs.vec, &intersection);
-	computations = precompute(intersection, &ray);
-	t_color color = shade_hit(&scene, &computations);
+	precompute(/* intersection,  */&ray);
+	computations = ray.hit;
+	t_color color = shade_hit(&scene, &ray);
 	tuple_print(color);
 	assert(tuples_equal(color, color_new(0.38066, 0.47583, 0.2855)));
 
@@ -2589,10 +2600,12 @@ void	test_precompute()
 	tuple_print((*(t_light *)vec_get(&scene.lights, 0)).intensity);;
 	intersection = intersection_new(0.5, &shape);
 	vec_push(&ray.xs.vec, &intersection);
-	computations = precompute(intersection, &ray);
-	color = shade_hit(&scene, &computations);
+	precompute(/* intersection, */ &ray);
+	computations = ray.hit;
+	color = shade_hit(&scene, &ray);
 	printf("should be: 0.90498, 0.90498, 0.90498\n");
 	tuple_print(color);
+	assert(tuples_equal(color, color_new(0.90498, 0.90498, 0.90498)));
 // Given w ← default_world()
 // And r ← ray(point(0, 0, -5), vector(0, 0, 1)) 
 // And shape ← the first object in w
@@ -2610,7 +2623,7 @@ void	test_scene()
 	default_scene(&scene);
 	t_ray ray = ray_new(point_new(0,0,-5), vector_new(0, 1, 0));
 	printf("🚥 1\n");
-	t_color color = color_at(&scene, &ray, 0);
+	t_color color = color_at(&scene, &ray);
 	printf("🚥 2\n");
 	assert(tuples_equal(color, color_new(0,0,0)));
 
@@ -2623,7 +2636,7 @@ void	test_scene()
 	printf("🚥 4\n");
 	ray = ray_new(point_new(0,0,-5), vector_new(0, 0, 1));
 	printf("🚥 5\n");
-	color = color_at(&scene2, &ray, 0);
+	color = color_at(&scene2, &ray);
 	printf("🚥 6\n");
 	t_object pallo1 = *(t_object *) vec_get(&scene.objects, 0);
 	t_object pallo2 = *(t_object *) vec_get(&scene.objects, 1);
@@ -2637,7 +2650,7 @@ void	test_scene()
 	default_scene(&scene3);
 	t_object *obj1 = (t_object *)vec_get(&scene3.objects, 0);
 	t_object *obj2 = (t_object *)vec_get(&scene3.objects, 1);
-	obj1->material.ambient = 0.5;
+	obj1->material.ambient = 1.0;
 	obj2->material.ambient = 1;
 	t_color inner_color = obj2->material.color;
 	t_color outer_color = obj1->material.color;
@@ -2646,19 +2659,23 @@ void	test_scene()
 	tuple_print(inner_color);
 	printf("outer color");
 	tuple_print(outer_color);
-	color =	color_at(&scene3, &ray, 0);
+	color =	color_at(&scene3, &ray);
 	printf("color_at color");
 	tuple_print(color);
 	printf("🚥 7\n");
-	// UNCOMMENT THIS ASSERT
-	// assert(tuples_equal(inner_color, color));
+
+
+	assert(tuples_equal(inner_color, color));       // WHATS GOING ON
+	
+	
 	printf("🚥 8\n");
 
 }
 
 void test_shadows()
 {
-
+ 
+	// Lighting with the surface in shadow
 	t_vector to_eye_v = vector_new(0, 0, -1);
 	t_vector normal_v = vector_new(0, 0, -1);
 	t_point origo = point_new(0, 0, 0);
@@ -2669,5 +2686,120 @@ void test_shadows()
 	t_color reference = color_new(0.1,0.1,0.1);
 	assert(tuples_equal(result, reference));
 
+	// There is no shadow when nothing is collinear with point and light
+
+	t_scene scene;
+	default_scene(&scene);
+	t_point p = point_new(0, 10, 0);
+	light = *(t_light *)vec_get(&scene.lights, 0);
+	assert(is_shadowed(&scene, light, p) == 0);
+
+	// The shadow when an object is between the point and the light
+	p = point_new(10, -10, 10);
+	assert(is_shadowed(&scene, light, p) == 1);
+
+	p = point_new(-20, 20, -20);
+	assert(is_shadowed(&scene, light, p) == 0);
+
+	p = point_new(-2, 2, -2);
+	printf("Is shadowed with -2, 2, -2? Should be 0. Is: %d\n", is_shadowed(&scene, light, p));
+	assert(is_shadowed(&scene, light, p) == 0);
+
+	// shade_hit() is given an intersection in shadow
+
+	t_scene scene_54;
+	default_scene(&scene_54);
+	light = point_light_new(point_new(0,0,-10), color_new(1, 1, 1));
+	// t_light * lp = (t_light *)vec_get(&scene_54.lights, 0);
+	// lp = &light;
+	scene_54.lights.len = 0;
+	scene_54.objects.len = 0;
+	vec_push(&scene_54.lights, &light);
+
+	t_object s_1 = object_new(SPHERE);
+	vec_push(&scene_54.objects, &s_1);
+	t_object s_2 = object_new(SPHERE);
+	t_matrix t = matrix_translate(0,0,10);
+	s_2.transform = t;
+	vec_push(&scene_54.objects, &s_2);
+	t_ray ray = ray_new(point_new(0,0,5), vector_new(0,0,1));
+	t_intersection i = intersection_new(4, &s_2);
+	// ray.xs.vec
+	vec_push(&ray.xs.vec, &i);
+	precompute(&ray);
+	t_hit_record hit = ray.hit;
+	t_color color = shade_hit(&scene_54, &ray);
+	printf("Color should be 0.1, 0.1, 0.1\nColor is: ");
+	tuple_print(color);
+	assert(tuples_equal(color, color_new(0.1, 0.1, 0.1)));
+
+	// The hit should offset the point
+
+	ray = ray_new(point_new(0,0,-5), vector_new(0,0,1));
+	t_object shape = object_new(SPHERE);
+	t = matrix_translate(0,0,1);
+	i = intersection_new(5, &shape);
+	vec_push(&ray.xs.vec, &i);
+	precompute(&ray);
+	hit = ray.hit;
+	printf("hit.over_point.s_xyzw.z: %lf\n", hit.over_point.s_xyzw.z);
+	printf("hit.hit_loc.s_xyzw.z: %lf\n", hit.hit_loc.s_xyzw.z);
+}
+
+void	test_reflections()
+{
+	// Reflectivity for the default material
+	t_material m = material_new();
+	assert(m.reflective == 0.0);
 	
+	// Precomputing the reflection vector
+	t_object obj = object_new(PLANE);
+	t_ray ray = ray_new(point_new(0, 1, -1), vector_new(0, -sqrt(2)/2, sqrt(2)/2));
+	tuple_print(ray.dir);
+	t_intersection i = intersection_new(sqrt(2), &obj);
+	vec_push(&ray.xs.vec, &i);
+	precompute(&ray);
+	t_hit_record hit = ray.hit;
+	tuple_print(hit.reflect_v);
+	assert(tuples_equal(hit.reflect_v, vector_new(0, sqrt(2)/2, sqrt(2)/2)));
+
+	// The reflected color for a nonreflective material
+
+	t_scene scene;
+	default_scene(&scene);
+	ray = ray_new(point_new(0, 0, 0), vector_new(0, 0, 1));
+	t_object *obj_p;
+	obj_p = (t_object *) vec_get(&scene.objects, 1);
+	// printf("obj_p->material.reflective: %lf\n", obj_p->material.reflective);
+	obj_p->material.ambient = 1;
+	 i = intersection_new(1, obj_p);
+	vec_push(&ray.xs.vec, &i);
+	precompute(&ray);
+	t_color color = reflected_color(&scene, &ray);
+	tuple_print(color);
+	
+
+	// The reflected color for a reflective material
+	printf("The reflected color for a reflective material\n");
+	t_scene scene3;
+	default_scene(&scene3);
+	obj = object_new(PLANE);
+	m = material_new();
+	m.reflective = 0.5;
+	t_matrix t = matrix_translate(0, -1, 0);
+	obj.transform = t;
+	obj.material = m;
+	// t_object obj_t;
+	vec_push(&scene3.objects, &obj);
+	// obj_t = *(t_object *) vec_get(&scene3.objects, 2);
+	// printf("obj_t->material.reflective: %lf\n", obj_t.material.reflective);
+	ray = ray_new(point_new(0, 0, -3), vector_new(0, -sqrt(2)/2, sqrt(2)/2));
+	i = intersection_new(sqrt(2), &obj);
+	vec_push(&ray.xs.vec, &i);
+	precompute(&ray);
+	color = reflected_color(&scene3, &ray);
+	tuple_print(color);
+
+
+
 }

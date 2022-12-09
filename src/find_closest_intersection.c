@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 18:16:21 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 15:24:30 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/09 14:48:23 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,22 @@ t_intersection	find_closest_intersection(t_intersections *xs)
  	t_intersection	closest;
 	size_t			i;
 	size_t			closest_i;
-
+	
+	// mergesort(xs->vec.memory, xs->vec.len, xs->vec.elem_size, intersection_compare);
+ 
 	i = 0;
 	closest.t = INFINITY;
+	// closest.object = NULL;
 	while (i < xs->vec.len)
 	{
 		intersection = *(t_intersection *)vec_get(&xs->vec, i);
 		if (intersection.t < closest.t && intersection.t > 0)
 		{
-			intersection = *(t_intersection *)vec_get(&xs->vec, i);
+			closest = intersection;
 			closest_i = i;
 		}
 		i++;
 	} 
-	if (closest.t > 9999)
-		return (*(t_intersection *)vec_get(&xs->vec, 0));
 	
-	return (intersection);
+	return (closest);
 }

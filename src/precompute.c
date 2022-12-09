@@ -6,37 +6,39 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 19:04:17 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/29 16:56:20 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/09 15:40:33 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object.h"
 #include "stdio.h"
+#include "rt.h"
 
-t_hit_record	precompute(t_intersection intersection, t_ray *ray)
+void/* t_hit_record */	precompute(/* t_intersection intersection, */ t_ray *ray)
 {
 	t_hit_record	hit;
 	t_intersection closest_t;
 // 
-	// printf(" ⏰ 1\n");
-
 	closest_t = find_closest_intersection(&ray->xs);
-	// printf(" ⏰ 2\n");
-	hit.hit_dist = intersection.t;
-	hit.object = intersection.object;
+	// SEGFAULT FIX
+	if (closest_t.t > 999999)
+		return ;
+	hit.hit_dist = closest_t.t;
+	hit.object = closest_t.object;
 	hit.hit_loc = ray_position(*ray, hit.hit_dist);
-	// printf(" ⏰ 3\n");
 	hit.to_eye = tuple_neg(ray->dir);
-	// printf(" ⏰ 4\n");
 	hit.normal = normal_at(hit.object, hit.hit_loc);
-	// printf(" ⏰ 5\n");
+	 //hit.hit_loc = tuple_add(hit.hit_loc, tuple_scalar_mult(hit.normal,  2 * EPSILON));
+	 //comps.over_point ← comps.point + comps.normalv * EPSILON
 	if (vector_dot(hit.normal, hit.to_eye) < 0)
 	{
 		hit.inside = 1;
 		hit.normal = tuple_neg(hit.normal);
-		// printf(" ⏰ 6\n");
 	}
 	else
 		hit.inside = 0;
-	return (hit);
+	hit.over_point = tuple_add(hit.hit_loc, tuple_scalar_mult(hit.normal, EPSILON));
+	hit.reflect_v = vector_reflect(ray->dir, hit.normal);
+	ray->hit = hit;
+	// return (hit);
 }

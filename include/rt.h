@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 15:17:17 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/09 18:31:08 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "perlin_noice.h"
 # include <stdio.h>
 
-# define WIN_W 421
-# define WIN_H 421
+# define WIN_W 12
+# define WIN_H 12
 # define A_A_DIV 1
 # define EPSILON 0.00006103515625
 
@@ -78,7 +78,7 @@ typedef struct s_scene
 {
 	t_vec			lights;
 	t_vec			objects;
-	t_intersections	intersections;
+	// t_intersections	intersections;
 }					t_scene;
 
 typedef struct s_main
@@ -119,7 +119,7 @@ t_tuple				get_cone_normal(t_main *main, t_hit_record *hit);
 
 void				add_hit_color(t_main *main, t_ray *shadow);
 unsigned int		color_to_int(t_color color);
-void				fix_aliasing_color(t_main *main, int sub_pixel_count);
+void				fix_aliasing_color(t_color *color, int sub_pixel_count);
 int					check_shadow(t_main *main, t_ray *ray);
 void				creat_filters(t_frame_buffer *fb);
 
@@ -147,7 +147,7 @@ t_point				ray_position(t_ray ray, double t);
 t_light				point_light_new(t_point position, t_color intensity);
 t_light				sun_light_new(t_point direction, t_color intensity);
 /* t_light				ambient_light_new(t_color intensity); */
-t_material			material_new();
+// t_material			material_new();
 
 
 // t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal);
@@ -161,9 +161,14 @@ void				img_pixel_put(
 int					scene_new(t_scene *scene);
 int					default_scene(t_scene *scene);
 void				scene_intersect(t_scene *scene, t_ray *ray);
-t_color				shade_hit(t_scene *scene, t_hit_record *hit);
-t_color				color_at(t_scene *scene, t_ray *ray, int pixel);
+t_color				shade_hit(t_scene *scene, t_ray *ray);
+t_color				color_at(t_scene *scene, t_ray *ray);
 int					intersection_compare(const void *d1, const void *d2);
+
+int					is_shadowed(t_scene *scene, t_light light, t_point point);
+void				double_swap(double *left, double *right);
+
+t_color				reflected_color(t_scene *scene, t_ray *ray);
 
 
 

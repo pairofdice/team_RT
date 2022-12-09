@@ -6,7 +6,7 @@
 #    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/12/05 15:02:21 by jsaarine         ###   ########.fr        #
+#    Updated: 2022/12/08 17:29:58 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,9 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								precompute.c\
 								shade_hit.c\
 								color_at.c\
+								is_shadowed.c\
+								double_swap.c\
+								reflected_color.c\
 								unit_tests.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
@@ -113,14 +116,14 @@ LD = gcc
 LDFLAGS = $(libsdl2_ldflags) # -flto
 CC = gcc
 OPTFLAGS = -O3 -flto # PUT BACK IN
-CFLAGS = -g -c -Wall -Werror -Wextra $(addprefix -I, $(INCLUDE_DIR))\
+CFLAGS = -g -fsanitize=address -c -Wall -Werror -Wextra $(addprefix -I, $(INCLUDE_DIR))\
 	$(libsdl2_cflags)
 CPPFLAGS = -D_REENTRANT
 
 all: $(NAME)
 
 $(NAME): $(FT_LIBRERY) $(SCREEN_SHOT_DIR) $(OBJCT_FILES) | $(BUILD_DIR) 
-	$(LD) -g $(FT_LIBRERY) $(OBJCT_FILES) $(LDFLAGS) -o $(NAME)
+	$(LD) -g -fsanitize=address $(FT_LIBRERY) $(OBJCT_FILES) $(LDFLAGS) -o $(NAME)
 
 $(OBJCT_FILES): $(libsdl2_lib)
 

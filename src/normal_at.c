@@ -6,13 +6,14 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:08:01 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/01 16:56:14 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:07:25 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tuple.h"
 #include "object.h"
 #include <math.h>
+
 
 
 t_vector	normal_at(t_object *obj, t_point point)

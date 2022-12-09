@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 16:49:21 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/27 16:16:46 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/07 18:10:05 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@
 	
 // }
 
-void	fix_aliasing_color(t_main *main, int sub_pixel_count)
+void	fix_aliasing_color(t_color *color, int sub_pixel_count)
 {
-	main->ray.hit.color.s_rgb.r /= sub_pixel_count;
-	main->ray.hit.color.s_rgb.g /= sub_pixel_count;
-	main->ray.hit.color.s_rgb.b /= sub_pixel_count;
+	color->s_rgb.r /= sub_pixel_count;
+	color->s_rgb.g /= sub_pixel_count;
+	color->s_rgb.b /= sub_pixel_count;
 }

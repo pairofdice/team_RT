@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/07 14:54:45 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/07 16:01:41 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ t_matrix	matrix_rotate_y(double w)
 
 	transform = matrix_new_identity(4);
 	transform.rc[0][0] = cos(w);
+	transform.rc[2][2] = cos(w);
 	transform.rc[0][2] = sin(w);
 	transform.rc[2][0] = -sin(w);
-	transform.rc[2][2] = cos(w);
 	return (transform);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:03:04 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/13 19:33:11 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:25:22 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,14 @@ void	taskhandler(void *main)
 	{
 		
 		pthread_mutex_lock(&ctx->multi.tasks_taken_mutex);
-		if (ctx->multi.tasks_taken >= NUM_TASKS)
+		if (ctx->multi.tasks_taken == NUM_TASKS)
 			worker_wait(ctx);
 		else
 		{
 			worker_task(&task_n, ctx);
-			if (ctx->multi.tasks_done >= NUM_TASKS)
+			if (ctx->multi.tasks_done == NUM_TASKS)
 			{
 				worker_broadcast(ctx);
-				break ;
 			}
 			else
 				pthread_mutex_unlock(&ctx->multi.tasks_done_mutex);

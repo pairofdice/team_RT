@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/27 18:32:16 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/09 15:13:36 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_material
 	double	diffuse;
 	double	specular;
 	double	shininess;
+	double	reflective;
 	
 }	t_material;
 
@@ -57,6 +58,8 @@ typedef struct s_object
 	t_tuple			color;
 	t_material		material;
 	char 			*debug;
+	double			y_min;
+	double			y_max;
 }					t_object;
 
 typedef struct s_abc
@@ -82,6 +85,7 @@ typedef struct s_intersections
 typedef struct s_hit_record
 {
 	t_tuple			hit_loc;
+	t_tuple			over_point;
 	t_tuple			normal;
 	double			hit_dist;
 	int				clo_obj_id;
@@ -89,6 +93,8 @@ typedef struct s_hit_record
 	t_vector		to_eye;
 	t_object		*object;
 	int				inside;
+	t_vector		reflect_v;
+	
 }					t_hit_record;
 
 typedef struct s_ray
@@ -97,6 +103,8 @@ typedef struct s_ray
 	t_tuple			dir;
 	t_hit_record	hit;
 	t_intersections	xs;
+	int				depth;
+	int				depth_max;
 }					t_ray;
 
 typedef struct s_intersection
@@ -144,7 +152,7 @@ t_intersection	find_closest_intersection(t_intersections *xs);
 void				set_transform(t_object *obj, t_matrix *transform);
 t_vector			normal_at(t_object *obj, t_point point);
 t_material			material_new();
-t_hit_record		precompute(t_intersection intersection, t_ray *ray);
+void/* t_hit_record */		precompute(/* t_intersection intersection, */ t_ray *ray);
 
 
 #endif

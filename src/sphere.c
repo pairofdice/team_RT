@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:41:16 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/27 18:32:51 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/08 15:33:14 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	intersect_sphere(t_ray *inc_ray, t_object *s)
 	t_ray			ray;
 
 	// printf("IN 🏀 1\n");
+	
 
 	ray = ray_new_no_malloc(inc_ray->orig, inc_ray->dir);
 	inverse_transform = matrix_inverse(&s->transform);

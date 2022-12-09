@@ -1,36 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_determinant.c                               :+:      :+:    :+:   */
+/*   double_swap.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/08 17:05:42 by jsaarine         ###   ########.fr       */
+/*   Created: 2022/12/07 15:01:45 by jsaarine          #+#    #+#             */
+/*   Updated: 2022/12/07 15:04:00 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
-
-double	matrix_determinant(t_matrix *m)
+void	double_swap(double *left, double *right)
 {
-	size_t	i;
-	double	result;
+	double	temp;
 
-	if (m->size == 2)
-		return (m->rc[0][0] * m->rc[1][1] - m->rc[0][1] * m->rc[1][0]);
-	result = 0.0;
-	i = 0;
-	// remove?
-	if (m->size == 3 || m->size == 4 )
-	// remove?
-	{
-		while (i < m->size)
-		{
-			result += m->rc[0][i] * matrix_cofactor(m, 0, i);
-			i++;
-		}
-		return (result);
-	}
-	return (-1);
+	temp = *left;
+	*left = *right;
+	*right = temp;
 }

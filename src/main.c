@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 15:55:09 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/09 17:53:01 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,50 +98,94 @@ int	main(void)
  
 	t_matrix	scale;
 	t_matrix	translate;
+	t_matrix	rotate;
+	t_matrix	rotate_t;
 
-	obj = object_new(SPHERE);
-	vec_push(&main.scene.objects, &obj);
+	// obj = object_new(SPHERE);
+	// vec_push(&main.scene.objects, &obj);
 	
-	obj = object_new(SPHERE);
-	scale = matrix_scale(0.2, 0.2, 0.2);
-	translate = matrix_translate(0,0,-1);
+	// obj = object_new(SPHERE);
+	// scale = matrix_scale(0.2, 0.2, 0.2);
+	// translate = matrix_translate(0,0,-1);
+	// obj.transform = matrix_multiply(&obj.transform, &translate);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	// vec_push(&main.scene.objects, &obj);
+	
+	// obj = object_new(SPHERE);
+	// translate = matrix_translate(1,0,0);
+	// obj.transform = matrix_multiply(&obj.transform, &translate);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	// vec_push(&main.scene.objects, &obj);
+	
+	// obj = object_new(SPHERE);
+	// translate = matrix_translate(-1,0,0);
+	// obj.transform = matrix_multiply(&obj.transform, &translate);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	// vec_push(&main.scene.objects, &obj);
+	
+	// obj = object_new(SPHERE);
+	// translate = matrix_translate(0,1,0);
+	// obj.transform = matrix_multiply(&obj.transform, &translate);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	// vec_push(&main.scene.objects, &obj);
+	
+	// obj = object_new(SPHERE);
+	// translate = matrix_translate(0,-1,0);
+	// obj.transform = matrix_multiply(&obj.transform, &translate);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	// vec_push(&main.scene.objects, &obj);
+	
+	// obj = object_new(CYLINDER);
+	// translate = matrix_translate(-0.3,0,0);
+	// scale = matrix_scale(0.7, 0.7, 0.7);
+	// rotate = matrix_rotate_x(1.2);
+	// rotate_t = matrix_rotate_z(1.4);
+	// rotate = matrix_multiply(&rotate, &rotate_t);
+	// rotate_t = matrix_rotate_y(1.2);
+	// rotate = matrix_multiply(&rotate, &rotate_t);
+	// obj.transform = matrix_multiply(&obj.transform, &translate);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	// obj.transform = matrix_multiply(&obj.transform, &rotate);
+	// vec_push(&main.scene.objects, &obj);
+	
+	obj = object_new(CYLINDER);
+	translate = matrix_translate(0,0,0);
+	scale = matrix_scale(0.2, 2.0, 0.2);
+	rotate = matrix_rotate_z(0.9);
+	rotate_t = matrix_rotate_y(-2);
+	rotate = matrix_multiply(&rotate_t, &rotate);
+
 	obj.transform = matrix_multiply(&obj.transform, &translate);
+	obj.transform = matrix_multiply(&obj.transform, &rotate);
 	obj.transform = matrix_multiply(&obj.transform, &scale);
 	vec_push(&main.scene.objects, &obj);
-	
-	obj = object_new(SPHERE);
-	translate = matrix_translate(1,0,0);
-	obj.transform = matrix_multiply(&obj.transform, &translate);
-	obj.transform = matrix_multiply(&obj.transform, &scale);
-	vec_push(&main.scene.objects, &obj);
-	
-	obj = object_new(SPHERE);
-	translate = matrix_translate(-1,0,0);
-	obj.transform = matrix_multiply(&obj.transform, &translate);
-	obj.transform = matrix_multiply(&obj.transform, &scale);
-	vec_push(&main.scene.objects, &obj);
-	
-	obj = object_new(SPHERE);
-	translate = matrix_translate(0,1,0);
-	obj.transform = matrix_multiply(&obj.transform, &translate);
-	obj.transform = matrix_multiply(&obj.transform, &scale);
-	vec_push(&main.scene.objects, &obj);
-	
-	obj = object_new(SPHERE);
-	translate = matrix_translate(0,-1,0);
-	obj.transform = matrix_multiply(&obj.transform, &translate);
-	obj.transform = matrix_multiply(&obj.transform, &scale);
+	obj = object_new(PLANE);
 	vec_push(&main.scene.objects, &obj);
 
+	t_material mat = material_new();
+	mat.reflective = 1.0;
+	mat.color = color_new(0.2,0.2,0.2);
+	
 	obj = object_new(SPHERE);
-	translate = matrix_translate(0,0,2);
-	scale = matrix_scale(20.0, 20.0, 0.1);
+	obj.material = mat;
+	translate = matrix_translate(0,0,0);
+	// scale = matrix_scale(0.2, 2.0, 0.2);
+	// rotate = matrix_rotate_z(0.9);
 	obj.transform = matrix_multiply(&obj.transform, &translate);
-	obj.transform = matrix_multiply(&obj.transform, &scale);
-	vec_push(&main.scene.objects, &obj); 
+	// obj.transform = matrix_multiply(&obj.transform, &rotate);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	vec_push(&main.scene.objects, &obj);
+	
+
+	// obj = object_new(SPHERE);
+	// translate = matrix_translate(0,0,2);
+	// scale = matrix_scale(20.0, 20.0, 0.1);
+	// obj.transform = matrix_multiply(&obj.transform, &translate);
+	// obj.transform = matrix_multiply(&obj.transform, &scale);
+	// vec_push(&main.scene.objects, &obj); 
 	 
 	t_matrix	cam_transform;
-	t_matrix	rotate;
+
 	t_matrix	cam_scale;
 	
 
@@ -151,7 +195,7 @@ int	main(void)
 	if (initialize_window(&main) == 0)
 		return (1);
 	
-	cam_transform = matrix_translate(0.0, 0.001, -3.0);
+	cam_transform = matrix_translate(0.0, 0.5, -3.0);
 	double						x_r = 0.001;
 	double						y_r = 0.01;
 	double						z_r = 0.0;
@@ -266,7 +310,7 @@ int	main(void)
 			ft_putstr("");
 		edge_detection(&main.sdl.frame_buffer);
 		main.ant_al = A_A_DIV;
-		// draw_frame(&main);
+		draw_frame(&main);
 		creat_filters(&main.sdl.frame_buffer);
 	}
 	else

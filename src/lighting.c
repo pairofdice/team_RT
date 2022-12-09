@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 14:12:38 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/05 13:35:44 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/05 17:33:32 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 // light source
 // the eye 
 // normal_v vector from the Phong reflection model
+// are we in shadow or not
 t_color	lighting(t_material *mat, t_light light, t_point point, t_vector to_eye, t_vector normal_v, int in_shadow)
 {
 	t_color		result;
@@ -47,11 +48,8 @@ t_color	lighting(t_material *mat, t_light light, t_point point, t_vector to_eye,
 	// light vector and the normal_v vector. A negative number means the 
 	// light is on the other side of the surface.
 	light_dot_normal = vector_dot(to_light_v, normal_v);
-
-	if (in_shadow)
-	{}
 	
-	if (light_dot_normal < 0 /* || in_shadow */)
+	if (light_dot_normal < 0 || in_shadow)
 	{
 		diffuse = color_new(0, 0, 0);
 		specular = color_new(0, 0, 0);

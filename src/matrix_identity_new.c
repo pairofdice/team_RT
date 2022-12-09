@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/11/06 20:22:35 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/08 17:05:10 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ t_matrix	matrix_identity_new(int size)
 	t_matrix	m;
 	t_coords	c;
 
-	m = matrix_new(size);
+	// v remove
+	if (size >= 2 && size <= 4 )
+		m = matrix_new(size);
+	else
+		m = matrix_new(4);
+	// ^ remove
 	c.col = 0;
 	while (c.col < m.size)
 	{
