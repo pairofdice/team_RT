@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:28:45 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/07 11:35:12 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:56:57 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,7 @@ t_matrix	motion_move(t_matrix orig, t_motion_blur *motion)
 	t_tuple		dist;
 	double		move_dist;
 
-/* 	if (motion->speed > 1)
-		move_dist = (motion->speed * 0.1);
-	else */
 	move_dist = 0.1;
-/* 	if (move_dist > 0.5)
-		move_dist = 0.5; */
 	dist = tuple_scalar_mult(motion->dir, move_dist);
 	new = matrix_translate(dist.s_xyzw.x, dist.s_xyzw.y, dist.s_xyzw.z);
 	new = matrix_multiply(&orig, &new);

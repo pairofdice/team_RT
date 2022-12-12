@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 13:38:00 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 17:14:42 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:53:45 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ int	*get_correct_buffer(t_sdl *sdl, int *filter_type)
 		return (sdl->frame_buffer.stereocopy);
 	else
 		return (sdl->frame_buffer.filter);
-
 }
 
 void	kay_hooks(t_sdl *sdl, int *quit, int *filter_type)
 {
 	if (sdl->event.type == SDL_QUIT)
-				*quit = 1;
+		*quit = 1;
 	if (sdl->event.type == SDL_KEYDOWN)
 	{
 		if (sdl->event.key.keysym.sym == SDLK_ESCAPE)

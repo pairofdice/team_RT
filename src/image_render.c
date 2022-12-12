@@ -6,29 +6,12 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/11/28 17:08:28 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 15:07:00 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
-/* int	get_shape_intersections(t_ray *ray, t_object *shape)
-{
-	int	ret;
-
-	ret = 0;
-	if (shape->type == SPHERE)
-		ret = intersect_sphere(ray, shape);
-	else if (shape->type == CYLINDER)
-		ret = intersect_cylinder(ray, shape);
-	else if (shape->type == PLANE)
-		ret = intersect_plane(ray, shape);
-	else if (shape->type == CONE)
-		ret = intersect_cone(ray, shape);
-	
-	return (ret);
-}
- */
 int	fill_hit_record(t_main *main, t_ray *ray)
 {
 	t_intersection	closest_t;
@@ -47,7 +30,8 @@ int	fill_hit_record(t_main *main, t_ray *ray)
 		ray->hit.hit_dist = closest_t.t;
 		ray->hit.clo_obj_id = (int)closest_t.i;
 		ray->hit.hit_loc = ray_position(*ray, ray->hit.hit_dist);
-		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id], ray->hit.hit_loc);
+		ray->hit.normal = normal_at(&main->obj[ray->hit.clo_obj_id],
+				ray->hit.hit_loc);
 	}
 	ray->hit.object = &main->obj[ray->hit.clo_obj_id];
 	return (0);
@@ -72,16 +56,15 @@ int	ray_shooter(t_ray *ray, t_main *main)
 		if (fill_hit_record(main, ray) == 1)
 			return (0);
 		hit_color = lighting(main->obj[ray->hit.clo_obj_id].material,
-							main->light, ray->hit.hit_loc, tuple_neg(ray->dir),
-							ray->hit.normal);
+				main->light, ray->hit.hit_loc, tuple_neg(ray->dir),
+				ray->hit.normal);
 		if (main->obj[ray->hit.clo_obj_id].material.pattern.pattern_id != NONE)
 			pattern_at(ray->hit, ray->hit.hit_loc, &hit_color, &main->perlin);
 		main->ray.hit.color = tuple_add(main->ray.hit.color, hit_color);
-		return (1);
 	}
+	vec_free(&main->ray.xs.vec);
 	return (0);
 }
-
 
 int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 {
@@ -95,34 +78,25 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
 	j = 0;
 	offset = (1.0 / ant_al);
 	sup_pixels = 0;
-	if (ant_al == 1)
+	while (j < ant_al)
 	{
-		initialize_ray(&main->ray, (double)pixel_x + 0.5, (double)pixel_y + 0.5, &main->cam);
-		ray_shooter(&main->ray, main);
-		vec_free(&main->ray.xs.vec);
-	}
-	else
-	{
-		while (j < ant_al)
+		i = 0;
+		y = ((float)pixel_y + (offset / 2) + (offset * j));
+		while (i < ant_al)
 		{
-			i = 0;
-			y = ((float)pixel_y + (offset / 2) + (offset * j));
-			while (i < ant_al)
+			if (ant_al == 1 || (((j % 2 == 0) && (i % 2 == 1))
+					|| ((j % 2 == 1) && (i % 2 == 0))))
 			{
-				if (((j % 2 == 0) && (i % 2 == 1)) || ((j % 2 == 1) && (i % 2 == 0)))
-				{
-					x = ((float)pixel_x + (offset / 2) + (offset * i));
-					initialize_ray(&main->ray, x, y, &main->cam);
-					ray_shooter(&main->ray, main);
-					sup_pixels++;
-					vec_free(&main->ray.xs.vec);
-				}
-				i++;
+				x = ((float)pixel_x + (offset / 2) + (offset * i));
+				initialize_ray(&main->ray, x, y, &main->cam);
+				ray_shooter(&main->ray, main);
+				sup_pixels++;
 			}
-			j++;
+			i++;
 		}
-		fix_aliasing_color(main, sup_pixels);
+		j++;
 	}
+	fix_aliasing_color(main, sup_pixels);
 	return (color_to_int(main->ray.hit.color));
 }
 
@@ -134,13 +108,13 @@ void	render_image(t_main	*main, int task, int ant_al)
 	int		color;
 
 	y = task;
-	copy = *main;
+	copy = (t_main) *main;
 	while (y < WIN_H)
 	{
 		x = 0;
 		while (x < WIN_W)
 		{
-			copy.ray.hit.color = color_new(0,0,0);
+			copy.ray.hit.color = color_new(0, 0, 0);
 			while (ant_al != 1 && x < WIN_W
 				&& main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
 				x++;

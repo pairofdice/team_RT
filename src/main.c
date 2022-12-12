@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/07 11:39:53 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 13:16:21 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	main(void)
 	
 	main.obj[0] = object_new(SPHERE);
 	
-	main.obj[0].transform = matrix_translate(0.0, 0.0, 10.0);
+	main.obj[0].transform = matrix_translate(0.0, 0.0, 7.0);
 											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
@@ -114,13 +114,13 @@ int	main(void)
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &rotate);
-	scale = matrix_scale(1,1,1);
+	scale = matrix_scale(2,2,2);
 	main.obj[0].transform = matrix_multiply(&main.obj[0].transform, &scale);
 	main.obj[0].material.color = color_new(1,0,0);
-	main.obj[0].motion = motion_new(FALSE, 5.0, tuple_unit(vector_new(1,0,0)));
+	main.obj[0].motion = motion_new(TRUE, 5.0, tuple_unit(vector_new(1,0,0)));
 	main.obj[0].material.pattern.pattern_id = NONE;
 	main.obj[0].material.pattern.pattern_perlin = TRUE;
-	main.obj[0].negative = FALSE;
+	main.obj[0].negative = TRUE;
 	
 	main.obj[1] = object_new(PLANE);
 	main.obj[1].transform = matrix_translate(0, -10.0, 15.0);
@@ -211,12 +211,12 @@ int	main(void)
 	main.obj[5].transform = matrix_multiply(&main.obj[5].transform, &rotate);
 	scale = matrix_scale(4,4,4);
 	main.obj[5].transform = matrix_multiply(&main.obj[5].transform, &scale);
-	main.obj[5].material.color = color_new(1, 0.3,0.1);
+	main.obj[5].material.color = color_new(1, 0.3, 0.1);
 	main.obj[5].material.pattern.pattern_id = GRID;
 	main.obj[5].material.pattern.pattern_perlin = TRUE;
 	main.obj[5].negative = FALSE;
 
-	main.obj_count = 3;
+	main.obj_count = 6;
 	
 	int draw_debug = 0;
 
@@ -227,11 +227,11 @@ int	main(void)
 		create_threads(&main, 1);
 		draw_frame(&main);
 		edge_detection(&main.sdl.frame_buffer);
-		main.ant_al = A_A_DIV;
-		draw_frame(&main);
-		if (main.sdl.stereocopy == TRUE)
-			create_stereoscope(&main, cam_scale, main.cam.transform);
-		create_motion_blur(&main);
+/* 		main.ant_al = A_A_DIV;
+		draw_frame(&main); */
+/* 		if (main.sdl.stereocopy == TRUE)
+			create_stereoscope(&main, cam_scale, main.cam.transform); */
+		/* create_motion_blur(&main); */
 	}
 	/* tests(&main, draw_debug); */
 	rt_loop_and_exit(&main.sdl);

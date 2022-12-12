@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/12/05 16:45:35 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/12/12 14:21:49 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,13 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								edge_detection.c\
 								filters.c\
 								filter_sepia.c\
+								multi_thread_worker.c\
 								multi_thread.c\
 								key_hooks.c\
 								create_screen_shot.c\
+								create_screen_shot_name.c\
 								perlin_noice.c\
+								perlin_noice_maths.c\
 								tuple_print.c\
 								tuple_new.c\
 								tuple_equal.c\
@@ -96,11 +99,11 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								scene_intersect.c\
 								precompute.c\
 								shade_hit.c\
-								unit_tests.c\
 								pattern_at.c\
 								pattern_striped.c\
 								pattern_grid.c\
 								negative_shape.c\
+								negative_find_shapes.c\
 								camera_coi_transform.c\
 								stereoscopy.c\
 								motion_new.c\
