@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/07 11:06:27 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 13:01:30 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # include "motion.h"
 # include <stdio.h>
 
-# define WIN_W 500
-# define WIN_H 350
+# define WIN_W 700
+# define WIN_H 510
 # define A_A_DIV 6
 # define EPSILON 0.00006103515625
 
@@ -147,10 +147,15 @@ void				int_to_rgb(int color, t_color *rgb);
 void				edge_detection(t_frame_buffer *fb);
 
 int					draw_frame(t_main *main);
+void				worker_wait(t_main *ctx);
+void				worker_task(int *task_n, t_main *ctx);
+void				worker_broadcast(t_main *ctx);
+
 void				draw_to_window(t_sdl *sdl, int *filter);
 void				draw_filter(t_sdl *sdl, int *filter_type, int i);
 void				kay_hooks(t_sdl *sdl, int *quit, int *filter_type);
 void				creat_screen_shot(int *image);
+char				*create_screen_shot_name(char *image_name, int image_nbr);
 
 void				taskhandler(void *main);
 void				create_threads(t_main *main, int ant_al);

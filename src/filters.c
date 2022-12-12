@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 22:21:39 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 17:11:35 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 13:52:38 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	create_edge_map(t_frame_buffer *fb)
 		i = 0;
 		while (i < WIN_W)
 		{
-			if(fb->mask[((j * WIN_W) + i)] == 0)
+			if (fb->mask[((j * WIN_W) + i)] == 0)
 				fb->filter[((j * WIN_W) + i)] = 0x00000000;
 			else
 				fb->filter[((j * WIN_W) + i)] = 0xffffff00;

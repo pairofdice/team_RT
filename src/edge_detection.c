@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:02:06 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 17:09:49 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 13:48:02 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	rgb_to_white(t_color *rgb)
 {
 	int	color;
 
-	color = (((rgb->s_rgb.r * 0.4) + (rgb->s_rgb.g * 0.3) + (rgb->s_rgb.b * 0.3)));
+	color = (((rgb->s_rgb.r * 0.4)
+				+ (rgb->s_rgb.g * 0.3)
+				+ (rgb->s_rgb.b * 0.3)));
 	return (color << 24 | color << 16 | color << 8);
 }
 

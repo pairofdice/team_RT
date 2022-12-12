@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/05 16:01:52 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 13:29:24 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_intersection
 	t_object		*object;
 }					t_intersection;
 
+
 typedef struct s_light
 {
 	t_point			location;
@@ -120,9 +121,14 @@ typedef struct s_light
 	int				type;
 	t_point			pos;
 }					t_light;
+
 typedef struct s_negative
 {
 	double			t[2];
+	t_intersection	t1;
+	t_intersection	t2;
+	size_t			i;
+	size_t			j;
 }				t_negative;
 
 t_object			object_new(int shape_type);
@@ -148,12 +154,21 @@ int					intersect_plane(t_ray *inc_ray, t_object *s);
 int					intersect_cylinder(t_ray *inc_ray, t_object *s);
 int					intersect_cone(t_ray *inc_ray, t_object *s);
 t_intersection		intersection_new(double time, t_object *o);
-t_intersection	find_closest_intersection(t_intersections *xs);
+t_intersection		find_closest_intersection(t_intersections *xs);
 void				set_transform(t_object *obj, t_matrix *transform);
 t_vector			normal_at(t_object *obj, t_point point);
 t_material			material_new();
 t_hit_record		precompute(t_intersection *intersection, t_ray *ray);
 
-t_intersection	find_negative_object_intersect(t_ray *ray, int neg_obj_id, t_object *obj);
-
+t_intersection		find_negative_object_intersect(t_ray *ray,
+											int neg_obj_id,
+											t_object *obj);
+size_t				move_negative(t_ray *ray,
+								size_t neg_obj_id,
+								t_negative *n,
+								t_object *obj);
+int					first_positive_object(t_ray *ray,
+										t_intersection *closest_t,
+										t_negative *n,
+										t_object *obj);
 #endif

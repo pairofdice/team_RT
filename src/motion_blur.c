@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:03:36 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/07 11:34:54 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:18:17 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	create_motion_blur(t_main *main)
 {
 	int		frame_count;
 
-	frame_count = 0;
+	frame_count = 1;
 	add_to_color_buffer(&main->sdl.frame_buffer);
 	while (motion_set_all(main) > 0)
 	{
@@ -91,7 +91,7 @@ void	create_motion_blur(t_main *main)
 		add_to_color_buffer(&main->sdl.frame_buffer);
 		frame_count++;
 	}
-	if (frame_count > 0)
+	if (frame_count > 1)
 	{
 		normalise_color(&main->sdl.frame_buffer, frame_count);
 		color_to_data(&main->sdl.frame_buffer);
