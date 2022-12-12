@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/09 15:13:36 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:04:08 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ typedef struct s_ray
 	t_tuple			dir;
 	t_hit_record	hit;
 	t_intersections	xs;
-	int				depth;
-	int				depth_max;
+/* 	int				depth;
+	int				depth_max; */
+	int 			remaining;
 }					t_ray;
 
 typedef struct s_intersection

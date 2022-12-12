@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/09 17:53:01 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:58:45 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int	main(void)
 
 	t_material mat = material_new();
 	mat.reflective = 1.0;
-	mat.color = color_new(0.2,0.2,0.2);
+	mat.color = color_new(0,0,0);
 	
 	obj = object_new(SPHERE);
 	obj.material = mat;

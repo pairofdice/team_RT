@@ -22,38 +22,13 @@ t_color	shade_hit(t_scene *scene, t_ray *ray)
 								ray->hit.to_eye, 
 								ray->hit.normal, 
 								is_shadowed(scene, light,  ray->hit.over_point));
-		reflected = reflected_color(scene, ray);
 		result = tuple_add(result, temp_color);
-		result = tuple_add(result, reflected);
+/* 		if (ray->hit.object->material.reflective > EPSILON)
+		{ */
+			reflected = reflected_color(scene, ray);
+			result = tuple_add(result, reflected);
+/* 		} */
 		i++;
 	}
 	return (result);
 }
-
-// t_color	shade_hit(t_scene *scene, t_ray *ray)
-// {
-// 	t_color	result;
-// 	t_color	reflected;
-// 	t_light	light;
-// 	size_t	i;
-// 	int shadowed;
-	
-
-// 	i = 0;
-// 	result = color_new(0, 0, 0);
-// 	while (i < scene->lights.len)
-// 	{
-// 		light = *(t_light *)vec_get(&scene->lights, i);
-// 		shadowed = is_shadowed(scene, light,  ray->hit.over_point);
-// 		result = lighting(&ray->hit.object->material, 
-// 								light,
-// 								ray->hit.over_point, 
-// 								ray->hit.to_eye, 
-// 								ray->hit.normal, 
-// 								shadowed);
-// 		reflected = reflected_color(scene, ray);
-// 		// result = tuple_add(result, reflected);
-// 		i++;
-// 	}
-// 	return (result);
-// }

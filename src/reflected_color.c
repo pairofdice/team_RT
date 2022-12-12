@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:18:54 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/09 18:05:38 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:56:34 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,19 @@ t_color	reflected_color(t_scene *scene, t_ray *ray)
 	t_color color;
 
 	color = color_new(0,0,0);
-	printf("REFLECT? %d\n", ray->depth);
-	if (ray->depth >= ray->depth_max)
+	// printf("REFLECT? %d\n", ray->remaining);
+	if (ray->remaining <= 0 || ray->hit.object->material.reflective < EPSILON)
 		return (color);
-	ray->depth++;
+	ray->remaining--;
 	// if (ray->hit.object->material.reflective < EPSILON)
 	// 	return (color);
-	printf("DO WE EVER REFLECT?\n");
+	// printf("DO WE EVER REFLECT?\n");
 	ray->orig = ray->hit.over_point;
 	ray->dir = ray->hit.reflect_v;
 	ray->xs.vec.len = 0;
+	vec_free(&ray->xs.vec);
+	vec_new(&ray->xs.vec, 2, sizeof(t_intersection));
+	// *ray = (ray_new(ray->hit.over_point, ray->hit.reflect_v));
 	color = color_at(scene, ray);
 	color = tuple_scalar_mult(color, ray->hit.object->material.reflective);
 	return (color);
