@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_submatrix.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 14:44:03 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/12 14:28:51 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 20:00:00 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
+
 t_matrix	matrix_submatrix(t_matrix *src, t_coords skip)
 {
 	t_coords	c;

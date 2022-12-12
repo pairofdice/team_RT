@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shade_hit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:22:13 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 14:24:32 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 19:51:55 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ t_color	shade_hit(t_scene *scene, t_hit_record *hit)
 	result = color_new(0, 0, 0);
 	while (i < scene->lights.len)
 	{
-	light = *(t_light *)vec_get(&scene->lights, i);
-	temp = lighting(hit->object->material, light, hit->hit_loc,
-				hit->to_eye, hit->normal);
-	result = tuple_add(result, temp);
-	i++;
+		light = *(t_light *)vec_get(&scene->lights, i);
+		temp = lighting(hit->object->material, light, hit->hit_loc, hit->to_eye,
+				hit->normal, 0);
+		result = tuple_add(result, temp);
+		i++;
 	}
 	return (result);
 }

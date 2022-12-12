@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_render.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/07 15:07:00 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 19:58:43 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	fill_hit_record(t_main *main, t_ray *ray)
 	closest_t = find_closest_intersection(&ray->xs);
 	if (closest_t.t == INFINITY)
 		return (1);
-	if (main->obj[closest_t.i].negative == TRUE)
+	if (closest_t.object->negative == TRUE)
 	{
 		closest_t = find_negative_object_intersect(ray, closest_t.i, main->obj);
 		if (closest_t.t == INFINITY)
@@ -56,8 +56,8 @@ int	ray_shooter(t_ray *ray, t_main *main)
 		if (fill_hit_record(main, ray) == 1)
 			return (0);
 		hit_color = lighting(main->obj[ray->hit.clo_obj_id].material,
-				main->light, ray->hit.hit_loc, tuple_neg(ray->dir),
-				ray->hit.normal);
+				main->light, ray->hit.hit_loc,
+				tuple_neg(ray->dir), ray->hit.normal, 0);
 		if (main->obj[ray->hit.clo_obj_id].material.pattern.pattern_id != NONE)
 			pattern_at(ray->hit, ray->hit.hit_loc, &hit_color, &main->perlin);
 		main->ray.hit.color = tuple_add(main->ray.hit.color, hit_color);
@@ -66,41 +66,38 @@ int	ray_shooter(t_ray *ray, t_main *main)
 	return (0);
 }
 
-int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_al)
+int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_a)
 {
 	double	x;
 	double	y;
 	double	offset;
 	int		i;
 	int		j;
-	int		sup_pixels;
 
 	j = 0;
-	offset = (1.0 / ant_al);
-	sup_pixels = 0;
-	while (j < ant_al)
+	offset = (1.0 / ant_a);
+	while (j < ant_a)
 	{
 		i = 0;
 		y = ((float)pixel_y + (offset / 2) + (offset * j));
-		while (i < ant_al)
+		while (i < ant_a)
 		{
-			if (ant_al == 1 || (((j % 2 == 0) && (i % 2 == 1))
-					|| ((j % 2 == 1) && (i % 2 == 0))))
+			if (ant_a == 1 || (((j % 2 == 0) && (i % 2 == 1)) || ((j % 2 == 1)
+						&& (i % 2 == 0))))
 			{
 				x = ((float)pixel_x + (offset / 2) + (offset * i));
 				initialize_ray(&main->ray, x, y, &main->cam);
 				ray_shooter(&main->ray, main);
-				sup_pixels++;
 			}
 			i++;
 		}
 		j++;
 	}
-	fix_aliasing_color(main, sup_pixels);
+	main->ray.hit.color = tuple_scalar_div(main->ray.hit.color, ant_a * ant_a);
 	return (color_to_int(main->ray.hit.color));
 }
 
-void	render_image(t_main	*main, int task, int ant_al)
+void	render_image(t_main *main, int task, int ant_al)
 {
 	t_main	copy;
 	int		y;
@@ -108,15 +105,15 @@ void	render_image(t_main	*main, int task, int ant_al)
 	int		color;
 
 	y = task;
-	copy = (t_main) *main;
+	copy = (t_main) * main;
 	while (y < WIN_H)
 	{
 		x = 0;
 		while (x < WIN_W)
 		{
 			copy.ray.hit.color = color_new(0, 0, 0);
-			while (ant_al != 1 && x < WIN_W
-				&& main->sdl.frame_buffer.mask[((y * WIN_W) + x)] == 0)
+			while (ant_al != 1 && x < WIN_W && main->sdl.frame_buffer.mask[((y
+							* WIN_W) + x)] == 0)
 				x++;
 			if (x == WIN_W)
 				break ;

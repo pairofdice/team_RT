@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 13:01:30 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/12 19:49:07 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # define WIN_W 700
 # define WIN_H 510
+# define MAX_DISTANCE 9999
 # define A_A_DIV 6
 # define EPSILON 0.00006103515625
 
@@ -174,7 +175,7 @@ t_light				sun_light_new(t_point direction, t_color intensity);
 t_material			material_new();
 
 
-t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal);
+t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal, int in_shadow);
 void				img_pixel_put(
 						t_frame_buffer *fb, 
 						unsigned int x,
@@ -182,7 +183,7 @@ void				img_pixel_put(
 
 int					scene_new(t_scene *scene);
 int					default_scene(t_scene *scene);
-t_intersections		scene_intersect(t_scene *scene, t_ray *ray);
+void		scene_intersect(t_scene *scene, t_ray *ray);
 
 
 void	pattern_at(t_hit_record hit,t_point hit_loc, t_color *hit_color, t_perlin *perlin);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/12/12 14:21:49 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/12/12 17:26:11 by jsaarine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								vector_functions3.c\
 								quadratic.c\
 								image_render.c\
-								anti_aliasing_helper.c\
 								shadow.c\
 								edge_detection.c\
 								filters.c\
