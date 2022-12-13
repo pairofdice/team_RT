@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/rt.h"
-#include "../include/yaxml.h"
+#include "input.h"
+
 
 //Copys 1d arrey to texture and draws it.
 

@@ -28,5 +28,6 @@ int			get_object(t_xml_node *node, t_object *obj);
 int			prepare_object(t_xml_node *node, t_object *obj);
 int			prepare_camera(t_xml_node *node, t_cam *cam);
 int			prepare_light(t_xml_node *node, t_light *light);
+int		read_xml(t_xml_doc *doc, t_main *main);
 
 #endif
