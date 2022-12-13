@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/12/12 14:21:49 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/12/13 09:56:53 by mmakinen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,11 @@ libsdl2_lib = $(BUILD_DIR)libsdl2/lib/libSDL2.a
 libsdl2_cflags = `$(BUILD_DIR)libsdl2/bin/sdl2-config --cflags`
 libsdl2_ldflags = `$(BUILD_DIR)libsdl2/bin/sdl2-config --libs`
 
-FT_LIBRERY = libft/libft.a
+FT_LIBRARY = libft/libft.a
+YAXML_LIBRARY = YaXML/yaxml.a
 
 SRC_FILES = $(addprefix $(SRC_DIR), main.c \
+								input.c\
 								initialize.c\
 								vector_functions.c\
 								vector_functions2.c\
@@ -128,8 +130,8 @@ CPPFLAGS = -D_REENTRANT
 
 all: $(NAME)
 
-$(NAME): $(FT_LIBRERY) $(SCREEN_SHOT_DIR) $(OBJCT_FILES) | $(BUILD_DIR) 
-	$(LD) -g $(FT_LIBRERY) $(OBJCT_FILES) $(LDFLAGS) -o $(NAME)
+$(NAME): $(FT_LIBRARY) $(YAXML_LIBRARY) $(SCREEN_SHOT_DIR) $(OBJCT_FILES) | $(BUILD_DIR) 
+	$(LD) -g $(OBJCT_FILES) $(LDFLAGS) -o $(NAME) $(FT_LIBRARY) $(YAXML_LIBRARY)
 
 $(OBJCT_FILES): $(libsdl2_lib)
 
@@ -154,12 +156,16 @@ $(libsdl2_makefile):
 $(libsdl2_lib): $(libsdl2_makefile) | $(BUILD_DIR)
 	$(MAKE) --directory=libsdl2 install
 
-$(FT_LIBRERY):
+$(FT_LIBRARY):
 	make -C libft/
-	
+
+$(YAXML_LIBRARY):
+	make -C YaXML/ tidy
+
 clean:
 	@ rm -f $(OBJCT_FILES)
 	make -C libft/ clean
+	make -C YaXML/ clean
 
 fclean:
 	rm -f RT
@@ -168,7 +174,8 @@ fclean:
 	rm -rf $(BUILD_DIR)
 	rm -rf $(SCREEN_SHOT_DIR)
 	make -C libft/ fclean
-	
+	make -C YaXML/ fclean
+
 re: fclean all
 
 .PHONY: all clean fclean re

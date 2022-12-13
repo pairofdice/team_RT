@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:03:04 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 12:59:26 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/13 09:46:31 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	create_threads(t_main *main, int ant_al)
 	}
 }
 
-void	taskhandler(void *main)
+void	*taskhandler(void *main)
 {
 	t_main	*ctx;
 	int		task_n;

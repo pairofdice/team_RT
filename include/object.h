@@ -54,6 +54,7 @@ typedef struct s_object
 	t_point			coi;
 	t_vector		up;
 	t_vector		rot;
+	t_tuple			scale;
 	double			size;
 	double			brightness;
 	int				type;

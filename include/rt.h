@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 13:01:30 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/13 09:47:09 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void				kay_hooks(t_sdl *sdl, int *quit, int *filter_type);
 void				creat_screen_shot(int *image);
 char				*create_screen_shot_name(char *image_name, int image_nbr);
 
-void				taskhandler(void *main);
+void				*taskhandler(void *main);
 void				create_threads(t_main *main, int ant_al);
 void				init_pthread(t_main *main);
 double				fabs(double x);
