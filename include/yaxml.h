@@ -97,8 +97,4 @@ void	xml_nodelist_init(t_xml_nodelist *list);
 void	xml_nodelist_add(t_xml_nodelist *list, t_xml_node *node);
 t_xml_node	*xml_nodelist_at(t_xml_nodelist *list, int index);
 
-/* input */
-int		read_xml(t_xml_doc *doc, t_main *main);
-void	get_tuple(t_tuple *tuple, char *str);
-
 #endif
