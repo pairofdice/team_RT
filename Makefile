@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/12/13 09:56:53 by mmakinen         ###   ########.fr        #
+#    Updated: 2022/12/14 16:33:32 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,6 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								vector_functions3.c\
 								quadratic.c\
 								image_render.c\
-								anti_aliasing_helper.c\
-								shadow.c\
 								edge_detection.c\
 								filters.c\
 								filter_sepia.c\
@@ -114,7 +112,10 @@ SRC_FILES = $(addprefix $(SRC_DIR), main.c \
 								motion_new.c\
 								motion_move.c\
 								motion_set_all.c\
-								motion_blur.c)
+								motion_blur.c\
+								is_shadowed.c\
+								reflected_color.c\
+								color_at.c)
 
 OBJCT_FILES = $(subst $(SRC_DIR), $(BUILD_DIR), $(SRC_FILES:.c=.o))
 

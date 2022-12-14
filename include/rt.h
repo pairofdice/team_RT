@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/13 09:47:09 by mmakinen         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:09:26 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # define WIN_W 700
 # define WIN_H 510
+# define MAX_DISTANCE 9999
 # define A_A_DIV 6
 # define EPSILON 0.00006103515625
 
@@ -174,7 +175,7 @@ t_light				sun_light_new(t_point direction, t_color intensity);
 t_material			material_new();
 
 
-t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal);
+t_color				lighting(t_material *mat,  t_light light, t_point point,t_vector to_eye, t_vector normal, int in_shadow);
 void				img_pixel_put(
 						t_frame_buffer *fb, 
 						unsigned int x,
@@ -182,11 +183,20 @@ void				img_pixel_put(
 
 int					scene_new(t_scene *scene);
 int					default_scene(t_scene *scene);
-t_intersections		scene_intersect(t_scene *scene, t_ray *ray);
+void		scene_intersect(t_scene *scene, t_ray *ray);
 
 
 void	pattern_at(t_hit_record hit,t_point hit_loc, t_color *hit_color, t_perlin *perlin);
 
 int		motion_set_all(t_main *main);
 void	create_motion_blur(t_main *main);
+t_color	reflected_color(t_scene *scene, t_ray *ray);
+int	is_shadowed(t_scene *scene, t_light light, t_point point);
+t_color	color_at(t_scene *scene, t_ray *ray);
+int	fill_hit_record(t_main *main, t_ray *ray);
+int	find_next_intersection(t_ray *ray, t_intersection *closest_t,
+							t_negative *neg_hits, t_scene *scene);
+t_intersection	find_negative_object_intersect(t_ray *ray, int neg_obj_id,
+												t_scene *scene);
+void				precompute(t_ray *ray, t_scene *scene);
 #endif

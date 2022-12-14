@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:21:47 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 13:36:27 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:10:22 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,13 @@ static size_t	loop_move_comparison(t_ray *ray, t_negative *n, size_t neg)
 	return (neg);
 }
 
-size_t	move_negative(t_ray *ray, size_t neg_obj_id, t_negative *n,
-					t_object *obj)
+size_t	move_negative(t_ray *ray, size_t neg_obj_id, t_negative *n)
 {
 	n->i = 0;
 	while (n->i < ray->xs.vec.len)
 	{
 		n->t1 = *(t_intersection *) vec_get(&ray->xs.vec, n->i);
-		if (obj[n->t1.object->id].negative == TRUE && n->t1.t > n->t[0]
+		if (n->t1.object->negative == TRUE && n->t1.t > n->t[0]
 			&& n->t1.t < n->t[1])
 		neg_obj_id = loop_move_comparison(ray, n, neg_obj_id);
 		n->i++;
@@ -60,7 +59,7 @@ static void	loop_positive_comparison(t_ray *ray, t_negative *n,
 			if (n->t2.object->id == n->t1.object->id && n->t2.t > n->t1.t
 				&& n->t2.t > n->t[1] && n->t1.t > closest_t->t)
 			{
-				closest_t->t = n->t1.t;
+				*closest_t = n->t1;
 				closest_t->i = n->t1.object->id;
 			}
 		}
@@ -69,14 +68,13 @@ static void	loop_positive_comparison(t_ray *ray, t_negative *n,
 }
 
 int	first_positive_object(t_ray *ray, t_intersection *closest_t,
-							t_negative *n, t_object *obj)
+							t_negative *n)
 {
 	n->i = 0;
 	while (n->i < ray->xs.vec.len)
 	{
 		n->t1 = *(t_intersection *) vec_get(&ray->xs.vec, n->i);
-		if (obj[n->t1.object->id].negative != TRUE && n->t1.t > n->t[0]
-			&& n->t1.t < n->t[1])
+		if (n->t1.object->negative != TRUE)
 			loop_positive_comparison(ray, n, closest_t);
 		n->i++;
 	}

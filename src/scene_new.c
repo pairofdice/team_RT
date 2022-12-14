@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 17:57:35 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/12 14:19:15 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:00:19 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	default_scene(t_scene *scene)
 
 int	scene_new(t_scene *scene)
 {
-	if (!vec_new(&scene->lights, 2, sizeof(t_light)))
+	if (!vec_new(&scene->lights, 6, sizeof(t_light)))
 		return (1);
-	if (!vec_new(&scene->objects, 2, sizeof(t_object)))
+	if (!vec_new(&scene->objects, 6, sizeof(t_object)))
 		return (1);
 	return (0);
 }

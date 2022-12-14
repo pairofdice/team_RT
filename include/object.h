@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 13:29:24 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:08:17 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_material
 	double	diffuse;
 	double	specular;
 	double	shininess;
+	double	reflective;
 	t_pattern	pattern;
 }	t_material;
 
@@ -102,6 +103,10 @@ typedef struct s_hit_record
 	t_vector		to_eye;
 	t_object		*object;
 	int				inside;
+	t_vector		reflect_v;
+	t_tuple			over_point;
+
+
 }					t_hit_record;
 
 typedef struct s_ray
@@ -110,6 +115,8 @@ typedef struct s_ray
 	t_tuple			dir;
 	t_hit_record	hit;
 	t_intersections	xs;
+	int 			remaining;
+
 }					t_ray;
 
 typedef struct s_intersection
@@ -165,17 +172,10 @@ t_intersection		find_closest_intersection(t_intersections *xs);
 void				set_transform(t_object *obj, t_matrix *transform);
 t_vector			normal_at(t_object *obj, t_point point);
 t_material			material_new();
-t_hit_record		precompute(t_intersection *intersection, t_ray *ray);
 
-t_intersection		find_negative_object_intersect(t_ray *ray,
-											int neg_obj_id,
-											t_object *obj);
-size_t				move_negative(t_ray *ray,
-								size_t neg_obj_id,
-								t_negative *n,
-								t_object *obj);
-int					first_positive_object(t_ray *ray,
-										t_intersection *closest_t,
-										t_negative *n,
-										t_object *obj);
+
+
+size_t	move_negative(t_ray *ray, size_t neg_obj_id, t_negative *n);
+int		first_positive_object(t_ray *ray, t_intersection *closest_t,
+							t_negative *n);
 #endif
