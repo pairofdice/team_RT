@@ -6,14 +6,17 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 19:58:43 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/14 15:04:34 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rt.h"
 
+
+
 int	fill_hit_record(t_main *main, t_ray *ray)
 {
+	// Look at precompute which should do the same things
 	t_intersection	closest_t;
 
 	closest_t = find_closest_intersection(&ray->xs);
@@ -55,7 +58,7 @@ int	ray_shooter(t_ray *ray, t_main *main)
 	{
 		if (fill_hit_record(main, ray) == 1)
 			return (0);
-		hit_color = lighting(main->obj[ray->hit.clo_obj_id].material,
+		hit_color = lighting(&main->obj[ray->hit.clo_obj_id].material,
 				main->light, ray->hit.hit_loc,
 				tuple_neg(ray->dir), ray->hit.normal, 0);
 		if (main->obj[ray->hit.clo_obj_id].material.pattern.pattern_id != NONE)

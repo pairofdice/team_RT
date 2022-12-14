@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:32:00 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/12 12:54:56 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/14 14:59:31 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@ t_material	material_new(void)
 	m.shininess = 200.0;
 	m.specular = 0.9;
 	m.pattern.pattern_dif = 0.9;
+	m.reflective = 0.0;
+
 	return (m);
 }

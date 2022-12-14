@@ -6,7 +6,7 @@
 /*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 19:49:07 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/14 15:04:07 by jsaarine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ t_light				sun_light_new(t_point direction, t_color intensity);
 t_material			material_new();
 
 
-t_color				lighting(t_material mat,  t_light light, t_point point,t_vector to_eye, t_vector normal, int in_shadow);
+t_color				lighting(t_material *mat,  t_light light, t_point point,t_vector to_eye, t_vector normal, int in_shadow);
 void				img_pixel_put(
 						t_frame_buffer *fb, 
 						unsigned int x,
@@ -190,4 +190,5 @@ void	pattern_at(t_hit_record hit,t_point hit_loc, t_color *hit_color, t_perlin *
 
 int		motion_set_all(t_main *main);
 void	create_motion_blur(t_main *main);
+t_color	reflected_color(t_scene *scene, t_ray *ray);
 #endif
