@@ -6,7 +6,7 @@
 #    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/10 15:53:52 by jjuntune          #+#    #+#              #
-#    Updated: 2022/12/14 16:33:32 by jjuntune         ###   ########.fr        #
+#    Updated: 2022/12/15 14:29:22 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,14 +128,14 @@ LD = gcc
 LDFLAGS = $(libsdl2_ldflags) # -flto
 CC = gcc
 OPTFLAGS = -O3 -flto # PUT BACK IN
-CFLAGS = -g -c -Wall -Werror -Wextra  $(addprefix -I, $(INCLUDE_DIR))\
+CFLAGS = -g -fsanitize=address -c -Wall -Werror -Wextra  $(addprefix -I, $(INCLUDE_DIR))\
 	$(libsdl2_cflags)
 CPPFLAGS = -D_REENTRANT
 
 all: $(NAME)
 
 $(NAME): $(FT_LIBRARY) $(YAXML_LIBRARY) $(SCREEN_SHOT_DIR) $(OBJCT_FILES) | $(BUILD_DIR) 
-	$(LD) -g $(OBJCT_FILES) $(LDFLAGS) -o $(NAME) $(FT_LIBRARY) $(YAXML_LIBRARY)
+	$(LD) -g -fsanitize=address $(OBJCT_FILES) $(LDFLAGS) -o $(NAME) $(FT_LIBRARY) $(YAXML_LIBRARY)
 
 $(OBJCT_FILES): $(libsdl2_lib)
 

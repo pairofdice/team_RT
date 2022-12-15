@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+         #
+#    By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/29 13:01:51 by jjuntune          #+#    #+#              #
-#    Updated: 2022/12/01 09:18:17 by mmakinen         ###   ########.fr        #
+#    Updated: 2022/12/15 14:29:07 by jjuntune         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ $(NAME): $(OFILES)
 	ar -rc $(NAME) $(OFILES)
 
 $(OFILES):
-	gcc -Wall -Wextra -Werror -g -c $(CFILES)
+	gcc -Wall -Wextra -Werror -g -fsanitize=address -c $(CFILES)
 
 clean:
 	rm -f $(OFILES)

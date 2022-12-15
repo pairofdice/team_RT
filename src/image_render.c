@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/14 16:53:28 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/15 15:18:18 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_a)
 	j = 0;
 	sub_pixel = 0;
 	offset = (1.0 / ant_a);
+	main->ray.hit.color = color_new(0,0,0);
 	while (j < ant_a)
 	{
 		i = 0;
@@ -92,8 +93,10 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_a)
 			{
 				x = ((float)pixel_x + (offset / 2) + (offset * i));
 				initialize_ray(&main->ray, x, y, &main->cam);
+				tuple_print(main->ray.hit.color);
+				tuple_print(color_at(&main->scene, &main->ray));
 				main->ray.hit.color = tuple_add(main->ray.hit.color, color_at(&main->scene, &main->ray));
-				
+				// vec_free(&main->ray.xs.vec);
 				sub_pixel++;
 			}
 			i++;

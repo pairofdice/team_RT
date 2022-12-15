@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 19:44:22 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/14 16:11:32 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:59:27 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ double	calc_c(t_ray ray)
 
 int	intersect_cylinder(t_ray *inc_ray, t_object *s)
 {
-	static t_abcd	abcd;
+	t_abcd	abcd;
 	double			t1;
 	double			t2;
 	t_matrix		inverse_transform;

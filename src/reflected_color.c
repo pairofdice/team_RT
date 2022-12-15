@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reflected_color.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:18:54 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/14 15:01:55 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:35:45 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_color	reflected_color(t_scene *scene, t_ray *ray)
 	ray->remaining--;
 	ray->orig = ray->hit.over_point;
 	ray->dir = ray->hit.reflect_v;
-	ray->xs.vec.len = 0;
+/* 	ray->xs.vec.len = 0; */
 	vec_free(&ray->xs.vec);
 	vec_new(&ray->xs.vec, 2, sizeof(t_intersection));
 	color = color_at(scene, ray);

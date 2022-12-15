@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_closest_intersection.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 18:16:21 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/12 19:54:54 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/15 14:38:01 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ t_intersection	find_closest_intersection(t_intersections *xs)
 	while (i < xs->vec.len)
 	{
 		t = *(t_intersection *)vec_get(&xs->vec, i);
-		if (t.t < closest.t && t.t >= 0)
-		{
+		if (t.object != NULL && t.t < closest.t && t.t >= 0)
 			closest = t;
-			closest.i = (t.object->id);
-		}
 		i++;
 	}
 	return (closest);

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:43:10 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/14 16:49:51 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/14 19:28:54 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void	initialize_ray(t_ray *ray, double x, double y, t_cam *cam)
 	ray->dir = tuple_sub(cam->pos, ray->dir);
 	ray->dir = tuple_unit(ray->dir);
 	*ray = ray_transform(ray, &cam->transform);
-	vec_new(&ray->xs.vec, 8, sizeof(t_intersection));
+	vec_new(&ray->xs.vec, 4, sizeof(t_intersection));
+	ray->remaining = 4;
 }

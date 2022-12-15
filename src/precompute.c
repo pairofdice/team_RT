@@ -6,27 +6,29 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 19:04:17 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/14 15:45:14 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/15 14:45:49 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	precompute(t_ray *ray, t_scene *scene)
+int	precompute(t_ray *ray, t_scene *scene)
 {
 	t_hit_record	hit;
 	t_intersection closest_t;
 
 	closest_t = find_closest_intersection(&ray->xs);
 	// SEGFAULT FIX
-	if (closest_t.t > 999999)
-		return ;
-	if (closest_t.object->negative == TRUE)
+	if (closest_t.t > INFINITY)
 	{
-		closest_t = find_negative_object_intersect(ray, closest_t.i, scene);
-		if (closest_t.t == INFINITY)
-			return ;
+		return (1);
 	}
+	// if (closest_t.object->negative == TRUE)
+	// {
+	// 	closest_t = find_negative_object_intersect(ray, closest_t.i, scene);
+	// 	if (closest_t.t == INFINITY)
+	// 		return ;
+	// }
 	hit.hit_dist = closest_t.t;
 	hit.object = closest_t.object;
 	hit.hit_loc = ray_position(*ray, hit.hit_dist);
@@ -42,5 +44,7 @@ void	precompute(t_ray *ray, t_scene *scene)
 	hit.over_point = tuple_add(hit.hit_loc, tuple_scalar_mult(hit.normal, EPSILON));
 	hit.reflect_v = vector_reflect(ray->dir, hit.normal);
 	ray->hit = hit;
-
+	if (scene)
+		{}
+	return (0);
 }

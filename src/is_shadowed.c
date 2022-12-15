@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_shadowed.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:43:31 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/12 19:54:24 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/15 14:44:00 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_shadowed(t_scene *scene, t_light light, t_point point)
 		return (0);
 	}
 	intersection = find_closest_intersection(&ray.xs);
-	vec_free(&ray.xs.vec);
+	// vec_free(&ray.xs.vec);
 	if (intersection.t < distance && intersection.t > 0)
 		return (1);
 	return (0);

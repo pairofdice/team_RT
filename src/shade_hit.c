@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shade_hit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsaarine <jsaarine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:22:13 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/14 15:02:59 by jsaarine         ###   ########.fr       */
+/*   Updated: 2022/12/15 15:13:27 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ t_color	shade_hit(t_scene *scene, t_ray *ray)
 		result = tuple_add(result, reflected);
 		i++;
 	}
+	
 	return (result);
 }
