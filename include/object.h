@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 13:56:24 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/15 14:14:09 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:08:59 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_hit_record
 	int				inside;
 	t_vector		reflect_v;
 	t_tuple			over_point;
+	int				neg_hit;
 
 
 }					t_hit_record;
@@ -116,7 +117,6 @@ typedef struct s_ray
 	t_hit_record	hit;
 	t_intersections	xs;
 	int 			remaining;
-
 }					t_ray;
 
 typedef struct s_intersection

@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:55:52 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/15 15:07:20 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:16:06 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	main(void)
 	
 	
 	main.obj[0] = object_new(SPHERE);
-	main.obj[0].transform = matrix_translate(0.0, 0.0, 10.0);
+	main.obj[0].transform = matrix_translate(0.0, 0.0, 6.0);
 											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
@@ -148,7 +148,7 @@ int	main(void)
 	main.obj[0].motion = motion_new(FALSE, 5.0, tuple_unit(vector_new(1,0,0)));
 	main.obj[0].material.pattern.pattern_id = NONE;
 	main.obj[0].material.pattern.pattern_perlin = TRUE;
-	main.obj[0].negative = FALSE;
+	main.obj[0].negative = TRUE;
 	
 	main.obj[1] = object_new(SPHERE);
 	main.obj[1].transform = matrix_translate(10, 0.0, 15.0);
@@ -182,7 +182,7 @@ int	main(void)
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
 	rotate = matrix_rotate_z(z_r);
 	main.obj[2].transform = matrix_multiply(&main.obj[2].transform, &rotate);
-	main.obj[2].material.color = color_new(1.0,0.5,1.0);
+	main.obj[2].material.color = color_new(1.0, 0.5, 1.0);
 	main.obj[2].material.pattern.pattern_id = NONE;
 	main.obj[2].material.pattern.pattern_perlin = TRUE;
 	main.obj[2].negative = FALSE;
@@ -209,8 +209,8 @@ int	main(void)
 	main.obj[3].negative = FALSE;
 
 	main.obj[4] = object_new(CYLINDER);
-	main.obj[4].transform = matrix_translate(0.0, 0.0, 10.0);
-											x_r = M_PI_2;
+	main.obj[4].transform = matrix_translate(10.0, 0.0, 10.0);
+											x_r = 0.0;
 											y_r = 0.0;
 											z_r = 0.0;
 
@@ -225,7 +225,7 @@ int	main(void)
 	main.obj[4].material.color = color_new(1, 0.5,0);
 	main.obj[4].material.pattern.pattern_id = NONE;
 	main.obj[4].material.pattern.pattern_perlin = FALSE;
-	main.obj[4].negative = TRUE;
+	main.obj[4].negative = FALSE;
 	
 	main.obj[5] = object_new(SPHERE);
 	main.obj[5].transform = matrix_translate(0.0, 0.0, 10.0);
@@ -252,7 +252,6 @@ int	main(void)
 	vec_push(&main.scene.objects, &main.obj[3]);
 	vec_push(&main.scene.objects, &main.obj[4]);
 	vec_push(&main.scene.objects, &main.obj[5]);
-	main.obj_count = 1;
 	
 	int draw_debug = 0;
 
@@ -262,11 +261,11 @@ int	main(void)
 		load_perlin_data(&main.perlin);
 		create_threads(&main, 1);
 		draw_frame(&main);
-		//edge_detection(&main.sdl.frame_buffer);
-		//main.ant_al = A_A_DIV;
-		//draw_frame(&main);
-		//if (main.sdl.stereocopy == TRUE)
-		//	create_stereoscope(&main, cam_scale, main.cam.transform);
+		// edge_detection(&main.sdl.frame_buffer);
+		// main.ant_al = A_A_DIV;
+		// draw_frame(&main);
+		// if (main.sdl.stereocopy == TRUE)
+		// 	create_stereoscope(&main, cam_scale, main.cam.transform);
 		/* create_motion_blur(&main); */
 	}
 /* 	tests(&main, draw_debug); */

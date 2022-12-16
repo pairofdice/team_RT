@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:01:57 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/15 15:14:45 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:12:29 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # include "motion.h"
 # include <stdio.h>
 
-# define WIN_W 42
-# define WIN_H 42
+# define WIN_W 500
+# define WIN_H 350
 # define MAX_DISTANCE 9999
 # define A_A_DIV 6
 # define EPSILON 0.00006103515625
@@ -175,7 +175,7 @@ t_light				sun_light_new(t_point direction, t_color intensity);
 t_material			material_new();
 
 
-t_color				lighting(t_material *mat,  t_light light, t_point point,t_vector to_eye, t_vector normal, int in_shadow);
+t_color				lighting(t_material *mat,  t_light *light, t_point *point,t_vector *to_eye, t_vector *normal, int in_shadow);
 void				img_pixel_put(
 						t_frame_buffer *fb, 
 						unsigned int x,
@@ -191,7 +191,7 @@ void	pattern_at(t_hit_record hit,t_point hit_loc, t_color *hit_color, t_perlin *
 int		motion_set_all(t_main *main);
 void	create_motion_blur(t_main *main);
 t_color	reflected_color(t_scene *scene, t_ray *ray);
-int		is_shadowed(t_scene *scene, t_light light, t_point point);
+int		is_shadowed(t_scene *scene, t_light light,t_point point, t_hit_record *hit);
 t_color	color_at(t_scene *scene, t_ray *ray);
 int		fill_hit_record(t_main *main, t_ray *ray);
 int		find_next_intersection(t_ray *ray, t_intersection *closest_t,

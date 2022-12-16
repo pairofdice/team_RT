@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 19:04:17 by jsaarine          #+#    #+#             */
-/*   Updated: 2022/12/15 14:45:49 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:12:00 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,17 @@ int	precompute(t_ray *ray, t_scene *scene)
 	{
 		return (1);
 	}
-	// if (closest_t.object->negative == TRUE)
-	// {
-	// 	closest_t = find_negative_object_intersect(ray, closest_t.i, scene);
-	// 	if (closest_t.t == INFINITY)
-	// 		return ;
-	// }
+	hit.object = (t_object *)vec_get(&scene->objects, closest_t.i);
+	ray->hit.neg_hit = FALSE;
+	if (hit.object->negative == TRUE)
+	{
+		closest_t = find_negative_object_intersect(ray, closest_t.i, scene);
+		ray->hit.neg_hit = TRUE;
+		if (closest_t.t == INFINITY)
+			return (1);
+	}
 	hit.hit_dist = closest_t.t;
-	hit.object = closest_t.object;
+	hit.object = (t_object *)vec_get(&scene->objects, closest_t.i);
 	hit.hit_loc = ray_position(*ray, hit.hit_dist);
 	hit.to_eye = tuple_neg(ray->dir);
 	hit.normal = normal_at(hit.object, hit.hit_loc);

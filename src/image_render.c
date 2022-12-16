@@ -6,7 +6,7 @@
 /*   By: jjuntune <jjuntune@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 17:56:58 by jjuntune          #+#    #+#             */
-/*   Updated: 2022/12/15 15:18:18 by jjuntune         ###   ########.fr       */
+/*   Updated: 2022/12/16 12:13:06 by jjuntune         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_a)
 	int		i;
 	int		j;
 	int		sub_pixel;
-
+	t_color	color;
 	j = 0;
 	sub_pixel = 0;
 	offset = (1.0 / ant_a);
+	color = color_new(0,0,0);
 	main->ray.hit.color = color_new(0,0,0);
 	while (j < ant_a)
 	{
@@ -93,9 +94,7 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_a)
 			{
 				x = ((float)pixel_x + (offset / 2) + (offset * i));
 				initialize_ray(&main->ray, x, y, &main->cam);
-				tuple_print(main->ray.hit.color);
-				tuple_print(color_at(&main->scene, &main->ray));
-				main->ray.hit.color = tuple_add(main->ray.hit.color, color_at(&main->scene, &main->ray));
+				color = tuple_add(color, color_at(&main->scene, &main->ray));
 				// vec_free(&main->ray.xs.vec);
 				sub_pixel++;
 			}
@@ -103,8 +102,8 @@ int	anti_aliasing(t_main *main, int pixel_x, int pixel_y, int ant_a)
 		}
 		j++;
 	}
-	main->ray.hit.color = tuple_scalar_div(main->ray.hit.color, sub_pixel);
-	return (color_to_int(main->ray.hit.color));
+	color = tuple_scalar_div(color, sub_pixel);
+	return (color_to_int(color));
 }
 
 void	render_image(t_main *main, int task, int ant_al)
